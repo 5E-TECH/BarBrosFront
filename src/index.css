@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+:root {
+  --main: #FA8B00;
+  --mainhover: #f69b2b;
+  --maintext: #3F434A;
+  --helpertext: #8A9099;
+}
+
+.bg-main {
+  background-color: var(--main);
+}
+
+.bg-mainhover {
+  background-color: var(--mainhover);
+}
+
+.text-main {
+  color: var(--main);
+}
+
+.text-maintext {
+  color: var(--maintext);
+}
+
+.text-helpertext {
+  color: var(--helpertext);
+}
