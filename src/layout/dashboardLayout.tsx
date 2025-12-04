@@ -6,13 +6,15 @@ import SideBar from "./components/sideBar";
 
 const DashboardLayout = () => {
   return (
-    <div>
+    <div className="min-h-screen">
       <Header />
       <div>
-        <SideBar/>
-        <main>
-          <Outlet />
-        </main>
+        <div className="flex">
+          <SideBar/>
+          <main className="px-[30px] py-[35px]">
+            <Outlet />
+          </main>
+        </div>
       </div>
       <Footer />
     </div>
