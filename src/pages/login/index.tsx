@@ -1,9 +1,11 @@
 import { memo, useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
 import lock from "../../shared/assets/Lock.png";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [show, setShow] = useState(false);
+  const navigate = useNavigate()
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -33,6 +35,7 @@ const Login = () => {
                   id=""
                   placeholder="enter name"
                   className="outline-0"
+                  required
                 />
               </div>
             </div>
@@ -50,6 +53,7 @@ const Login = () => {
                   id=""
                   placeholder="enter password"
                   className="outline-0"
+                  required
                 />
                 <button
                   onClick={() => setShow(!show)}
@@ -63,7 +67,7 @@ const Login = () => {
                 </button>
               </div>
             </div>
-            <button className="w-full rounded-[7px] py-[8px] font-medium text-[15px] text-white cursor-pointer bg-main hover:bg-mainhover">
+            <button onClick={() => navigate("/")} className="w-full rounded-[7px] py-[8px] font-medium text-[15px] text-white cursor-pointer bg-main hover:bg-mainhover">
               Kirish
             </button>
           </div>

@@ -1,4 +1,4 @@
-import { DollarSign, DollarSignIcon, MoveUp } from "lucide-react";
+import { DollarSign, MoveUp } from "lucide-react";
 import { memo } from "react";
 
 const Statistics = () => {
@@ -21,7 +21,7 @@ const Statistics = () => {
             </strong>
           </div>
           <div className="w-[88px] h-[88px] bg-[#fff4e6] rounded-2xl flex justify-center items-center">
-            <DollarSignIcon size={50} strokeWidth={3} color="#FA8B00" />
+            <DollarSign size={50} strokeWidth={3} color="#FA8B00" />
           </div>
         </div>
 
@@ -36,7 +36,7 @@ const Statistics = () => {
             </strong>
           </div>
           <div className="w-[88px] h-[88px] bg-[#fff4e6] rounded-2xl flex justify-center items-center">
-            <DollarSignIcon size={50} strokeWidth={3} color="#FA8B00" />
+            <DollarSign size={50} strokeWidth={3} color="#FA8B00" />
           </div>
         </div>
 
@@ -51,7 +51,7 @@ const Statistics = () => {
             </strong>
           </div>
           <div className="w-[88px] h-[88px] bg-[#fff4e6] rounded-2xl flex justify-center items-center">
-            <DollarSignIcon size={50} strokeWidth={3} color="#FA8B00" />
+            <DollarSign size={50} strokeWidth={3} color="#FA8B00" />
           </div>
         </div>
       </div>
