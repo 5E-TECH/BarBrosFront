@@ -1,8 +1,10 @@
-import React, { memo, Suspense } from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { store } from './store';
+import React, { memo, Suspense } from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { store } from "./store";
+import { NotificationProvider } from "../shared/components/notification-provider";
+
 
 const queryClient = new QueryClient();
 
@@ -15,8 +17,10 @@ const AppProvider = ({ children }: Props) => {
     <BrowserRouter>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          {children}
-          <Suspense fallback={'loading...'} ></Suspense>
+          <NotificationProvider>
+            {children}
+            <Suspense fallback={"loading..."}></Suspense>
+          </NotificationProvider>
         </QueryClientProvider>
       </Provider>
     </BrowserRouter>

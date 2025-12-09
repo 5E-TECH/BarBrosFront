@@ -1,9 +1,14 @@
 import { memo } from 'react';
+import PageHeader from '../../../shared/components/pageHeader';
+import BarberTable from './components/barberTable';
 
 const BarberShop = () => {
   return (
     <div>
-      <h2>BarberShop</h2>
+      <PageHeader title='BarberShop'/>
+      <div>
+        <BarberTable/>
+      </div>
     </div>
   );
 };
