@@ -1,9 +1,13 @@
 import { memo } from 'react';
+import PageHeader from '../../../shared/components/pageHeader';
 
 const Users = () => {
   return (
     <div>
-      <h2>Users</h2>
+      <PageHeader title='Users'/>
+      <div>
+        <Users/>
+      </div>
     </div>
   );
 };
