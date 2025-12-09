@@ -3,6 +3,7 @@ import { useRoutes } from "react-router-dom";
 
 const DashboardLayout = lazy(() => import("../layout/dashboardLayout"));
 const Login = lazy(() => import("../pages/login"));
+const Auth = lazy(() => import("../pages/auth"));
 
 const Statistic = lazy(() => import("../pages/admin/statistic"));
 const BarberShop = lazy(() => import("../pages/admin/barberShop"));
@@ -13,11 +14,17 @@ const AppRouter = () => {
     { path: "/login", element: <Login /> },
     {
       path: "/",
-      element: <DashboardLayout />,
+      element: <Auth />,
       children: [
-        { path: "/", element: <Statistic /> },
-        { path: "/barbershop", element: <BarberShop /> },
-        { path: "/user", element: <Users /> },
+        {
+          path: "/",
+          element: <DashboardLayout />,
+          children: [
+            { path: "/", element: <Statistic /> },
+            { path: "/barbershop", element: <BarberShop /> },
+            { path: "/user", element: <Users /> },
+          ],
+        },
       ],
     },
   ]);

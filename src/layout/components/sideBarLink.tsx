@@ -8,16 +8,13 @@ interface SideBarLinkProps {
   end?: boolean;
 }
 
-const SideBarLink: React.FC<SideBarLinkProps> = ({ to, icon, label, end }) => {
+const SideBarLink: React.FC<SideBarLinkProps> = ({ to, icon, label }) => {
   return (
     <NavLink
       to={to}
-      end={end}
       className={({ isActive }) =>
-        `flex items-center gap-2 text-[14px] font-medium transition-colors duration-200 ${
-          isActive
-            ? "bg-main text-white mx-4 px-[16px] py-[13px] rounded-[10px]"
-            : "hover:text-[#FA8B00] cursor-pointer px-[16px] py-[13px] mx-4 rounded-[10px]"
+        `flex items-center gap-2 text-[14px] mx-4 px-4 py-[13px] rounded-[10px] ${
+          isActive ? "bg-main text-white" : "hover:text-[#FA8B00]"
         }`
       }
     >

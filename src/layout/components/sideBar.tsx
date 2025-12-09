@@ -15,14 +15,13 @@ interface LinkItem {
 const sidebarConfig: Record<UserRole, LinkItem[]> = {
   [UserRole.Admin]: [
     { to: "/", icon: <Home />, label: "Statistics" },
-    { to: "/barbershop", icon: <ClipboardList  />, label: "BarberShops" },
-    { to: "/user", icon: <FileText/>, label: "Users" },
+    { to: "/barbershop", icon: <ClipboardList />, label: "BarberShops" },
+    { to: "/user", icon: <FileText />, label: "Users" },
   ],
 };
 
 const SideBar = () => {
   const userRole = useSelector((state: RootState) => state.roleSlice.role);
-
   let role: UserRole | undefined = undefined;
   if (userRole === "supperadmin") {
     role = UserRole.Admin;
@@ -31,19 +30,24 @@ const SideBar = () => {
   const links = role ? sidebarConfig[role] : [];
 
   return (
-    <div className="w-[289px] max-sm:hidden border-r-2 border-[#EAEAEA]">
+    <div className="w-[289px] h-screen max-sm:hidden border-r-2 border-[#EAEAEA]">
       <ul className="flex flex-col ">
-        <div className="flex justify-between px-[12px] py-[11px] bg-[#F5F5F5] rounded-[6px] mb-[23px] mx-4">
-          <Search size={20} color="#5C6269"/>
-          <input type="text" name="" id="" placeholder="Search" className="outline-0"/>
+        <div className="flex items-center mt-[23px] px-[16px] py-[7px] bg-[#F5F5F5] rounded-md mx-4 gap-2">
+          <Search className="w-5 h-5" color="#5C6269" />
+          <input
+            type="text"
+            placeholder="Search"
+            className="outline-0 w-full bg-transparent"
+          />
         </div>
-        <h3 className="text-helpertext font-medium pb-[6px] pl-[30px]">MENU</h3>
+      </ul>
+      <div className="mt-[53px]">
         {links.map((link, i) => (
-          <li key={i} className="mb-[12px]">
+          <li key={i} className="mb-3">
             <SideBarLink {...link} />
           </li>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

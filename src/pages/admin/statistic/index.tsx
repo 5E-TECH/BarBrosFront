@@ -1,15 +1,14 @@
 import { DollarSign, MoveUp } from "lucide-react";
 import { memo } from "react";
+import StatisticsChart from "./components/StatisticsChart";
+import AnalyticsChart from "./components/AnalyticsChart";
+import PageHeader from "../../../shared/components/pageHeader";
 
 const Statistics = () => {
   return (
     <div>
-      <h2 className="text-maintext text-[28px] font-medium mb-[41px]">
-        Statistics
-      </h2>
+      <PageHeader title="Statistics"/>
       <div className="flex justify-between gap-40">
-
-
         <div className="border-2 border-[#EAEAEA] rounded-[8px] px-[24px] py-[28px] flex justify-between gap-[12px]">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
@@ -53,6 +52,14 @@ const Statistics = () => {
           <div className="w-[88px] h-[88px] bg-[#fff4e6] rounded-2xl flex justify-center items-center">
             <DollarSign size={50} strokeWidth={3} color="#FA8B00" />
           </div>
+        </div>
+      </div>
+      <div className="h-[402px] w-full flex gap-[30px] mt-[30px]">
+        <div className="w-[50%]">
+          <StatisticsChart />
+        </div>
+        <div className="w-[50%]">
+          <AnalyticsChart />
         </div>
       </div>
     </div>
