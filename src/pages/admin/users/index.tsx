@@ -1,12 +1,13 @@
 import { memo } from 'react';
 import PageHeader from '../../../shared/components/pageHeader';
+import UsersTable from "./components"
 
 const Users = () => {
   return (
     <div>
       <PageHeader title='Users'/>
       <div>
-        <Users/>
+        <UsersTable/>
       </div>
     </div>
   );

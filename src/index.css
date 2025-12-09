@@ -26,3 +26,15 @@
 .text-helpertext {
   color: var(--helpertext);
 }
+
+
+
+
+.ant-pagination-item-active {
+  background-color: #FA8B00 !important;
+  border: none !important; 
+}
+
+.ant-pagination-item-active a {
+  color: white !important; 
+}
