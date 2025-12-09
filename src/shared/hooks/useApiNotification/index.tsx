@@ -40,7 +40,7 @@ export const useApiNotification = () => {
     }
 
     api.error({
-      message: title,
+      title: title,
       description: errorMessage,
       placement: "topRight",
     });
@@ -51,7 +51,7 @@ export const useApiNotification = () => {
     description: string = ""
   ) => {
     api.success({
-      message: title,
+      title: title,
       description,
       placement: "topRight",
     });
@@ -62,7 +62,7 @@ export const useApiNotification = () => {
     description: string = "E'tibor bering, biror muammo yuz berdi."
   ) => {
     api.warning({
-      message: title,
+      title: title,
       description,
       placement: "topRight",
     });

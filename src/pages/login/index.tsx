@@ -89,11 +89,11 @@ const Login = () => {
                 <div className="flex flex-col mb-[27px]">
                   <label
                     htmlFor="username"
-                    className="text-helpertext font-normal text-[14px] flex justify-between mb-[6px]"
+                    className="text-helpertext font-normal text-[14px] flex justify-between mb-1.5"
                   >
                     Login
                   </label>
-                  <div className="border border-[#E8E9EB] rounded-2xl flex justify-between px-[16px] py-[10px]">
+                  <div className="border border-[#E8E9EB] rounded-2xl flex justify-between px-4 py-2.5">
                     <Field
                       type="text"
                       name="username"
@@ -112,11 +112,11 @@ const Login = () => {
                 <div className="flex flex-col mb-[27px]">
                   <label
                     htmlFor="password"
-                    className="text-helpertext font-normal text-[14px] flex justify-between mb-[6px]"
+                    className="text-helpertext font-normal text-[14px] flex justify-between mb-1.5"
                   >
                     Parol
                   </label>
-                  <div className="border border-[#E8E9EB] rounded-2xl flex justify-between px-[16px] py-[10px]">
+                  <div className="border border-[#E8E9EB] rounded-2xl flex justify-between px-4 py-2.5">
                     <Field
                       type={show ? "text" : "password"}
                       name="password"
@@ -144,7 +144,7 @@ const Login = () => {
 
                 <button
                   type="submit"
-                  className="w-full rounded-[7px] py-[8px] font-medium text-[15px] text-white cursor-pointer bg-main hover:bg-mainhover"
+                  className="w-full rounded-[7px] py-2 font-medium text-[15px] text-white cursor-pointer bg-main hover:bg-mainhover"
                 >
                   Kirish
                 </button>

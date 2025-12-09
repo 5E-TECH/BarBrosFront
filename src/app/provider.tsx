@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { store } from "./store";
 import { NotificationProvider } from "../shared/components/notification-provider";
 
-
 const queryClient = new QueryClient();
 
 type Props = {
@@ -18,8 +17,9 @@ const AppProvider = ({ children }: Props) => {
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <NotificationProvider>
-            {children}
-            <Suspense fallback={"loading..."}></Suspense>
+            <Suspense fallback={"loading..."}>
+              {children}
+            </Suspense>
           </NotificationProvider>
         </QueryClientProvider>
       </Provider>

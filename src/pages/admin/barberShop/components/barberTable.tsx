@@ -1,6 +1,5 @@
 import { memo } from "react";
-import { MoreVertical, Search } from "lucide-react";
-import { useState } from "react";
+import { MoreVertical } from "lucide-react";
 import SearchInput from "../../../../shared/components/Search";
 import avatar from "../../../../shared/assets/Avatar.png";
 
