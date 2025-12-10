@@ -27,6 +27,57 @@
   color: var(--helpertext);
 }
 
+@media (max-width: 900px) {
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+  }
+
+  th {
+    display: none;
+  }
+
+  td {
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    grid-template-columns: 15ch auto;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    color: #475569;
+    font-size: 14px;
+  }
+
+  td::before {
+    content: attr(data-cell);
+    color: #374151;
+    font-weight: 600;
+  }
+
+  tr {
+    border-bottom: 10px solid #e5e7eb;
+  }
+
+  tr:last-child {
+    border-bottom: 0;
+  }
+
+  /* 🌙 Dark mode (faqat <html class="dark"> bo‘lsa ishlaydi) */
+  .dark td {
+    border-bottom: 1px solid #374151;
+    color: #ffffff;
+  }
+
+  .dark td::before {
+    color: #d1d5db;
+  }
+
+  .dark tr {
+    border-bottom: 10px solid #374151;
+  }
+}
 
 
 
