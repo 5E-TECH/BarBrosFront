@@ -4,30 +4,6 @@ import avatar from "../../../../shared/assets/Avatar.png";
 import Pagination from "../../../../shared/components/pagination";
 import { useUsers } from "../service/userSlice";
 
-const datas = [
-  {
-    id: 1,
-    name: "BarberShop",
-    email: "cooper@example.com",
-    phone: "+1 (070) 123–4567",
-    date: "12.09.2025",
-  },
-  {
-    id: 2,
-    name: "BarberShop",
-    email: "black@example.com",
-    phone: "+1 (070) 123–8459",
-    date: "12.09.2025",
-  },
-];
-
-// export interface User {
-//   id: number;
-//   name: string;
-//   email: string;
-//   phone: string;
-//   date: string;
-// }
 
 const UsersTable = () => {
   const { getAllUsers } = useUsers();
