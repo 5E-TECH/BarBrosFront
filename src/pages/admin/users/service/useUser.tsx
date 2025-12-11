@@ -10,8 +10,6 @@ export const useUsers = () => {
       queryKey: [users],
       queryFn: () =>
         api.get("user/all").then((res) => res.data),
-      staleTime: 1000 * 60 * 60 * 24,
-      refetchOnWindowFocus: false,
     });
 
     return {

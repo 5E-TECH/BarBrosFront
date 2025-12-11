@@ -2,7 +2,7 @@ import { memo } from "react";
 import Search from "../../../../shared/components/Search";
 import avatar from "../../../../shared/assets/Avatar.png";
 import Pagination from "../../../../shared/components/pagination";
-import { useUsers } from "../service/userSlice";
+import { useUsers } from "../service/useUser";
 
 
 const UsersTable = () => {
