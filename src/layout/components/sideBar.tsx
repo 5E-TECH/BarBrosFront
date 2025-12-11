@@ -30,9 +30,9 @@ const SideBar = () => {
   const links = role ? sidebarConfig[role] : [];
 
   return (
-    <div className="w-[289px] h-screen max-sm:hidden border-r-2 border-[#EAEAEA]">
+    <div className="w-[289px] h-screen max-sm:hidden border-r-2 border-[#EAEAEA] top-0 left-0 sticky">
       <ul className="flex flex-col ">
-        <div className="flex items-center mt-[23px] px-[16px] py-[7px] bg-[#F5F5F5] rounded-md mx-4 gap-2">
+        <div className="flex items-center mt-[23px] px-4 py-[7px] bg-[#F5F5F5] rounded-md mx-4 gap-2">
           <Search className="w-5 h-5" color="#5C6269" />
           <input
             type="text"

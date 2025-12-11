@@ -4,99 +4,6 @@ import SearchInput from "../../../../shared/components/Search";
 import avatar from "../../../../shared/assets/Avatar.png";
 import { useBarberShop } from "../service/useBarberShop";
 
-// let data = [
-//   {
-//     id: 1,
-//     name: "BarberShop",
-//     email: "cooper@example.com",
-//     location: "Sochi, Russia",
-//     phone: "+1 (070) 123–4567",
-//     date: "12.09.2025",
-//     status: "Active",
-//   },
-//   {
-//     id: 2,
-//     name: "BarberShop",
-//     email: "black@example.com",
-//     location: "France, Paris",
-//     phone: "+1 (070) 123–8459",
-//     date: "12.09.2025",
-//     status: "Active",
-//   },
-//   {
-//     id: 3,
-//     name: "BarberShop",
-//     email: "robe@example.com",
-//     location: "Sydney, Australia",
-//     phone: "+1 (070) 123–9221",
-//     date: "12.09.2025",
-//     status: "Bloked",
-//   },
-//   {
-//     id: 4,
-//     name: "BarberShop",
-//     email: "cooper@example.com",
-//     location: "Sochi, Russia",
-//     phone: "+1 (070) 123–4567",
-//     date: "12.09.2025",
-//     status: "Active",
-//   },
-//   {
-//     id: 5,
-//     name: "BarberShop",
-//     email: "black@example.com",
-//     location: "France, Paris",
-//     phone: "+1 (070) 123–8459",
-//     date: "12.09.2025",
-//     status: "Active",
-//   },
-//   {
-//     id: 6,
-//     name: "BarberShop",
-//     email: "robe@example.com",
-//     location: "Sydney, Australia",
-//     phone: "+1 (070) 123–9221",
-//     date: "12.09.2025",
-//     status: "Active",
-//   },
-//   {
-//     id: 7,
-//     name: "BarberShop",
-//     email: "cooper@example.com",
-//     location: "Sochi, Russia",
-//     phone: "+1 (070) 123–4567",
-//     date: "12.09.2025",
-//     status: "Active",
-//   },
-//   {
-//     id: 8,
-//     name: "BarberShop",
-//     email: "black@example.com",
-//     location: "France, Paris",
-//     phone: "+1 (070) 123–8459",
-//     date: "12.09.2025",
-//     status: "Active",
-//   },
-//   {
-//     id: 9,
-//     name: "BarberShop",
-//     email: "robe@example.com",
-//     location: "Sydney, Australia",
-//     phone: "+1 (070) 123–9221",
-//     date: "12.09.2025",
-//     status: "Active",
-//   },
-//   {
-//     id: 10,
-//     name: "BarberShop",
-//     email: "cooper@example.com",
-//     location: "Sochi, Russia",
-//     phone: "+1 (070) 123–4567",
-//     date: "12.09.2025",
-//     status: "Active",
-//   },
-// ];
-
 const BarberTable = () => {
   const {getBarbershops} = useBarberShop()
 
@@ -106,7 +13,7 @@ const BarberTable = () => {
   console.log();
   
   return (
-    <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md">
+    <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md mb-10">
       <div className="w-[97%] mt-6">
         <SearchInput />
       </div>
@@ -136,8 +43,19 @@ const BarberTable = () => {
                 </td>
                 <td className="text-helpertext">{item?.location}</td>
                 <td className="text-maintext">{item?.phoneNumber}</td>
-                <td className="text-helpertext">{item?.modified_by}</td>
-                <td ><span className={` ${item?.status === "Active" ? "bg-[#fef6eb] text-[#FA8B00]" : "bg-[#faebeb] text-[#FF0000]"}  py-1.5 px-5 rounded-xl`}>{item?.status ? " " :""}</span></td>
+                <td className="text-helpertext">
+                  {(() => {
+                    const date = new Date(Number(item?.created_at));
+                    const day = String(date.getDate()).padStart(2, "0");
+                    const month = String(date.getMonth() + 1).padStart(2, "0");
+                    const year = date.getFullYear();
+                    const hours = String(date.getHours()).padStart(2, "0");
+                    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+                    return `${day}-${month}-${year} ${hours}:${minutes}`;
+                  })()}
+                </td>
+                <td ><span className={` ${item?.status ? "bg-[#fef6eb] text-[#FA8B00]" : "bg-[#faebeb] text-[#FF0000]"}  py-1.5 px-5 rounded-xl`}>{item?.status ? "Active" : "Bloked"}</span></td>
                 <td className="pr-6">
                   <MoreVertical color="#8A9099" />
                 </td>
