@@ -16,10 +16,11 @@ const Footer = () => {
       className="
         fixed bottom-0 left-0 w-full 
         flex items-center justify-between
-        bg-[var(--color-bg-py)] dark:bg-[var(--color-dark-bg-py)]
         shadow-md
+        bg-white 
         h-12 px-6
-      "
+        "
+        // bg-[var(--color-bg-py)] dark:bg-[var(--color-dark-bg-py)]
     >
       <div className="flex items-center gap-2">
         {windowWidth > 768 && (

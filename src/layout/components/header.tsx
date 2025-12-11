@@ -10,7 +10,7 @@ const Header = () => {
     navigate("/login");
   };
   return (
-    <div className="h-[65px] flex justify-end items-center px-[25px] gap-6 border-b-2 border-[#EAEAEA]">
+    <div className="h-[65px] flex justify-end items-center px-[25px] gap-6 border-b-2 border-[#EAEAEA] sticky left-0 top-0 bg-white">
       <div className="pr-6 border-r border-[#E8E9EB] flex items-center">
         <LogOut
           onClick={handleLogout}
