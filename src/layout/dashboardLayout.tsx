@@ -12,7 +12,7 @@ const DashboardLayout = () => {
       <div className="flex flex-col flex-1">
         <Header />
 
-        <main className="flex-1 px-[30px] py-[35px] bg-[#F8F8F8]">
+        <main className="flex-1 px-[30px] py-[25px] bg-[#F8F8F8]">
           <Outlet />
         </main>
 

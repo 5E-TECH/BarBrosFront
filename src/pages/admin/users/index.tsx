@@ -1,5 +1,4 @@
 import { memo } from "react";
-import PageHeader from "../../../shared/components/pageHeader";
 import UsersTable from "./components";
 import { useUsers } from "./service/useUser";
 import { Outlet, useMatch } from "react-router-dom";
@@ -23,7 +22,6 @@ const Users = () => {
 
   return (
     <div>
-      {showTable && <PageHeader title="Users" />}
 
       {showTable && (
         <UsersTable
