@@ -1,6 +1,6 @@
 import { memo } from "react";
 import PageHeader from "../../../../../shared/components/pageHeader";
-import { UserRoundPlus } from "lucide-react";
+import { UserRoundPlus, X } from "lucide-react";
 
 const AddUser = () => {
   return (
@@ -19,16 +19,16 @@ const AddUser = () => {
         <div className="w-[681px] rounded-2xl py-[22px] px-[42px] bg-white">
           <div className="flex justify-between mb-3.5">
             <h3 className="text-maintext font-medium text-[28px]">
-              Admin qo'shish
+              Add Admin
             </h3>
-            {/* <div className="bg-[#C4C4C4] px-2 py-2 rounded-xl cursor-pointer hover:bg-red-500">
+            <div className="bg-[#e5e2e2] px-2 py-2 rounded-xl cursor-pointer hover:bg-red-400">
               <X color="#3F434A"/>
-            </div> */}
+            </div>
           </div>
 
           <div className="flex flex-col mb-9">
             <label htmlFor="" className="text-helpertext mb-2.5">
-              Ism
+              Name
             </label>
             <input
               type="text"
@@ -41,7 +41,7 @@ const AddUser = () => {
 
           <div className="flex flex-col mb-9">
             <label htmlFor="" className="text-helpertext mb-2.5">
-              Familiya
+              Surname
             </label>
             <input
               type="text"
@@ -54,7 +54,7 @@ const AddUser = () => {
 
           <div className="flex flex-col mb-9">
             <label htmlFor="" className="text-helpertext mb-2.5">
-              Telefon raqam
+              Phone number
             </label>
             <input
               type="number"
@@ -81,13 +81,13 @@ const AddUser = () => {
 
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
-                Parol
+                Password
               </label>
               <input
                 type="number"
                 name=""
                 id=""
-                placeholder="Parol kiriting"
+                placeholder="Enter password"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
             </div>
@@ -95,7 +95,7 @@ const AddUser = () => {
 
           <div className="flex justify-end">
             <button className="bg-main text-white py-[15px] px-12 rounded-xl cursor-pointer">
-              Admin qo'shish
+              Add Admin
             </button>
           </div>
         </div>

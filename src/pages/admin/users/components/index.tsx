@@ -65,14 +65,11 @@ const UsersTable: FC<Props> = ({
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
               <tr>
-                <th className="w-[50px] pb-3 text-left pl-8">
-                  <input type="checkbox" className="w-4 h-4 cursor-pointer" />
-                </th>
-                <th className="w-[300px] pb-3 text-left">Ism familiya</th>
+                <th className="w-[300px] pl-8 pb-3 text-left">Name Surname</th>
                 <th className="w-[200px] pb-3 text-left">
                   Ro'yxatdan o'tgan sana
                 </th>
-                <th className="w-[100px] pb-3 text-left">Telefon raqami</th>
+                <th className="w-[100px] pb-3 text-left">Phone number</th>
                 <th className="w-[100px]"></th>
               </tr>
             </thead>
@@ -83,11 +80,8 @@ const UsersTable: FC<Props> = ({
                   key={item.id}
                   className="border-b border-[#e8e9eb] hover:bg-gray-50"
                 >
-                  <td className="py-3 pl-8">
-                    <input type="checkbox" className="w-4 h-4 cursor-pointer" />
-                  </td>
 
-                  <td className="py-3 flex items-center gap-4">
+                  <td className="py-3 pl-8 flex items-center gap-4">
                     <img src={avatar} alt="" className="w-10 h-10" />
                     <div>
                       <p className="text-maintext">{item?.full_name}</p>

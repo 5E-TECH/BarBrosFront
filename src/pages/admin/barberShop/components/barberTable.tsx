@@ -21,10 +21,10 @@ const BarberTable = () => {
         <table className="mt-[31px] mb-20 w-full">
           <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
             <tr className="">
-              <th className="pl-14 pr-[172px] pb-3">BarberShop nomi</th>
-              <th className="pr-[172px] pb-3">Manzili</th>
-              <th className="pr-[172px] pb-3">Telefon raqami</th>
-              <th className="pr-[172px] pb-3">Tashkil qilingan sana</th>
+              <th className="pl-14 pr-[172px] pb-3">BarberShop Name</th>
+              <th className="pr-[172px] pb-3">Address</th>
+              <th className="pr-[172px] pb-3">Phone number</th>
+              <th className="pr-[172px] pb-3">Date of establishment</th>
               <th className="pr-[150px] pb-3">Status</th>
               <th className=""></th>
             </tr>

@@ -8,6 +8,8 @@ const Auth = lazy(() => import("../pages/auth"));
 const Statistic = lazy(() => import("../pages/admin/statistic"));
 const BarberShop = lazy(() => import("../pages/admin/barberShop"));
 const Users = lazy(() => import("../pages/admin/users"));
+const Category = lazy(() => import("../pages/admin/category"))
+
 const AddUser = lazy(() => import("../pages/admin/users/pages/addUser"));
 
 const AppRouter = () => {
@@ -18,18 +20,19 @@ const AppRouter = () => {
       element: <Auth />,
       children: [
         {
-          path: "/", // dashboard layout uchun
+          path: "/",
           element: <DashboardLayout />,
           children: [
             { path: "/", element: <Statistic /> },
             { path: "barbershop", element: <BarberShop /> },
             {
-              path: "user", // Users routi
+              path: "user", 
               element: <Users />,
               children: [
-                { path: "add-admin", element: <AddUser /> }, // child route
+                { path: "add-admin", element: <AddUser /> }, 
               ],
             },
+            {path: "category", element: <Category/>}
           ],
         },
       ],
