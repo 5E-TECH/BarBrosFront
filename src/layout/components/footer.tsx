@@ -18,7 +18,7 @@ const Footer = () => {
         flex items-center justify-between
         shadow-md
         bg-white 
-        h-12 px-6
+        h-9 px-6
         "
         // bg-[var(--color-bg-py)] dark:bg-[var(--color-dark-bg-py)]
     >

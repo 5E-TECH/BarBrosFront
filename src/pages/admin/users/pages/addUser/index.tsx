@@ -7,11 +7,13 @@ const AddUser = () => {
     <div>
       <PageHeader title="Add Admin" />
       <div className="flex gap-[200px]">
-        <div className="flex justify-between items-center px-8 py-7 w-[300px] bg-white rounded-xl">
-          <div className="rounded-2xl bg-[#fff4e6] px-6 py-6">
-            <UserRoundPlus size={40} color="#FA8B00" />
+        <div>
+          <div className="flex justify-between items-center px-8 py-7 w-[300px] bg-white rounded-xl">
+            <div className="rounded-2xl bg-[#fff4e6] px-6 py-6">
+              <UserRoundPlus size={40} color="#FA8B00" />
+            </div>
+            <h4 className="font-medium text-[20px]">Admin</h4>
           </div>
-          <h4 className="font-medium text-[20px]">Admin</h4>
         </div>
 
         <div className="w-[681px] rounded-2xl py-[22px] px-[42px] bg-white">

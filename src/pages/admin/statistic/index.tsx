@@ -9,7 +9,7 @@ const Statistics = () => {
     <div>
       <PageHeader title="Statistics"/>
       <div className="flex justify-between gap-40">
-        <div className="border-2 border-[#EAEAEA] rounded-[8px] px-6 py-7 flex justify-between gap-3">
+        <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
             <strong className="text-maintext text-[30px] font-medium flex">
@@ -24,7 +24,7 @@ const Statistics = () => {
           </div>
         </div>
 
-        <div className="border-2 border-[#EAEAEA] rounded-[8px] px-6 py-7 flex justify-between gap-3">
+        <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
             <strong className="text-maintext text-[30px] font-medium flex">
@@ -39,7 +39,7 @@ const Statistics = () => {
           </div>
         </div>
 
-        <div className="border-2 border-[#EAEAEA] rounded-[8px] px-6 py-7 flex justify-between gap-3">
+        <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
             <strong className="text-maintext text-[30px] font-medium flex">
