@@ -31,7 +31,7 @@ const BarberTable = () => {
           </thead>
           <tbody>
             {data?.data?.data.map((item: any) => (
-              <tr className=" border-b border-[#e8e9eb] pl-10 ">
+              <tr key={item.id} className=" border-b border-[#e8e9eb] pl-10 ">
                 <td className="pl-12 flex flex-row gap-3.5 items-center">
                   <div>
                     <img src={avatar} alt="" />

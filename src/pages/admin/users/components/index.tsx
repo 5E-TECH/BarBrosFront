@@ -1,18 +1,39 @@
-import { memo } from "react";
+import { memo, type FC } from "react";
 import Search from "../../../../shared/components/Search";
 import avatar from "../../../../shared/assets/Avatar.png";
-import Pagination from "../../../../shared/components/pagination";
-import { useUsers } from "../service/useUser";
+import CustomPagination from "../../../../shared/components/pagination";
+import type { PaginationProps } from "antd";
+import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
+interface Props {
+  data: any[];
+  page?: number;
+  total?: number;
+  pageSize?: number;
+  onPageChange?: PaginationProps["onChange"];
+}
 
-const UsersTable = () => {
-  const { getAllUsers } = useUsers();
-  const { data } = getAllUsers();
-
+const UsersTable: FC<Props> = ({
+  data,
+  page,
+  total,
+  pageSize,
+  onPageChange,
+}) => {
+  
+  const navigate = useNavigate()
+  
+  
+  
   return (
     <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md">
-      <div className="w-[97%] mt-6">
+      <div className="w-full px-6 mt-6 flex justify-between gap-10">
         <Search />
+        <button onClick={() => navigate("add-admin")} className="bg-main text-white px-2 py-1 w-[10%] flex justify-center items-center gap-2 rounded-2xl cursor-pointer font-semibold">
+          <Plus size={22} />
+          Add admin
+        </button>
       </div>
 
       <div className="w-full h-[80%]">
@@ -32,7 +53,7 @@ const UsersTable = () => {
           </thead>
 
           <tbody>
-            {data?.data?.data?.map((item: any) => (
+            {data.map((item: any) => (
               <tr
                 key={item.id}
                 className="border-b border-[#e8e9eb] hover:bg-gray-50"
@@ -67,8 +88,15 @@ const UsersTable = () => {
             ))}
           </tbody>
         </table>
-        <div className="flex justify-end px-6 mb-10">
-          <Pagination />
+
+        <div className="flex justify-end my-4 pr-6 w-full">
+          <CustomPagination
+            current={page}
+            onChange={onPageChange}
+            pageSize={pageSize}
+            total={total}
+            showSizeChanger={false}
+          />
         </div>
       </div>
     </div>
