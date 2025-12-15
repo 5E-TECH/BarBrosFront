@@ -9,12 +9,12 @@ const Statistics = () => {
     <div>
       <PageHeader title="Statistics"/>
       <div className="flex justify-between gap-40">
-        <div className="border-2 border-[#EAEAEA] rounded-[8px] px-[24px] py-[28px] flex justify-between gap-[12px]">
+        <div className="border-2 border-[#EAEAEA] rounded-[8px] px-6 py-7 flex justify-between gap-3">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
             <strong className="text-maintext text-[30px] font-medium flex">
               1 000 000{" "}
-              <span className="text-[15px] text-[#49C96D] font-normal pl-[10px] flex items-center">
+              <span className="text-[15px] text-[#49C96D] font-normal pl-2.5 flex items-center">
                 <MoveUp size={15} /> 50.8%
               </span>
             </strong>
@@ -24,12 +24,12 @@ const Statistics = () => {
           </div>
         </div>
 
-        <div className="border-2 border-[#EAEAEA] rounded-[8px] px-[24px] py-[28px] flex justify-between gap-[12px]">
+        <div className="border-2 border-[#EAEAEA] rounded-[8px] px-6 py-7 flex justify-between gap-3">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
             <strong className="text-maintext text-[30px] font-medium flex">
               1 000 000{" "}
-              <span className="text-[15px] text-[#49C96D] font-normal pl-[10px] flex items-center">
+              <span className="text-[15px] text-[#49C96D] font-normal pl-2.5 flex items-center">
                 <MoveUp size={15} /> 50.8%
               </span>
             </strong>
@@ -39,12 +39,12 @@ const Statistics = () => {
           </div>
         </div>
 
-        <div className="border-2 border-[#EAEAEA] rounded-[8px] px-[24px] py-[28px] flex justify-between gap-[12px]">
+        <div className="border-2 border-[#EAEAEA] rounded-[8px] px-6 py-7 flex justify-between gap-3">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
             <strong className="text-maintext text-[30px] font-medium flex">
               1 000 000{" "}
-              <span className="text-[15px] text-[#49C96D] font-normal pl-[10px] flex items-center">
+              <span className="text-[15px] text-[#49C96D] font-normal pl-2.5 flex items-center">
                 <MoveUp size={15} /> 50.8%
               </span>
             </strong>
