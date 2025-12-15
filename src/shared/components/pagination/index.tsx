@@ -1,19 +1,18 @@
 import { memo } from "react";
-import { Pagination as AntPagination } from "antd";
+import { Pagination } from "antd";
+import type { PaginationProps } from "antd";
 
-const CustomPagination = () => {
-  const onShowSizeChange = (current: number, pageSize: number) => {
-    console.log(current, pageSize);
-  };
+const onShowSizeChange: PaginationProps["onShowSizeChange"] = (
+  current,
+  pageSize
+) => {
+  console.log(current, pageSize);
+};
 
+const CustomPagination: React.FC<PaginationProps> = (props) => {
   return (
     <div>
-      <AntPagination
-        showSizeChanger
-        onShowSizeChange={onShowSizeChange}
-        defaultCurrent={3}
-        total={500}
-      />
+      <Pagination onShowSizeChange={onShowSizeChange} {...props} />
     </div>
   );
 };

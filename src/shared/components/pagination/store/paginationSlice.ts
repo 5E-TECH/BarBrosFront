@@ -8,7 +8,7 @@ interface PaginationState {
 
 const initialState: PaginationState = {
     page: Number(localStorage.getItem("page")) || 1,
-    limit: Number(localStorage.getItem("limit")) || 10,
+    limit: Number(localStorage.getItem("limit")) || 7,
 }
 
 const paginationSlice = createSlice({
