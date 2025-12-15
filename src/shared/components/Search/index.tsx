@@ -7,7 +7,7 @@ const SearchInput = () => {
       <Search className="w-5 h-5" color="#5C6269" />
       <input
         type="text"
-        placeholder="Qidirish"
+        placeholder="Search"
         className="outline-none flex-1"
       />
     </div>
