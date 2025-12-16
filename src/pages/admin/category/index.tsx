@@ -5,8 +5,6 @@ import { useCategory } from "./service/useCategory";
 const Categories = () => {
   const { getCategory: data } = useCategory();
 
-  console.log(data)
-
   return (
     <div>
       <CategoryBox />
