@@ -8,9 +8,10 @@ const Auth = lazy(() => import("../pages/auth"));
 const Statistic = lazy(() => import("../pages/admin/statistic"));
 const BarberShop = lazy(() => import("../pages/admin/barberShop"));
 const Users = lazy(() => import("../pages/admin/users"));
-const Category = lazy(() => import("../pages/admin/category"))
+const Category = lazy(() => import("../pages/admin/category"));
 
 const AddUser = lazy(() => import("../pages/admin/users/pages/addUser"));
+const UserDetail = lazy(() => import("../pages/admin/users/pages/userDetail"));
 
 const AppRouter = () => {
   return useRoutes([
@@ -26,13 +27,14 @@ const AppRouter = () => {
             { path: "/", element: <Statistic /> },
             { path: "barbershop", element: <BarberShop /> },
             {
-              path: "user", 
+              path: "user",
               element: <Users />,
               children: [
-                { path: "add-admin", element: <AddUser /> }, 
+                { path: "add-admin", element: <AddUser /> },
+                { path: "user-detail", element: <UserDetail /> },
               ],
             },
-            {path: "category", element: <Category/>}
+            { path: "category", element: <Category /> },
           ],
         },
       ],
