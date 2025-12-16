@@ -1,17 +1,16 @@
 import { memo } from "react";
 import UsersTable from "./components";
 import { useUsers } from "./service/useUser";
-import { Outlet, useMatch } from "react-router-dom";
+import { Outlet, useOutlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../../shared/components/pagination/store/paginationSlice";
 
 const Users = () => {
   const dispatch = useDispatch();
-
   const { page, limit } = useSelector((state: any) => state.paginationSlice);
 
-  const addUserMatch = useMatch("/user/add-admin");
-  const showTable = !addUserMatch;
+  const outlet = useOutlet();
+  const showTable = !outlet; 
 
   const { getAllUsers } = useUsers();
   const { data } = getAllUsers({ page, limit });
@@ -22,16 +21,13 @@ const Users = () => {
 
   return (
     <div>
-
       {showTable && (
         <UsersTable
           data={users}
           page={page}
           total={total}
           pageSize={pageSize}
-          onPageChange={(newPage) => {
-            dispatch(setPage(newPage));
-          }}
+          onPageChange={(newPage) => dispatch(setPage(newPage))}
         />
       )}
 

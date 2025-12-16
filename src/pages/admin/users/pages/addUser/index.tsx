@@ -1,6 +1,7 @@
 import { memo } from "react";
 import PageHeader from "../../../../../shared/components/pageHeader";
 import { UserRoundPlus, X } from "lucide-react";
+import ButtonCom from "../../../../../shared/components/button"
 
 const AddUser = () => {
   return (
@@ -94,9 +95,7 @@ const AddUser = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="bg-main text-white py-[15px] px-12 rounded-xl cursor-pointer">
-              Add Admin
-            </button>
+            <ButtonCom title="Add Admin"/>
           </div>
         </div>
       </div>
