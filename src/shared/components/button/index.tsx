@@ -12,7 +12,7 @@ const ButtonCom: FC<Props> = ({ title, type, onClick }) => {
       <button
         onClick={onClick}
         type={type}
-        className="bg-main text-white py-[15px] px-12 rounded-xl cursor-pointer font-medium"
+        className="bg-main text-white py-[11px] px-11 rounded-xl cursor-pointer font-medium"
       >
         {title}
       </button>

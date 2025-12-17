@@ -12,8 +12,11 @@ const UserDetail = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div onClick={() => navigate(-1)} className="cursor-pointer flex gap-1 items-center mb-6">
-        <ChevronLeft size={30}/>
+      <div
+        onClick={() => navigate(-1)}
+        className="cursor-pointer flex gap-1 items-center mb-6"
+      >
+        <ChevronLeft size={30} />
         <PageHeader title="UserDetail" />
       </div>
 
@@ -77,14 +80,15 @@ const UserDetail = () => {
               </h4>
               <span className="text-maintext text-[16px] font-bold">1230</span>
             </div>
-
-            <div className="flex flex-1 justify-between px-8"></div>
+            <div className="w-[1150px] flex flex-1 justify-end mt-6 px-8">
+              <ButtonCom
+                onClick={() => setShow(true)}
+                title="Edit"
+                type="button"
+              />
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="w-[1150px] flex justify-end mt-6">
-        <ButtonCom onClick={() => setShow(true)} title="Edit" type="button" />
       </div>
 
       <Popup isShow={show} onClose={() => setShow(false)}>
