@@ -7,7 +7,7 @@ export const useCategory = () => {
   const client = useQueryClient();
 
   const createCategory = useMutation({
-    mutationFn: (data: any) => api.post("admin/create", data),
+    mutationFn: (data: any) => api.post("category/create", data),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: [category] });
     },
@@ -15,7 +15,7 @@ export const useCategory = () => {
 
   const getCategory = useQuery({
     queryKey: [category],
-    queryFn: () => api.get("category").then((res) => res.data),
+    queryFn: () => api.get("category/getAll").then((res) => res.data),
   });
 
   return { createCategory, getCategory };

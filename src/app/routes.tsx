@@ -31,7 +31,7 @@ const AppRouter = () => {
               element: <Users />,
               children: [
                 { path: "add-admin", element: <AddUser /> },
-                { path: "user-detail", element: <UserDetail /> },
+                { path: "user-detail/:id", element: <UserDetail /> },
               ],
             },
             { path: "category", element: <Category /> },
