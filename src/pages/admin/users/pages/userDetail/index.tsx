@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import React, { memo, useState } from "react";
 import PageHeader from "../../../../../shared/components/pageHeader";
 import shelby from "../../../../../shared/assets/shelby.png";
 import ButtonCom from "../../../../../shared/components/button";
@@ -7,16 +7,33 @@ import { ChevronLeft, X } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUsers } from "../../service/useUser";
 
-
 const UserDetail = () => {
   const [show, setShow] = useState(false);
+  const [form, setForm] = useState({
+    full_name: "",
+    phone_number: "",
+  });
+
   const navigate = useNavigate();
 
-  const { id } = useParams(); // URL dan id olamiz
+  const { id } = useParams();
 
-  const { getByIdUsers } = useUsers();
-  const { data } = getByIdUsers({ id });
-  const user = data?.data
+  const { getByIdUsers, updateUsers } = useUsers();
+  const { data, refetch } = getByIdUsers({ id });
+  const user = data?.data;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSave = () => {
+    updateUsers.mutate({
+      id: id!,
+      data: form,
+    });
+    setShow(false);
+    refetch();
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -36,10 +53,11 @@ const UserDetail = () => {
             className="w-[100px] h-[100px] rounded-[50%] mb-3 object-cover"
           />
           <div className="flex gap-2.5 font-bold text-maintext text-2xl">
-            <h4>Bahodir</h4>
-            <span>Nabijanov</span>
+            {user?.full_name}
           </div>
-          <span className="text-helpertext font-medium">BarberShop</span>
+          <span className="text-helpertext font-medium">
+            {user?.roleBarberShop}
+          </span>
         </div>
 
         <div className="flex flex-col gap-8 w-full mt-8">
@@ -115,12 +133,14 @@ const UserDetail = () => {
           <form action="">
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
-                Name
+                FullName
               </label>
               <input
                 type="text"
-                name=""
+                name="full_name"
                 id=""
+                value={form.full_name}
+                onChange={handleChange}
                 placeholder="Enter name"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
@@ -142,9 +162,11 @@ const UserDetail = () => {
                 Phone Number
               </label>
               <input
-                type="number"
-                name=""
+                type="text"
+                name="phone_number"
                 id=""
+                value={form.phone_number}
+                onChange={handleChange}
                 placeholder="Enter phone number"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
@@ -173,7 +195,7 @@ const UserDetail = () => {
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
             </div>
-            <div className="flex justify-end">
+            <div onClick={() => handleSave()} className="flex justify-end">
               <ButtonCom title="Save" />
             </div>
           </form>
