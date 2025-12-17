@@ -9,7 +9,6 @@ const BarberTable = () => {
 
   const {data} = getBarbershops()
 
-  // const data = barberData?.data?.data
   console.log();
   
   return (

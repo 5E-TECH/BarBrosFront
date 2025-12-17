@@ -7,7 +7,9 @@ import PageHeader from "../../../shared/components/pageHeader";
 const Statistics = () => {
   return (
     <div>
-      <PageHeader title="Statistics"/>
+      <div className='mb-6'>
+        <PageHeader title="Statistics" />
+      </div>
       <div className="flex justify-between gap-40">
         <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3">
           <div className="flex flex-col">

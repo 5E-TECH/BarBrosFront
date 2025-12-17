@@ -6,8 +6,8 @@ interface IProps {
 
 const PageHeader:FC<IProps> = ({title}) => {
   return (
-    <div>
-      <h2 className='text-maintext text-[28px] font-medium mb-[41px]'>{title}</h2>
+    <div className='h-10'>
+      <h2 className='text-maintext text-[28px] font-medium' >{title}</h2>
     </div>
   );
 };
