@@ -4,11 +4,19 @@ import shelby from "../../../../../shared/assets/shelby.png";
 import ButtonCom from "../../../../../shared/components/button";
 import Popup from "../../../../../shared/ui/Popup";
 import { ChevronLeft, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useUsers } from "../../service/useUser";
+
 
 const UserDetail = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+
+  const { id } = useParams(); // URL dan id olamiz
+
+  const { getByIdUsers } = useUsers();
+  const { data } = getByIdUsers({ id });
+  const user = data?.data
 
   return (
     <div className="flex flex-col gap-6">
@@ -39,7 +47,7 @@ const UserDetail = () => {
             <div className="flex flex-1 justify-between border-b border-[#f0f2f5] shadow-xl rounded-3xl px-8 py-3">
               <h4 className="text-helpertext text-[16px] font-medium">Name:</h4>
               <span className="text-maintext text-[16px] font-bold">
-                Bahodir
+                {user?.full_name}
               </span>
             </div>
 
@@ -59,7 +67,7 @@ const UserDetail = () => {
                 Phone Number:
               </h4>
               <span className="text-maintext text-[16px] font-bold">
-                +998942325567
+                {user?.phone_number}
               </span>
             </div>
 

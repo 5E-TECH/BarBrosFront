@@ -19,7 +19,8 @@ export const useUsers = () => {
   const getByIdUsers = ({ id }: any) =>
     useQuery({
       queryKey: [users, id],
-      queryFn: () => api.get(`user/${id}`),
+      queryFn: () => api.get(`user/${id}`).then((res) => res.data),
+      enabled: !!id
     });
 
   return {

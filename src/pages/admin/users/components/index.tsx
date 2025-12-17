@@ -77,7 +77,7 @@ const UsersTable: FC<Props> = ({
             <tbody>
               {data.map((item: any) => (
                 <tr
-                  onClick={() => navigate("user-detail")}
+                  onClick={() => navigate(`user-detail/${item.id}`)}
                   key={item.id}
                   className="border-b border-[#e8e9eb] hover:bg-gray-50"
                 >
