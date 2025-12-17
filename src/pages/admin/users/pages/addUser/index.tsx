@@ -1,12 +1,19 @@
 import { memo } from "react";
 import PageHeader from "../../../../../shared/components/pageHeader";
-import { UserRoundPlus, X } from "lucide-react";
+import { ChevronLeft, UserRoundPlus, X } from "lucide-react";
 import ButtonCom from "../../../../../shared/components/button"
+import { useNavigate } from "react-router-dom";
 
 const AddUser = () => {
+
+  const navigate = useNavigate()
+
   return (
     <div>
-      <PageHeader title="Add Admin" />
+      <div onClick={() => navigate(-1)} className="cursor-pointer flex gap-1 items-center mb-6">
+        <ChevronLeft size={30}/>
+        <PageHeader title="Add Admin" />
+      </div>
       <div className="flex gap-[200px]">
         <div>
           <div className="flex justify-between items-center px-8 py-7 w-[300px] bg-white rounded-xl">

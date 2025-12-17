@@ -44,11 +44,11 @@ const CategoryBox = () => {
 
   return (
     <div className="flex justify-between">
-      <PageHeader title="Categories" />
+      <PageHeader title="Categories"/>
       <div>
         <button
           onClick={() => setShow(true)}
-          className="bg-main flex gap-2.5 text-white rounded-xl px-3 py-4 cursor-pointer"
+          className="bg-main flex gap-2.5 text-white rounded-xl px-3 py-4 cursor-pointer font-medium"
         >
           <Plus size={22} />
           Add Category

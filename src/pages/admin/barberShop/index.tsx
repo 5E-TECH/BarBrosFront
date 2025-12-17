@@ -6,7 +6,7 @@ const BarberShop = () => {
   return (
     <div>
       <PageHeader title='BarberShop'/>
-      <div>
+      <div className='mt-6'>
         <BarberTable/>
       </div>
     </div>
