@@ -3,10 +3,11 @@ import PageHeader from "../../../../shared/components/pageHeader";
 import { Plus, X } from "lucide-react";
 import Popup from "../../../../shared/ui/Popup";
 import { useCategory } from "../service/useCategory";
+import { BASE_ASSETS_URL } from "../../../../shared/const";
 
 const initialState = { name: "" };
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 
 const CategoryBox = () => {
   const [show, setShow] = useState(false);
@@ -16,6 +17,21 @@ const CategoryBox = () => {
 
   const { createCategory, getCategory } = useCategory();
   const datas = getCategory?.data?.data || [];
+
+  console.log(BASE_ASSETS_URL);
+  
+
+  datas.forEach((element: any) => {
+    let imgUrl = element.img;
+
+    if (!/^https?:\/\//.test(imgUrl)) {
+      imgUrl = `${BASE_ASSETS_URL}${imgUrl.startsWith("/") ? "" : "/"}${imgUrl}`;
+    }
+
+    element.img = imgUrl;
+  });
+
+  console.log(datas);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -126,11 +142,7 @@ const CategoryBox = () => {
               <div className="w-full h-40 mb-3 bg-gray-100 rounded-lg overflow-hidden">
                 {data.img ? (
                   <img
-                    src={
-                      data.img.startsWith("http")
-                        ? data.img
-                        : `${BASE_URL}/api/uploud/${data.img}`
-                    }
+                    src={data.img}
                     alt={data.name}
                     className="w-full h-full object-cover"
                   />
