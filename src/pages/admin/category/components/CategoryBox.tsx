@@ -3,10 +3,11 @@ import PageHeader from "../../../../shared/components/pageHeader";
 import { Plus, X } from "lucide-react";
 import Popup from "../../../../shared/ui/Popup";
 import { useCategory } from "../service/useCategory";
+import { BASE_ASSETS_URL } from "../../../../shared/const";
 
 const initialState = { name: "" };
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 
 const CategoryBox = () => {
   const [show, setShow] = useState(false);
@@ -17,28 +18,14 @@ const CategoryBox = () => {
   const { createCategory, getCategory } = useCategory();
   const datas = getCategory?.data?.data || [];
 
-  //  datas.forEach((element:any) => {
-  //     let imgUrl = element.img;
-  //     imgUrl = `${imgUrl.replace('', BASE_URL)}`;
-  //     imgUrl = `${imgUrl.replace('http://localhost:5555/api', BASE_URL)}`;
-  //     imgUrl = imgUrl.replace('/barber/api/v1', '');
-  //     // console.log(imgUrl);
-  //     element.img = imgUrl;
-  // });
-
-  // console.log(datas);
+  console.log(BASE_ASSETS_URL);
+  
 
   datas.forEach((element: any) => {
     let imgUrl = element.img;
 
-    // keraksiz qismlarni olib tashlaymiz
-    imgUrl = imgUrl.replace("http://localhost:5555/api", "");
-    imgUrl = imgUrl.replace("/barber/api/v1", "");
-    // imgUrl = element.img.replace(/^.*?(?=\/uploud\/)/, '');c
-
-    // agar http yoki https bilan boshlanmasa — BASE_URL qo‘shamiz
     if (!/^https?:\/\//.test(imgUrl)) {
-      imgUrl = `${BASE_URL}${imgUrl.startsWith("/") ? "" : "/"}${imgUrl}`;
+      imgUrl = `${BASE_ASSETS_URL}${imgUrl.startsWith("/") ? "" : "/"}${imgUrl}`;
     }
 
     element.img = imgUrl;
