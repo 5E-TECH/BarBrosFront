@@ -17,6 +17,35 @@ const CategoryBox = () => {
   const { createCategory, getCategory } = useCategory();
   const datas = getCategory?.data?.data || [];
 
+  //  datas.forEach((element:any) => {
+  //     let imgUrl = element.img;
+  //     imgUrl = `${imgUrl.replace('', BASE_URL)}`;
+  //     imgUrl = `${imgUrl.replace('http://localhost:5555/api', BASE_URL)}`;
+  //     imgUrl = imgUrl.replace('/barber/api/v1', '');
+  //     // console.log(imgUrl);
+  //     element.img = imgUrl;
+  // });
+
+  // console.log(datas);
+
+  datas.forEach((element: any) => {
+    let imgUrl = element.img;
+
+    // keraksiz qismlarni olib tashlaymiz
+    imgUrl = imgUrl.replace("http://localhost:5555/api", "");
+    imgUrl = imgUrl.replace("/barber/api/v1", "");
+    // imgUrl = element.img.replace(/^.*?(?=\/uploud\/)/, '');c
+
+    // agar http yoki https bilan boshlanmasa — BASE_URL qo‘shamiz
+    if (!/^https?:\/\//.test(imgUrl)) {
+      imgUrl = `${BASE_URL}${imgUrl.startsWith("/") ? "" : "/"}${imgUrl}`;
+    }
+
+    element.img = imgUrl;
+  });
+
+  console.log(datas);
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -126,11 +155,7 @@ const CategoryBox = () => {
               <div className="w-full h-40 mb-3 bg-gray-100 rounded-lg overflow-hidden">
                 {data.img ? (
                   <img
-                    src={
-                      data.img.startsWith("http")
-                        ? data.img
-                        : `${BASE_URL}/api/uploud/${data.img}`
-                    }
+                    src={data.img}
                     alt={data.name}
                     className="w-full h-full object-cover"
                   />
