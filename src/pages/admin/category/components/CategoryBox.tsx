@@ -1,13 +1,11 @@
 import React, { memo, useState, type FormEvent } from "react";
 import PageHeader from "../../../../shared/components/pageHeader";
-import { Plus, X } from "lucide-react";
+import { Dumbbell, Plus, X } from "lucide-react";
 import Popup from "../../../../shared/ui/Popup";
 import { useCategory } from "../service/useCategory";
 import { BASE_ASSETS_URL } from "../../../../shared/const";
 
 const initialState = { name: "" };
-
-
 
 const CategoryBox = () => {
   const [show, setShow] = useState(false);
@@ -18,20 +16,17 @@ const CategoryBox = () => {
   const { createCategory, getCategory } = useCategory();
   const datas = getCategory?.data?.data || [];
 
-  console.log(BASE_ASSETS_URL);
-  
-
   datas.forEach((element: any) => {
     let imgUrl = element.img;
 
     if (!/^https?:\/\//.test(imgUrl)) {
-      imgUrl = `${BASE_ASSETS_URL}${imgUrl.startsWith("/") ? "" : "/"}${imgUrl}`;
+      imgUrl = `${BASE_ASSETS_URL}${
+        imgUrl.startsWith("/") ? "" : "/"
+      }${imgUrl}`;
     }
 
     element.img = imgUrl;
   });
-
-  console.log(datas);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -137,29 +132,28 @@ const CategoryBox = () => {
           datas.map((data: any) => (
             <div
               key={data.id}
-              className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+              className="flex items-center justify-between gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer"
             >
-              <div className="w-full h-40 mb-3 bg-gray-100 rounded-lg overflow-hidden">
-                {data.img ? (
-                  <img
-                    src={data.img}
-                    alt={data.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    No Image
-                  </div>
-                )}
-              </div>
-              <h3 className="text-lg font-semibold text-gray-800 text-center">
+              <h3 className="text-sm font-semibold text-gray-800 truncate">
                 {data.name}
               </h3>
+              <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden shrink-0">
+                {data.img ? (
+                  // <img
+                  //   src={data.img}
+                  //   alt={data.name}
+                  //   className="w-full h-full object-contain"
+                  // />
+                  <Dumbbell color="blue" size={30}/>
+                ) : (
+                  <span className="text-xs text-gray-400">No Image</span>
+                )}
+              </div>
             </div>
           ))
         ) : (
-          <div className="col-span-full text-center py-12 text-gray-500">
-            No categories found. Add your first category!
+          <div className="col-span-full text-center py-12 text-gray-400">
+            No categories found
           </div>
         )}
       </div>
