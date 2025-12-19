@@ -45,66 +45,65 @@ const UserDetail = () => {
         <PageHeader title="UserDetail" />
       </div>
 
-      <div className="w-[1150px] gap-12 bg-white px-10 py-9 rounded-2xl">
-        <div>
+      <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl">
+        <div className="w-full ">
           <img
             src={shelby}
             alt=""
             className="w-[100px] h-[100px] rounded-[50%] mb-3 object-cover"
           />
-          <div className="flex gap-2.5 font-bold text-maintext text-2xl">
-            {user?.full_name}
-          </div>
-          <span className="text-helpertext font-medium">
-            {user?.roleBarberShop}
-          </span>
+          <span className="pl-8 text-helpertext font-medium">{user?.role}</span>
         </div>
 
         <div className="flex flex-col gap-8 w-full mt-8">
           <div className="flex gap-8">
-            <div className="flex flex-1 justify-between border-b border-[#f0f2f5] shadow-xl rounded-3xl px-8 py-3">
-              <h4 className="text-helpertext text-[16px] font-medium">Name:</h4>
-              <span className="text-maintext text-[16px] font-bold">
+            <div className="flex flex-col w-full">
+              <label className="text-helpertext text-[16px] font-medium">
+                Name:
+              </label>
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
                 {user?.full_name}
               </span>
             </div>
 
-            <div className="flex flex-1 justify-between border-b border-[#f0f2f5] shadow-xl rounded-3xl px-8 py-3">
-              <h4 className="text-helpertext text-[16px] font-medium">
+            <div className="flex flex-col w-full">
+              <label className="text-helpertext text-[16px] font-medium">
                 Surname:
-              </h4>
-              <span className="text-maintext text-[16px] font-bold">
+              </label>
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
                 Nabijanov
               </span>
             </div>
           </div>
 
           <div className="flex gap-8">
-            <div className="flex flex-1 justify-between border-b border-[#f0f2f5] shadow-xl rounded-3xl px-8 py-3">
-              <h4 className="text-helpertext text-[16px] font-medium">
+            <div className="flex flex-col w-full">
+              <label className="text-helpertext text-[16px] font-medium">
                 Phone Number:
-              </h4>
-              <span className="text-maintext text-[16px] font-bold">
+              </label>
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
                 {user?.phone_number}
               </span>
             </div>
 
-            <div className="flex flex-1 justify-between border-b border-[#f0f2f5] shadow-xl rounded-3xl px-8 py-3">
-              <h4 className="text-helpertext text-[16px] font-medium">
+            <div className="flex flex-col w-full">
+              <label className="text-helpertext text-[16px] font-medium">
                 Login:
-              </h4>
-              <span className="text-maintext text-[16px] font-bold">
+              </label>
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
                 Hacker
               </span>
             </div>
           </div>
 
           <div className="flex gap-8">
-            <div className="flex flex-1 justify-between border-b border-[#f0f2f5] shadow-xl rounded-3xl px-8 py-3">
-              <h4 className="text-helpertext text-[16px] font-medium">
+            <div className="flex flex-col w-[49%]">
+              <label className="text-helpertext text-[16px] font-medium">
                 Password:
-              </h4>
-              <span className="text-maintext text-[16px] font-bold">1230</span>
+              </label>
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+                1230
+              </span>
             </div>
             <div className="w-[1150px] flex flex-1 justify-end mt-6 px-8">
               <ButtonCom
