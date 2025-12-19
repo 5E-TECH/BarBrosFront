@@ -4,6 +4,7 @@ import { EllipsisVertical, Plus, X } from "lucide-react";
 import Popup from "../../../../shared/ui/Popup";
 import { useCategory } from "../service/useCategory";
 import { BASE_ASSETS_URL } from "../../../../shared/const";
+import ButtonCom from "../../../../shared/components/button";
 
 const initialState = { name: "" };
 
@@ -119,10 +120,8 @@ const CategoryBox = () => {
                 </label>
               </div>
 
-              <div onClick={() => setShow(false)} className="flex justify-end">
-                <button className="bg-main text-white rounded-xl px-4 py-2.5 cursor-pointer">
-                  Submit
-                </button>
+              <div className="flex justify-end">
+                <ButtonCom title="Submit" type="submit"/>
               </div>
             </form>
           </div>

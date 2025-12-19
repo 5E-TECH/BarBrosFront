@@ -4,6 +4,7 @@ import CustomPagination from "../../../../../shared/components/pagination";
 import type { PaginationProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import Search from "../../../../../shared/components/Search";
+// import { debounce } from "../../../../../shared/helper/debounceFunc";
 
 interface Props {
   data: any[];
@@ -20,7 +21,16 @@ const UserTable: FC<Props> = ({
   pageSize,
   onPageChange,
 }) => {
+  // const [search, setSearch] = useState<any>(null)
   const navigate = useNavigate();
+
+  // const debounceSearch = useMemo(
+  //   () =>
+  //     debounce((value: string) => {
+  //       setSearch(value);
+  //     }, 800),
+  //   []
+  // );
 
   return (
     <div>

@@ -23,7 +23,6 @@ const AdminDetail = () => {
   const { getByIdAdmin, updateAdmin } = useAdmins();
   const { data, refetch } = getByIdAdmin({ id });
   const admin = data?.data;
-  console.log(admin);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -49,22 +48,20 @@ const AdminDetail = () => {
       </div>
 
       <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl">
-        <div className="w-full ">
+        <div className="w-[15%] flex flex-col items-center gap-4">
           <img
             src={shelby}
             alt=""
-            className="w-[100px] h-[100px] rounded-[50%] mb-3 object-cover"
+            className="w-[100px] h-[100px] rounded-full object-cover"
           />
-          <span className=" text-helpertext font-medium">
-            {admin?.role}
-          </span>
+          <span className="text-helpertext font-medium">{admin?.role}</span>
         </div>
 
-        <div className="flex flex-col gap-8 w-full mt-8">
+        <div className="w-[85%] flex flex-col gap-8 mt-8">
           <div className="flex gap-8">
             <div className="flex flex-col w-full">
               <label className="text-helpertext text-[16px] font-medium">
-                Name:
+                FullName:
               </label>
               <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
                 {admin?.full_name}
@@ -130,18 +127,6 @@ const AdminDetail = () => {
             </div>
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
-                Surname
-              </label>
-              <input
-                type="text"
-                name=""
-                id=""
-                placeholder="Enter surname"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
-              />
-            </div>
-            <div className="flex flex-col mb-9">
-              <label htmlFor="" className="text-helpertext mb-2.5">
                 Phone Number
               </label>
               <input
@@ -160,8 +145,10 @@ const AdminDetail = () => {
               </label>
               <input
                 type="text"
-                name=""
+                name="email"
                 id=""
+                value={form.email}
+                onChange={handleChange}
                 placeholder="Enter login"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
@@ -172,8 +159,10 @@ const AdminDetail = () => {
               </label>
               <input
                 type="number"
-                name=""
+                name="password"
                 id=""
+                value={form.password}
+                onChange={handleChange}
                 placeholder="Enter password"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />

@@ -39,7 +39,7 @@ const Users = () => {
           >
             <div className="w-full">
               <p className="text-helpertext text-[18px] font-medium">Users</p>
-              <strong className="text-[24px]">200</strong>
+              <strong className="text-[24px]">{users?.length ?? 0}</strong>
             </div>
             <div className="rounded-2xl bg-[#fff4e6] px-3 py-3">
               <UsersRound size={30} color="#FA8B00" />
@@ -52,7 +52,7 @@ const Users = () => {
           >
             <div className="w-full">
               <p className="text-helpertext text-[18px] font-medium">Admins</p>
-              <strong className="text-[24px]">25</strong>
+              <strong className="text-[24px]">{admins?.length ?? 0}</strong>
             </div>
             <div className="rounded-2xl bg-[#fff4e6] px-3 py-3">
               <UsersRound size={30} color="#FA8B00" />
