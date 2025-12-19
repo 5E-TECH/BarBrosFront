@@ -1,16 +1,24 @@
 import { memo } from "react";
-import { MoreVertical } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import SearchInput from "../../../../shared/components/Search";
 import avatar from "../../../../shared/assets/Avatar.png";
 import { useBarberShop } from "../service/useBarberShop";
+import { Switch } from "antd";
 
 const BarberTable = () => {
-  const {getBarbershops} = useBarberShop()
+  const { getBarbershops, deleteBarberShop, updateStatusBarbershop } =
+    useBarberShop();
+  const { data } = getBarbershops();
 
-  const {data} = getBarbershops()
+  const handleToggle = (item: any) => {
+    const newStatus = item.status === "active" ? "inactive" : "active";
 
-  console.log();
-  
+    updateStatusBarbershop.mutate({
+      id: item.id,
+      status: newStatus,
+    });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md mb-10">
       <div className="w-[97%] mt-6">
@@ -20,7 +28,7 @@ const BarberTable = () => {
         <table className="mt-[31px] mb-20 w-full">
           <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
             <tr className="">
-              <th className="pl-14 pr-[172px] pb-3">BarberShop Name</th>
+              <th className="pl-12 pr-[172px] pb-3">BarberShop Name</th>
               <th className="pr-[172px] pb-3">Address</th>
               <th className="pr-[172px] pb-3">Phone number</th>
               <th className="pr-[172px] pb-3">Date of establishment</th>
@@ -30,12 +38,12 @@ const BarberTable = () => {
           </thead>
           <tbody>
             {data?.data?.data.map((item: any) => (
-              <tr key={item.id} className=" border-b border-[#e8e9eb] pl-10 ">
+              <tr key={item.id} className=" border-b border-[#e8e9eb]">
                 <td className="pl-12 flex flex-row gap-3.5 items-center">
                   <div>
                     <img src={avatar} alt="" />
                   </div>
-                  <div className="flex flex-col py-2.5">
+                  <div className="flex flex-col py-5">
                     <p className="text-maintext">{item?.name}</p>
                     <p className="text-helpertext">{item?.email}</p>
                   </div>
@@ -54,9 +62,19 @@ const BarberTable = () => {
                     return `${day}-${month}-${year} ${hours}:${minutes}`;
                   })()}
                 </td>
-                <td ><span className={` ${item?.status ? "bg-[#fef6eb] text-[#FA8B00]" : "bg-[#faebeb] text-[#FF0000]"}  py-1.5 px-5 rounded-xl`}>{item?.status ? "Active" : "Bloked"}</span></td>
-                <td className="pr-6">
-                  <MoreVertical color="#8A9099" />
+
+                <td>
+                  <Switch
+                    checked={item.status === "active"} 
+                    onChange={() => handleToggle(item)}
+                  />
+                </td>
+
+                <td
+                  onClick={() => deleteBarberShop.mutate({ id: item.id })}
+                  className="pr-12"
+                >
+                  <Trash2 className="text-red-500 cursor-pointer" />
                 </td>
               </tr>
             ))}

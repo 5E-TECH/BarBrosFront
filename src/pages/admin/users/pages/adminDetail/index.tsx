@@ -1,39 +1,42 @@
-import { memo } from "react";
+import React, { memo, useState } from "react";
 import PageHeader from "../../../../../shared/components/pageHeader";
 import shelby from "../../../../../shared/assets/shelby.png";
-// import ButtonCom from "../../../../../shared/components/button";
-// import Popup from "../../../../../shared/ui/Popup";
-import { ChevronLeft } from "lucide-react";
+import ButtonCom from "../../../../../shared/components/button";
+import Popup from "../../../../../shared/ui/Popup";
+import { ChevronLeft, X } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useUsers } from "../../service/useUser";
+import { useAdmins } from "../../service/useAdmin";
 
-const UserDetail = () => {
-  // const [show, setShow] = useState(false);
-  // const [form, setForm] = useState({
-  //   full_name: "",
-  //   phone_number: "",
-  // });
+const AdminDetail = () => {
+  const [show, setShow] = useState(false);
+  const [form, setForm] = useState({
+    full_name: "",
+    phone_number: "",
+    email: "",
+    password: "",
+  });
 
   const navigate = useNavigate();
 
   const { id } = useParams();
 
-  const { getByIdUsers } = useUsers();
-  const { data } = getByIdUsers({ id });
-  const user = data?.data;
+  const { getByIdAdmin, updateAdmin } = useAdmins();
+  const { data, refetch } = getByIdAdmin({ id });
+  const admin = data?.data;
+  console.log(admin);
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  // };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-  // const handleSave = () => {
-  //   updateUsers.mutate({
-  //     id: id!,
-  //     data: form,
-  //   });
-  //   setShow(false);
-  //   refetch();
-  // };
+  const handleSave = () => {
+    updateAdmin.mutate({
+      id: id!,
+      data: form,
+    });
+    setShow(false);
+    refetch();
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -45,40 +48,59 @@ const UserDetail = () => {
         <PageHeader title="UserDetail" />
       </div>
 
-      <div className="flex gap-12 bg-white px-10 py-9 rounded-2xl">
-        <div className="w-[150px]">
+      <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl">
+        <div className="w-full ">
           <img
             src={shelby}
             alt=""
             className="w-[100px] h-[100px] rounded-[50%] mb-3 object-cover"
           />
-          <span className="pl-8 text-helpertext font-medium">{user?.role}</span>
+          <span className=" text-helpertext font-medium">
+            {admin?.role}
+          </span>
         </div>
 
         <div className="flex flex-col gap-8 w-full mt-8">
           <div className="flex gap-8">
             <div className="flex flex-col w-full">
               <label className="text-helpertext text-[16px] font-medium">
-                FullName:
+                Name:
               </label>
               <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
-                {user?.full_name}
+                {admin?.full_name}
               </span>
             </div>
-
             <div className="flex flex-col w-full">
               <label className="text-helpertext text-[16px] font-medium">
                 Phone Number:
               </label>
               <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
-                {user?.phone_number}
+                {admin?.phone_number}
               </span>
+            </div>
+          </div>
+
+          <div className="flex gap-8 w-[65%]">
+            <div className="flex flex-col w-full">
+              <label className="text-helpertext text-[16px] font-medium">
+                Login:
+              </label>
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+                {admin?.email}
+              </span>
+            </div>
+            <div className="w-[1150px] flex flex-1 justify-end mt-6 px-8">
+              <ButtonCom
+                onClick={() => setShow(true)}
+                title="Edit"
+                type="button"
+              />
             </div>
           </div>
         </div>
       </div>
 
-      {/* <Popup isShow={show} onClose={() => setShow(false)}>
+      <Popup isShow={show} onClose={() => setShow(false)}>
         <div className="bg-white w-[500px] rounded-xl px-8 py-10">
           <div className="flex justify-end">
             <div
@@ -161,9 +183,9 @@ const UserDetail = () => {
             </div>
           </form>
         </div>
-      </Popup> */}
+      </Popup>
     </div>
   );
 };
 
-export default memo(UserDetail);
+export default memo(AdminDetail);

@@ -3,6 +3,8 @@ import avatar from "../../../../../shared/assets/Avatar.png";
 import CustomPagination from "../../../../../shared/components/pagination";
 import type { PaginationProps } from "antd";
 import { useNavigate } from "react-router-dom";
+import Search from "../../../../../shared/components/Search";
+import { Plus } from "lucide-react";
 
 interface Props {
   data: any[];
@@ -24,6 +26,16 @@ const AdminTable: FC<Props> = ({
   return (
     <div>
       <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md">
+        <div className="w-full px-6 mt-6 flex justify-between gap-10">
+          <Search />
+          <button
+            onClick={() => navigate("add-admin")}
+            className="bg-main text-white px-2 py-1 w-[10%] flex justify-center items-center gap-2 rounded-2xl cursor-pointer font-semibold"
+          >
+            <Plus size={22} />
+            Add admin
+          </button>
+        </div>
         <div className="w-full h-[80%]">
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
@@ -40,7 +52,7 @@ const AdminTable: FC<Props> = ({
             <tbody>
               {data.map((item: any) => (
                 <tr
-                  onClick={() => navigate(`user-detail/${item.id}`)}
+                  onClick={() => navigate(`admin-detail/${item.id}`)}
                   key={item.id}
                   className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer"
                 >

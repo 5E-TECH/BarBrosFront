@@ -1,6 +1,6 @@
 import React, { memo, useState, type FormEvent } from "react";
 import PageHeader from "../../../../shared/components/pageHeader";
-import { Dumbbell, EllipsisVertical, Plus, X } from "lucide-react";
+import { EllipsisVertical, Plus, X } from "lucide-react";
 import Popup from "../../../../shared/ui/Popup";
 import { useCategory } from "../service/useCategory";
 import { BASE_ASSETS_URL } from "../../../../shared/const";
@@ -119,7 +119,7 @@ const CategoryBox = () => {
                 </label>
               </div>
 
-              <div className="flex justify-end">
+              <div onClick={() => setShow(false)} className="flex justify-end">
                 <button className="bg-main text-white rounded-xl px-4 py-2.5 cursor-pointer">
                   Submit
                 </button>
@@ -167,12 +167,11 @@ const CategoryBox = () => {
                 </h3>
                 <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden shrink-0">
                   {data.img ? (
-                    // <img
-                    //   src={data.img}
-                    //   alt={data.name}
-                    //   className="w-full h-full object-contain"
-                    // />
-                    <Dumbbell color="blue" size={30} />
+                    <img
+                      src={data.img}
+                      alt={data.name}
+                      className="w-full h-full object-contain"
+                    />
                   ) : (
                     <span className="text-xs text-helpertext">No Image</span>
                   )}

@@ -3,6 +3,7 @@ import avatar from "../../../../../shared/assets/Avatar.png";
 import CustomPagination from "../../../../../shared/components/pagination";
 import type { PaginationProps } from "antd";
 import { useNavigate } from "react-router-dom";
+import Search from "../../../../../shared/components/Search";
 
 interface Props {
   data: any[];
@@ -24,6 +25,9 @@ const UserTable: FC<Props> = ({
   return (
     <div>
       <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md">
+        <div className="w-full px-6 mt-6 flex justify-between gap-10">
+          <Search />
+        </div>
         <div className="w-full h-[80%]">
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
@@ -44,7 +48,6 @@ const UserTable: FC<Props> = ({
                   key={item.id}
                   className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer"
                 >
-
                   <td className="py-3 pl-8 flex items-center gap-4">
                     <img src={avatar} alt="" className="w-10 h-10" />
                     <div>
