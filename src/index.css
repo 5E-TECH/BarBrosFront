@@ -64,7 +64,6 @@
     border-bottom: 0;
   }
 
-  /* 🌙 Dark mode (faqat <html class="dark"> bo‘lsa ishlaydi) */
   .dark td {
     border-bottom: 1px solid #374151;
     color: #ffffff;

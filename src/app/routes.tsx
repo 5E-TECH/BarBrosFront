@@ -12,6 +12,7 @@ const Category = lazy(() => import("../pages/admin/category"));
 
 const AddUser = lazy(() => import("../pages/admin/users/pages/addUser"));
 const UserDetail = lazy(() => import("../pages/admin/users/pages/userDetail"));
+const AdminDetail = lazy(() => import("../pages/admin/users/pages/adminDetail"));
 
 const AppRouter = () => {
   return useRoutes([
@@ -32,6 +33,7 @@ const AppRouter = () => {
               children: [
                 { path: "add-admin", element: <AddUser /> },
                 { path: "user-detail/:id", element: <UserDetail /> },
+                { path: "admin-detail/:id", element: <AdminDetail /> },
               ],
             },
             { path: "category", element: <Category /> },

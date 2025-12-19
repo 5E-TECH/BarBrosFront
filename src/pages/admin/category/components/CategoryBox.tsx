@@ -1,6 +1,6 @@
 import React, { memo, useState, type FormEvent } from "react";
 import PageHeader from "../../../../shared/components/pageHeader";
-import { Dumbbell, Plus, X } from "lucide-react";
+import { EllipsisVertical, Plus, X } from "lucide-react";
 import Popup from "../../../../shared/ui/Popup";
 import { useCategory } from "../service/useCategory";
 import { BASE_ASSETS_URL } from "../../../../shared/const";
@@ -12,6 +12,8 @@ const CategoryBox = () => {
   const [img, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "" });
+
+  const [openId, setOpenId] = useState<number | null>(null);
 
   const { createCategory, getCategory } = useCategory();
   const datas = getCategory?.data?.data || [];
@@ -117,7 +119,7 @@ const CategoryBox = () => {
                 </label>
               </div>
 
-              <div className="flex justify-end">
+              <div onClick={() => setShow(false)} className="flex justify-end">
                 <button className="bg-main text-white rounded-xl px-4 py-2.5 cursor-pointer">
                   Submit
                 </button>
@@ -132,27 +134,53 @@ const CategoryBox = () => {
           datas.map((data: any) => (
             <div
               key={data.id}
-              className="flex items-center justify-between gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer"
+              className="gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer"
             >
-              <h3 className="text-sm font-semibold text-gray-800 truncate">
-                {data.name}
-              </h3>
-              <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden shrink-0">
-                {data.img ? (
-                  // <img
-                  //   src={data.img}
-                  //   alt={data.name}
-                  //   className="w-full h-full object-contain"
-                  // />
-                  <Dumbbell color="blue" size={30}/>
-                ) : (
-                  <span className="text-xs text-gray-400">No Image</span>
+              <div className="relative">
+                <div
+                  onClick={() => setOpenId(openId === data.id ? null : data.id)}
+                  className="flex justify-end mb-2 cursor-pointer"
+                >
+                  <EllipsisVertical size={20} />
+                </div>
+
+                {openId === data.id && (
+                  <div className="absolute right-0 top-6 z-20 w-32 font-medium bg-white border border-gray-100 rounded-lg shadow-md">
+                    <button
+                      className="w-full px-4 py-2 text-sm text-left hover:bg-gray-50 cursor-pointer"
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      className="w-full px-4 py-2 text-sm text-left text-red-500 hover:bg-red-50 cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 )}
+              </div>
+
+              <div className="flex items-center justify-between">
+                <h3 className="text-gl font-bold text-maintext truncate">
+                  {data.name}
+                </h3>
+                <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden shrink-0">
+                  {data.img ? (
+                    <img
+                      src={data.img}
+                      alt={data.name}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-xs text-helpertext">No Image</span>
+                  )}
+                </div>
               </div>
             </div>
           ))
         ) : (
-          <div className="col-span-full text-center py-12 text-gray-400">
+          <div className="col-span-full text-center py-12 text-helpertext">
             No categories found
           </div>
         )}
