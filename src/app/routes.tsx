@@ -10,7 +10,7 @@ const BarberShop = lazy(() => import("../pages/admin/barberShop"));
 const Users = lazy(() => import("../pages/admin/users"));
 const Category = lazy(() => import("../pages/admin/category"));
 
-const AddUser = lazy(() => import("../pages/admin/users/pages/addUser"));
+const AddUser = lazy(() => import("../pages/admin/users/pages/addAdmin"));
 const UserDetail = lazy(() => import("../pages/admin/users/pages/userDetail"));
 const AdminDetail = lazy(() => import("../pages/admin/users/pages/adminDetail"));
 
