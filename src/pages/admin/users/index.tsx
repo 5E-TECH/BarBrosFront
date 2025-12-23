@@ -8,6 +8,7 @@ import { UsersRound } from "lucide-react";
 import UserTable from "./components/userTable";
 import { useAdmins } from "./service/useAdmin";
 import AdminTable from "./components/adminTable";
+import TableLoading from "../../../shared/components/loadings/tableLoading";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -20,12 +21,16 @@ const Users = () => {
   const { getAllUsers } = useUsers();
   const { getAllAdmins } = useAdmins();
   const dataAdmin = getAllAdmins({ page, limit });
-  const { data } = getAllUsers({ page, limit });
+  const { data, isLoading } = getAllUsers({ page, limit });
 
   const admins = dataAdmin?.data?.data?.data;
   const users = data?.data?.data ?? [];
   const total = data?.data?.total ?? 0;
   const pageSize = data?.data?.pageSize ?? limit;
+
+  if (isLoading) {
+    return <TableLoading />;
+  }
 
   return (
     <div>

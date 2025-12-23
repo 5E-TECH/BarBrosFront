@@ -60,7 +60,7 @@ const CategoryBox = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  if (!datas) {
+  if (getCategory.isLoading) {
     return <CategoryLoading />;
   }
 
