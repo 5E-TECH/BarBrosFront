@@ -5,7 +5,6 @@ import type { PaginationProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import Search from "../../../../../shared/components/Search";
 import { Plus } from "lucide-react";
-import TableLoading from "../../../../../shared/components/loadings/tableLoading";
 
 interface Props {
   data: any[];
@@ -23,10 +22,6 @@ const AdminTable: FC<Props> = ({
   onPageChange,
 }) => {
   const navigate = useNavigate();
-
-  if(!data) {
-    return <TableLoading/>
-  }
 
   return (
     <div>

@@ -6,11 +6,12 @@ import avatar from "../../../../shared/assets/Avatar.png";
 import { useBarberShop } from "../service/useBarberShop";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../../shared/components/pageHeader";
+import TableLoading from "../../../../shared/components/loadings/tableLoading";
 
 const BarberTable = () => {
   const { getBarbershops, deleteBarberShop, updateStatusBarbershop } =
     useBarberShop();
-  const { data, refetch } = getBarbershops();
+  const { data, isLoading, refetch } = getBarbershops();
   const navigate = useNavigate();
   const [api, contextHolder] = notification.useNotification();
 
@@ -48,6 +49,10 @@ const BarberTable = () => {
       }
     );
   };
+
+  if(isLoading) {
+    return <TableLoading/>
+  }
 
   return (
     <div>
