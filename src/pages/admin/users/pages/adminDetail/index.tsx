@@ -6,6 +6,7 @@ import Popup from "../../../../../shared/ui/Popup";
 import { ChevronLeft, X } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAdmins } from "../../service/useAdmin";
+import DetailsLoading from "../../../../../shared/components/loadings/detailsLoading";
 
 const AdminDetail = () => {
   const [show, setShow] = useState(false);
@@ -37,6 +38,10 @@ const AdminDetail = () => {
     refetch();
   };
 
+  if (!data) {
+      return <DetailsLoading/>;
+    }
+
   return (
     <div className="flex flex-col gap-6">
       <div
@@ -44,7 +49,7 @@ const AdminDetail = () => {
         className="cursor-pointer flex gap-1 items-center mb-6"
       >
         <ChevronLeft size={30} />
-        <PageHeader title="UserDetail" />
+        <PageHeader title="AdminDetail" />
       </div>
 
       <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl">
@@ -60,7 +65,7 @@ const AdminDetail = () => {
         <div className="w-[85%] flex flex-col gap-8 mt-8">
           <div className="flex gap-8">
             <div className="flex flex-col w-full">
-              <label className="text-helpertext text-[16px] font-medium">
+              <label className="text-helpertext text-[16px] font-medium pb-1">
                 FullName:
               </label>
               <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
@@ -68,7 +73,7 @@ const AdminDetail = () => {
               </span>
             </div>
             <div className="flex flex-col w-full">
-              <label className="text-helpertext text-[16px] font-medium">
+              <label className="text-helpertext text-[16px] font-medium pb-1">
                 Phone Number:
               </label>
               <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
@@ -79,7 +84,7 @@ const AdminDetail = () => {
 
           <div className="flex gap-8 w-[65%]">
             <div className="flex flex-col w-full">
-              <label className="text-helpertext text-[16px] font-medium">
+              <label className="text-helpertext text-[16px] font-medium pb-1">
                 Login:
               </label>
               <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
@@ -110,7 +115,7 @@ const AdminDetail = () => {
             </div>
           </div>
 
-          <form action="">
+          <form action="" onSubmit={handleSave}>
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
                 FullName
@@ -118,7 +123,7 @@ const AdminDetail = () => {
               <input
                 type="text"
                 name="full_name"
-                id=""
+                id="full_name"
                 value={form.full_name}
                 onChange={handleChange}
                 placeholder="Enter name"
@@ -132,7 +137,7 @@ const AdminDetail = () => {
               <input
                 type="text"
                 name="phone_number"
-                id=""
+                id="phone_number"
                 value={form.phone_number}
                 onChange={handleChange}
                 placeholder="Enter phone number"
@@ -146,7 +151,7 @@ const AdminDetail = () => {
               <input
                 type="text"
                 name="email"
-                id=""
+                id="email"
                 value={form.email}
                 onChange={handleChange}
                 placeholder="Enter login"
@@ -158,17 +163,17 @@ const AdminDetail = () => {
                 Password
               </label>
               <input
-                type="number"
+                type="text"
                 name="password"
-                id=""
+                id="password"
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Enter password"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
             </div>
-            <div onClick={() => handleSave()} className="flex justify-end">
-              <ButtonCom title="Save" />
+            <div className="flex justify-end">
+              <ButtonCom title="Save" type="submit"/>
             </div>
           </form>
         </div>

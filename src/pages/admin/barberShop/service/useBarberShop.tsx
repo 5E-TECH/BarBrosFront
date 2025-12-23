@@ -14,7 +14,7 @@ export const useBarberShop = () => {
       // refetchOnWindowFocus: false,
     });
 
-  const getByIdBarbershop = ({ id }: { id: string }) =>
+  const getByIdBarbershop = ({ id }: { id: any }) =>
     useQuery({
       queryKey: [barbershop, id],
       queryFn: () => api.get(`barber-shop/${id}`).then((res) => res.data),
