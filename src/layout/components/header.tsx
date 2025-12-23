@@ -1,6 +1,7 @@
 import { Bell, LogOut } from "lucide-react";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import profile from "../../shared/assets/profile.jpg";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,7 +19,10 @@ const Header = () => {
         />
         <Bell className="w-5 h-5" />
       </div>
-      <h4>Admin</h4>
+      <div onClick={() => navigate("/profile")} className="flex items-center gap-2 cursor-pointer">
+        <img src={profile} alt="" className="w-[30px]"/>
+        <h4>Admin</h4>
+      </div>
     </div>
   );
 };

@@ -1,14 +1,15 @@
-import { memo } from 'react';
-import PageHeader from '../../../shared/components/pageHeader';
-import BarberTable from './components/barberTable';
+import { memo } from "react";
+import BarberTable from "./components/barberTable";
+import { Outlet, useOutlet } from "react-router-dom";
 
 const BarberShop = () => {
+  const outlet = useOutlet();
+  const showTable = !outlet;
+
   return (
     <div>
-      <PageHeader title='BarberShop'/>
-      <div className='mt-6'>
-        <BarberTable/>
-      </div>
+      <div>{showTable && <BarberTable />}</div>
+      <Outlet />
     </div>
   );
 };

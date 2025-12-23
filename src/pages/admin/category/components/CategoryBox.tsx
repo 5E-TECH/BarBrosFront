@@ -5,6 +5,7 @@ import Popup from "../../../../shared/ui/Popup";
 import { useCategory } from "../service/useCategory";
 import { BASE_ASSETS_URL } from "../../../../shared/const";
 import ButtonCom from "../../../../shared/components/button";
+import CategoryLoading from "../../../../shared/components/loadings/categoryLoading";
 
 const initialState = { name: "" };
 
@@ -58,6 +59,10 @@ const CategoryBox = () => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
+
+  if (!datas) {
+    return <CategoryLoading />;
+  }
 
   return (
     <div>
@@ -121,7 +126,7 @@ const CategoryBox = () => {
               </div>
 
               <div className="flex justify-end">
-                <ButtonCom title="Submit" type="submit"/>
+                <ButtonCom title="Submit" type="submit" />
               </div>
             </form>
           </div>
@@ -129,7 +134,7 @@ const CategoryBox = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mt-6">
-        {datas.length > 0 ? (
+        {datas.length > 0 &&
           datas.map((data: any) => (
             <div
               key={data.id}
@@ -145,15 +150,11 @@ const CategoryBox = () => {
 
                 {openId === data.id && (
                   <div className="absolute right-0 top-6 z-20 w-32 font-medium bg-white border border-gray-100 rounded-lg shadow-md">
-                    <button
-                      className="w-full px-4 py-2 text-sm text-left hover:bg-gray-50 cursor-pointer"
-                    >
+                    <button className="w-full px-4 py-2 text-sm text-left hover:bg-gray-50 cursor-pointer">
                       Edit
                     </button>
 
-                    <button
-                      className="w-full px-4 py-2 text-sm text-left text-red-500 hover:bg-red-50 cursor-pointer"
-                    >
+                    <button className="w-full px-4 py-2 text-sm text-left text-red-500 hover:bg-red-50 cursor-pointer">
                       Delete
                     </button>
                   </div>
@@ -177,12 +178,7 @@ const CategoryBox = () => {
                 </div>
               </div>
             </div>
-          ))
-        ) : (
-          <div className="col-span-full text-center py-12 text-helpertext">
-            No categories found
-          </div>
-        )}
+          ))}
       </div>
     </div>
   );

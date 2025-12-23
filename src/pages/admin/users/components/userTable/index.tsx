@@ -4,6 +4,7 @@ import CustomPagination from "../../../../../shared/components/pagination";
 import type { PaginationProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import Search from "../../../../../shared/components/Search";
+import TableLoading from "../../../../../shared/components/loadings/tableLoading";
 // import { debounce } from "../../../../../shared/helper/debounceFunc";
 
 interface Props {
@@ -31,6 +32,11 @@ const UserTable: FC<Props> = ({
   //     }, 800),
   //   []
   // );
+
+
+  if(!data) {
+    return <TableLoading/>
+  }
 
   return (
     <div>

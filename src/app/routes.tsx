@@ -6,13 +6,21 @@ const Login = lazy(() => import("../pages/login"));
 const Auth = lazy(() => import("../pages/auth"));
 
 const Statistic = lazy(() => import("../pages/admin/statistic"));
-const BarberShop = lazy(() => import("../pages/admin/barberShop"));
-const Users = lazy(() => import("../pages/admin/users"));
-const Category = lazy(() => import("../pages/admin/category"));
 
+const BarberShop = lazy(() => import("../pages/admin/barberShop"));
+const BarberShopDetail = lazy(
+  () => import("../pages/admin/barberShop/pages/BarberShopDetail")
+);
+
+const Users = lazy(() => import("../pages/admin/users"));
 const AddUser = lazy(() => import("../pages/admin/users/pages/addAdmin"));
 const UserDetail = lazy(() => import("../pages/admin/users/pages/userDetail"));
-const AdminDetail = lazy(() => import("../pages/admin/users/pages/adminDetail"));
+const AdminDetail = lazy(
+  () => import("../pages/admin/users/pages/adminDetail")
+);
+
+const Category = lazy(() => import("../pages/admin/category"));
+const Profile = lazy(() => import("../pages/profile"));
 
 const AppRouter = () => {
   return useRoutes([
@@ -26,7 +34,16 @@ const AppRouter = () => {
           element: <DashboardLayout />,
           children: [
             { path: "/", element: <Statistic /> },
-            { path: "barbershop", element: <BarberShop /> },
+            {
+              path: "barbershop",
+              element: <BarberShop />,
+              children: [
+                {
+                  path: "barbershop-detail/:id",
+                  element: <BarberShopDetail />,
+                },
+              ],
+            },
             {
               path: "user",
               element: <Users />,
@@ -36,6 +53,7 @@ const AppRouter = () => {
                 { path: "admin-detail/:id", element: <AdminDetail /> },
               ],
             },
+            { path: "/profile", element: <Profile /> },
             { path: "category", element: <Category /> },
           ],
         },

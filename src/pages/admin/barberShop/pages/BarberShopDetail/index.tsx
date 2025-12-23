@@ -1,45 +1,25 @@
-import { memo } from "react";
-import PageHeader from "../../../../../shared/components/pageHeader";
-import shelby from "../../../../../shared/assets/shelby.png";
-// import ButtonCom from "../../../../../shared/components/button";
-// import Popup from "../../../../../shared/ui/Popup";
-import { ChevronLeft } from "lucide-react";
+import { memo, useState } from "react";
+import { useBarberShop } from "../../service/useBarberShop";
 import { useNavigate, useParams } from "react-router-dom";
-import { useUsers } from "../../service/useUser";
+import PageHeader from "../../../../../shared/components/pageHeader";
+import { ChevronLeft, X } from "lucide-react";
+import Popup from "../../../../../shared/ui/Popup";
+import shelby from "../../../../../shared/assets/shelby.png";
+import ButtonCom from "../../../../../shared/components/button";
 import DetailsLoading from "../../../../../shared/components/loadings/detailsLoading";
 
-const UserDetail = () => {
-  // const [show, setShow] = useState(false);
-  // const [form, setForm] = useState({
-  //   full_name: "",
-  //   phone_number: "",
-  // });
+const BarberShopDetail = () => {
+  const [show, setShow] = useState(false);
 
+  const { getByIdBarbershop } = useBarberShop();
+  const { id } = useParams();
+  const { data } = getByIdBarbershop({ id });
+  const datas = data?.data;
   const navigate = useNavigate();
 
-  const { id } = useParams();
-
-  const { getByIdUsers } = useUsers();
-  const { data } = getByIdUsers({ id });
-  const user = data?.data;
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  // };
-
-  // const handleSave = () => {
-  //   updateUsers.mutate({
-  //     id: id!,
-  //     data: form,
-  //   });
-  //   setShow(false);
-  //   refetch();
-  // };
-
-
-  if (!data) {
-      return <DetailsLoading/>;
-    }
+  if (!datas) {
+    return <DetailsLoading/>;
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -48,43 +28,76 @@ const UserDetail = () => {
         className="cursor-pointer flex gap-1 items-center mb-6"
       >
         <ChevronLeft size={30} />
-        <PageHeader title="UserDetail" />
+        <PageHeader title="BarberShopDetail" />
       </div>
 
-      <div className="flex gap-12 bg-white px-10 py-9 rounded-2xl">
-        <div className="w-[150px]">
+      <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl">
+        <div className="w-[15%] flex flex-col items-center">
           <img
             src={shelby}
             alt=""
-            className="w-[100px] h-[100px] rounded-[50%] mb-3 object-cover"
+            className="w-[100px] h-[100px] rounded-full object-cover mb-2"
           />
-          <span className="pl-8 text-helpertext font-medium">{user?.role}</span>
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium text-white
+            ${datas?.status === "active" ? "bg-green-500" : "bg-red-500"}`}
+          >
+            {datas.status}
+          </span>
+          <span className="text-helpertext font-medium pt-1">
+            {datas?.role}
+          </span>
         </div>
 
-        <div className="flex flex-col gap-8 w-full mt-8">
+        <div className="w-[85%] flex flex-col gap-8 mt-8">
           <div className="flex gap-8">
             <div className="flex flex-col w-full">
               <label className="text-helpertext text-[16px] font-medium pb-1">
-                FullName:
+                Name:
               </label>
               <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
-                {user?.full_name}
+                {datas?.name}
               </span>
             </div>
-
             <div className="flex flex-col w-full">
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 Phone Number:
               </label>
               <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
-                {user?.phone_number}
+                {datas?.phoneNumber}
               </span>
             </div>
+          </div>
+
+          <div className="flex gap-8">
+            <div className="flex flex-col w-full">
+              <label className="text-helpertext text-[16px] font-medium pb-1">
+                Username:
+              </label>
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+                {datas?.username}
+              </span>
+            </div>
+            <div className="flex flex-col w-full">
+              <label className="text-helpertext text-[16px] font-medium pb-1">
+                Address:
+              </label>
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+                {datas?.location}
+              </span>
+            </div>
+          </div>
+          <div className="w-[1150px] flex flex-1 justify-end mt-6 px-8">
+            <ButtonCom
+              onClick={() => setShow(true)}
+              title="Edit"
+              type="button"
+            />
           </div>
         </div>
       </div>
 
-      {/* <Popup isShow={show} onClose={() => setShow(false)}>
+      <Popup isShow={show} onClose={() => setShow(false)}>
         <div className="bg-white w-[500px] rounded-xl px-8 py-10">
           <div className="flex justify-end">
             <div
@@ -100,27 +113,13 @@ const UserDetail = () => {
           <form action="">
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
-                FullName
+                Name
               </label>
               <input
                 type="text"
-                name="full_name"
+                name="name"
                 id=""
-                value={form.full_name}
-                onChange={handleChange}
                 placeholder="Enter name"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
-              />
-            </div>
-            <div className="flex flex-col mb-9">
-              <label htmlFor="" className="text-helpertext mb-2.5">
-                Surname
-              </label>
-              <input
-                type="text"
-                name=""
-                id=""
-                placeholder="Enter surname"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
             </div>
@@ -132,21 +131,31 @@ const UserDetail = () => {
                 type="text"
                 name="phone_number"
                 id=""
-                value={form.phone_number}
-                onChange={handleChange}
                 placeholder="Enter phone number"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
             </div>
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
-                Login
+                Username
               </label>
               <input
                 type="text"
-                name=""
+                name="email"
                 id=""
-                placeholder="Enter login"
+                placeholder="Enter username"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+              />
+            </div>
+             <div className="flex flex-col mb-9">
+              <label htmlFor="" className="text-helpertext mb-2.5">
+                Location
+              </label>
+              <input
+                type="text"
+                name="location"
+                id=""
+                placeholder="Enter location"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
             </div>
@@ -155,21 +164,21 @@ const UserDetail = () => {
                 Password
               </label>
               <input
-                type="number"
-                name=""
+                type="text"
+                name="password"
                 id=""
                 placeholder="Enter password"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
             </div>
-            <div onClick={() => handleSave()} className="flex justify-end">
+            <div className="flex justify-end">
               <ButtonCom title="Save" />
             </div>
           </form>
         </div>
-      </Popup> */}
+      </Popup>
     </div>
   );
 };
 
-export default memo(UserDetail);
+export default memo(BarberShopDetail);

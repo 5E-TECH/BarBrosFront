@@ -5,6 +5,7 @@ import type { PaginationProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import Search from "../../../../../shared/components/Search";
 import { Plus } from "lucide-react";
+import TableLoading from "../../../../../shared/components/loadings/tableLoading";
 
 interface Props {
   data: any[];
@@ -23,6 +24,10 @@ const AdminTable: FC<Props> = ({
 }) => {
   const navigate = useNavigate();
 
+  if(!data) {
+    return <TableLoading/>
+  }
+
   return (
     <div>
       <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md">
@@ -40,7 +45,7 @@ const AdminTable: FC<Props> = ({
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
               <tr>
-                <th className="w-[300px] pl-8 pb-3 text-left">Name Surname</th>
+                <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
                 <th className="w-[200px] pb-3 text-left">
                   Ro'yxatdan o'tgan sana
                 </th>
@@ -50,7 +55,7 @@ const AdminTable: FC<Props> = ({
             </thead>
 
             <tbody>
-              {data.map((item: any) => (
+              {data?.map((item: any) => (
                 <tr
                   onClick={() => navigate(`admin-detail/${item.id}`)}
                   key={item.id}
