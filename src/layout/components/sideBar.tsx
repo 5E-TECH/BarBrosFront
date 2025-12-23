@@ -1,9 +1,10 @@
 import { memo } from "react";
 import { UserRole } from "../../shared/enum";
-import { ClipboardList, FileText, Grid2X2Check, Home, Search } from "lucide-react";
+import { ClipboardList, FileText, Grid2X2Check, Home } from "lucide-react";
 import SideBarLink from "./sideBarLink";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
+import logoo from "../../shared/assets/logoo.svg"
 
 interface LinkItem {
   to: string;
@@ -33,13 +34,9 @@ const SideBar = () => {
   return (
     <div className="w-[289px] h-screen max-sm:hidden border-r-2 border-[#EAEAEA] top-0 left-0 sticky">
       <ul className="flex flex-col ">
-        <div className="flex items-center mt-[23px] px-4 py-[7px] bg-[#F5F5F5] rounded-md mx-4 gap-2">
-          <Search className="w-5 h-5" color="#5C6269" />
-          <input
-            type="text"
-            placeholder="Search"
-            className="outline-0 w-full bg-transparent"
-          />
+        <div className="flex items-center mt-[13px] px-8 gap-2">
+          <img src={logoo} alt="" className="w-[60px]"/>
+          <h1 className="text-orange-700 font-bold text-xl">STYLE UP</h1>
         </div>
       </ul>
       <div className="mt-[53px]">
