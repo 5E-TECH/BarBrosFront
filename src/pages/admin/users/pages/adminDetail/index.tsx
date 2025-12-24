@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, type FormEvent } from "react";
 import PageHeader from "../../../../../shared/components/pageHeader";
 import shelby from "../../../../../shared/assets/shelby.png";
 import ButtonCom from "../../../../../shared/components/button";
@@ -12,8 +12,8 @@ const AdminDetail = () => {
   const [show, setShow] = useState(false);
   const [form, setForm] = useState({
     full_name: "",
-    phone_number: "",
-    email: "",
+    // phone_number: "",
+    // email: "",
     password: "",
   });
 
@@ -22,25 +22,26 @@ const AdminDetail = () => {
   const { id } = useParams();
 
   const { getByIdAdmin, updateAdmin } = useAdmins();
-  const { data, refetch } = getByIdAdmin({ id });
+  const { data } = getByIdAdmin({ id });
   const admin = data?.data;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSave = () => {
+  const handleSave = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
     updateAdmin.mutate({
       id: id!,
       data: form,
     });
     setShow(false);
-    refetch();
   };
 
   if (!data) {
-      return <DetailsLoading/>;
-    }
+    return <DetailsLoading />;
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -124,13 +125,14 @@ const AdminDetail = () => {
                 type="text"
                 name="full_name"
                 id="full_name"
+                required
                 value={form.full_name}
                 onChange={handleChange}
                 placeholder="Enter name"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
             </div>
-            <div className="flex flex-col mb-9">
+            {/* <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
                 Phone Number
               </label>
@@ -143,8 +145,8 @@ const AdminDetail = () => {
                 placeholder="Enter phone number"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
-            </div>
-            <div className="flex flex-col mb-9">
+            </div> */}
+            {/* <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
                 Login
               </label>
@@ -157,7 +159,7 @@ const AdminDetail = () => {
                 placeholder="Enter login"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
-            </div>
+            </div> */}
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
                 Password
@@ -173,7 +175,7 @@ const AdminDetail = () => {
               />
             </div>
             <div className="flex justify-end">
-              <ButtonCom title="Save" type="submit"/>
+              <ButtonCom title="Save" type="submit" />
             </div>
           </form>
         </div>
