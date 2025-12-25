@@ -4,6 +4,7 @@ interface Props {
   children: ReactNode;
   onClose?: () => void;
   isShow?: boolean;
+  img?: File
 }
 
 const Popup: FC<Props> = ({ children, onClose, isShow = false }) => {

@@ -29,7 +29,7 @@ export const useCategory = () => {
   });
 
   const updateCategory = useMutation({
-    mutationFn: ({ id, data }: { id: string | undefined; data: any }) =>
+    mutationFn: ({ id, data }: { id: any; data: any }) =>
       api.patch(`/category/update/${id}`, data),
     onSuccess: () => client.invalidateQueries({ queryKey: [category] }),
   });
