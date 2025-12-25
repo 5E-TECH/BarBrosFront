@@ -6,6 +6,7 @@ export const users = "users";
 interface GetUsersParams {
   page: number;
   limit: number;
+  search: string;
 }
 
 export const useUsers = () => {

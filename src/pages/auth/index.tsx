@@ -5,6 +5,7 @@ import type { RootState } from "../../app/store";
 import { api } from "../../shared/api";
 import { setToken } from "../login/store/tokenSlice";
 import { setRole } from "./store/roleSlice";
+import Suspense from "../../shared/ui/Suspensee";
 const Auth = () => {
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.authSlice.token);
@@ -18,13 +19,13 @@ const Auth = () => {
     }
 
     api
-      .get("admin/my-account") // 🔑 backendda token tekshirish
+      .get("admin/my-account") 
       .then((res:any) => {
         setValid(true); 
         dispatch(setRole(res?.data?.data?.role))        
       })
       .catch(() => {
-        dispatch(setToken(null)); // ❌ noto‘g‘ri token → localStorage va reduxdan o‘chir
+        dispatch(setToken(null)); 
         setValid(false);
       })
       .finally(() => setLoading(false));
@@ -33,7 +34,7 @@ const Auth = () => {
   if (loading)
     return (
       <div>
-        Loading...
+        <Suspense/>
       </div>
     );
 

@@ -1,5 +1,5 @@
 import { memo } from "react";
-import BarberTable from "./components/barberTable";
+import BarberTable from "./components/barberShopTable";
 import { Outlet, useOutlet } from "react-router-dom";
 
 const BarberShop = () => {

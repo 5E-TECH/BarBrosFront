@@ -1,6 +1,6 @@
 import React, { memo, useState, type FormEvent } from "react";
 import PageHeader from "../../../../../shared/components/pageHeader";
-import { ChevronLeft, UserRoundPlus, X } from "lucide-react";
+import { ChevronLeft, UserRoundPlus } from "lucide-react";
 import ButtonCom from "../../../../../shared/components/button";
 import { useNavigate } from "react-router-dom";
 import { useAdmins } from "../../service/useAdmin";
@@ -14,16 +14,17 @@ const initialState = {
 
 const AddUser = () => {
   const [form, setForm] = useState(initialState);
-
+  const [disable, setDisable] = useState(false)
   const { createAdmin } = useAdmins();
   const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setDisable(true)
     createAdmin.mutate(form, {
       onSuccess: () => {
         setForm(initialState);
+        setDisable(false)
       },
     });
   };
@@ -53,11 +54,8 @@ const AddUser = () => {
         </div>
 
         <div className="w-[681px] rounded-2xl py-[22px] px-[42px] bg-white">
-          <div className="flex justify-between mb-3.5">
+          <div className="mb-3.5">
             <h3 className="text-maintext font-medium text-[28px]">Add Admin</h3>
-            <div className="bg-[#e5e2e2] px-2 py-2 rounded-xl cursor-pointer hover:bg-red-400">
-              <X color="#3F434A" />
-            </div>
           </div>
 
           <form action="" onSubmit={handleSubmit}>
@@ -84,6 +82,7 @@ const AddUser = () => {
                 type="number"
                 name="phone_number"
                 id="phone_number"
+                required
                 onChange={handleChange}
                 value={form.phone_number}
                 placeholder="Enter PhoneNumber"
@@ -122,7 +121,7 @@ const AddUser = () => {
             </div>
 
             <div className="flex justify-end">
-              <ButtonCom title="Add Admin" />
+              <ButtonCom title="Add Admin" type="submit" disabled={disable}/>
             </div>
           </form>
         </div>
