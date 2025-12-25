@@ -148,11 +148,11 @@ const Categories: FC = () => {
         </Popup>
       </div>
 
-      <div className="px-4 py-5 rounded-2xl bg-blue-200 mb-11">
+      <div className="px-4 py-5 rounded-2xl bg-blue-100 mb-11">
         <h1 className="text-2xl font-bold pb-2 text-gray-700">Man</h1>
         <ManCategoryBox />
       </div>
-      <div className="px-4 py-5 rounded-2xl bg-pink-200">
+      <div className="px-4 py-5 rounded-2xl bg-pink-100">
         <h1 className="text-2xl font-bold pb-2 text-gray-700">Woman</h1>
         <WomanCategoryBox/>
       </div>
