@@ -14,19 +14,26 @@ const Users = () => {
   const dispatch = useDispatch();
   const { page, limit } = useSelector((state: any) => state.paginationSlice);
   const [selectRole, setSelectRole] = useState<"user" | "admin">("user");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const outlet = useOutlet();
   const showTable = !outlet;
 
   const { getAllUsers } = useUsers();
   const { getAllAdmins } = useAdmins();
+
+  const { data, isLoading } = getAllUsers({ page, limit, search: searchTerm });
   const dataAdmin = getAllAdmins({ page, limit });
-  const { data, isLoading } = getAllUsers({ page, limit });
 
   const admins = dataAdmin?.data?.data?.data;
   const users = data?.data?.data ?? [];
   const total = data?.data?.total ?? 0;
   const pageSize = data?.data?.pageSize ?? limit;
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    dispatch(setPage(1)); 
+  };
 
   if (isLoading) {
     return <TableLoading />;
@@ -73,6 +80,7 @@ const Users = () => {
           total={total}
           pageSize={pageSize}
           onPageChange={(newPage) => dispatch(setPage(newPage))}
+          onSearch={handleSearch}
         />
       )}
 

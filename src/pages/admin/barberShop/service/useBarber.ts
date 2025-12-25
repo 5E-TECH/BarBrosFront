@@ -10,5 +10,13 @@ export const useBarber = () => {
       queryFn: () => api.get("/barber/all").then((res) => res.data),
     });
 
-  return { getAllBarbers };
+  const getBarberShopBarbers = (id: any) =>
+    useQuery({
+      queryKey: [barber, id],
+      queryFn: () =>
+        api.get(`/barber/barbershop/${id}`).then((res) => res.data),
+      enabled: !!id, 
+    });
+
+  return { getAllBarbers, getBarberShopBarbers };
 };

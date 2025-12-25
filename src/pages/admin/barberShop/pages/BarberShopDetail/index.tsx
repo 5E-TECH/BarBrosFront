@@ -47,7 +47,7 @@ const BarberShopDetail = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 mb-15">
         <div
           onClick={() => navigate(-1)}
           className="cursor-pointer flex gap-1 items-center mb-6"
@@ -109,14 +109,14 @@ const BarberShopDetail = () => {
               </div>
               <div className="flex flex-col w-full">
                 <label className="text-helpertext text-[16px] font-medium pb-1">
-                  Address:
+                  Location:
                 </label>
                 <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
                   {datas?.location}
                 </span>
               </div>
             </div>
-            <div className="w-[1150px] flex flex-1 justify-end mt-6 px-8">
+            <div className="w-[1150px] flex flex-1 justify-end">
               <ButtonCom
                 onClick={() => setShow(true)}
                 title="Edit"
