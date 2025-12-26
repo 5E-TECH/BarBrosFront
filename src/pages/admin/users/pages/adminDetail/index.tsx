@@ -30,14 +30,36 @@ const AdminDetail = () => {
   };
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    const updateData: any = {
+      full_name: form.full_name,
+    };
+
+    if (form.password.trim() !== "") {
+      updateData.password = form.password;
+    }
 
     updateAdmin.mutate({
       id: id!,
       data: form,
     });
     setShow(false);
+    setForm({
+      full_name: "",
+      password: "",
+    });
   };
+
+  const handleEdit = () => {
+    if(admin) {
+      setForm({
+        full_name: admin.full_name,
+        password: ""
+      })
+    }
+    setShow(true)
+  }
 
   if (!data) {
     return <DetailsLoading />;
@@ -94,7 +116,7 @@ const AdminDetail = () => {
             </div>
             <div className="w-[1150px] flex flex-1 justify-end mt-6 px-8">
               <ButtonCom
-                onClick={() => setShow(true)}
+                onClick={handleEdit}
                 title="Edit"
                 type="button"
               />
@@ -132,34 +154,6 @@ const AdminDetail = () => {
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
               />
             </div>
-            {/* <div className="flex flex-col mb-9">
-              <label htmlFor="" className="text-helpertext mb-2.5">
-                Phone Number
-              </label>
-              <input
-                type="text"
-                name="phone_number"
-                id="phone_number"
-                value={form.phone_number}
-                onChange={handleChange}
-                placeholder="Enter phone number"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
-              />
-            </div> */}
-            {/* <div className="flex flex-col mb-9">
-              <label htmlFor="" className="text-helpertext mb-2.5">
-                Login
-              </label>
-              <input
-                type="text"
-                name="email"
-                id="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="Enter login"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
-              />
-            </div> */}
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
                 Password

@@ -9,20 +9,28 @@ import UserTable from "./components/userTable";
 import { useAdmins } from "./service/useAdmin";
 import AdminTable from "./components/adminTable";
 import TableLoading from "../../../shared/components/loadings/tableLoading";
+import type { RootState } from "../../../app/store";
 
 const Users = () => {
   const dispatch = useDispatch();
   const { page, limit } = useSelector((state: any) => state.paginationSlice);
   const [selectRole, setSelectRole] = useState<"user" | "admin">("user");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [_searchTerm, setSearchTerm] = useState("");
 
   const outlet = useOutlet();
   const showTable = !outlet;
 
   const { getAllUsers } = useUsers();
   const { getAllAdmins } = useAdmins();
+  const search = useSelector((state: RootState) => state.search.userSearch);
 
-  const { data, isLoading } = getAllUsers({ page, limit, search: searchTerm });
+  // useEffect(() => {
+  //   dispatch(fetchUsers({ search, page }));
+  // }, [search, page]);
+
+  const params = {page, limit, search}
+
+  const { data, isLoading } = getAllUsers(params);
   const dataAdmin = getAllAdmins({ page, limit });
 
   const admins = dataAdmin?.data?.data?.data;
@@ -32,7 +40,7 @@ const Users = () => {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    dispatch(setPage(1)); 
+    dispatch(setPage(1));
   };
 
   if (isLoading) {

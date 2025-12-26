@@ -1,4 +1,4 @@
-import { memo, type FC, useState, useEffect } from "react";
+import { memo, type FC } from "react";
 import avatar from "../../../../../shared/assets/Avatar.png";
 import CustomPagination from "../../../../../shared/components/pagination";
 import type { PaginationProps } from "antd";
@@ -21,18 +21,13 @@ const UserTable: FC<Props> = ({
   total,
   pageSize,
   onPageChange,
-  onSearch,
 }) => {
-  const [searchValue, setSearchValue] = useState<string>("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onSearch(searchValue);
-    }, 800);
 
-    return () => clearTimeout(timer);
-  }, [searchValue]);
+  
+
+
 
   if (!data) {
     return <TableLoading />;
@@ -42,7 +37,7 @@ const UserTable: FC<Props> = ({
     <div>
       <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md">
         <div className="w-full px-6 mt-6 flex justify-between gap-10">
-          <SearchInput value={searchValue} onChange={setSearchValue} />
+          <SearchInput/>
         </div>
         <div className="w-full h-[80%]">
           <table className="mt-8 mb-10 w-full">

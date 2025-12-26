@@ -1,20 +1,39 @@
 import { Search } from "lucide-react";
-import { memo } from "react";
+import { memo, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { debounce } from "../../helper/debounceFunc";
+import type { RootState } from "../../../app/store";
+import { setUserSearch } from "../../lib/features/searchSlice";
 
-interface SearchInputProps {
-  value?: string;
-  onChange?: (value: string) => void;
-}
+const SearchInput: React.FC = () => {
+  const dispatch = useDispatch();
+  const reduxValue = useSelector(
+    (state: RootState) => state.search.userSearch
+  );
 
-const SearchInput: React.FC<SearchInputProps> = ({ value = "", onChange }) => {
+  const [localValue, setLocalValue] = useState(reduxValue);
+
+  const debouncedDispatch = useMemo(
+    () =>
+      debounce((value: string) => {
+        dispatch(setUserSearch(value));
+      }, 800),
+    [dispatch]
+  );
+
+  const handleChange = (value: string) => {
+    setLocalValue(value);       // input tezkor ishlaydi
+    debouncedDispatch(value);  // redux sekin saqlaydi
+  };
+
   return (
     <div className="w-full flex gap-2.5 border border-[#e8e9eb] py-3 pl-4 rounded-2xl">
       <Search className="w-5 h-5" color="#5C6269" />
       <input
         type="text"
         placeholder="Search"
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
+        value={localValue}
+        onChange={(e) => handleChange(e.target.value)}
         className="outline-none flex-1"
       />
     </div>
