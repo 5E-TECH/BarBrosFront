@@ -3,6 +3,7 @@ import roleSlice from "../pages/auth/store/roleSlice";
 import authSlice from "../pages/login/store/tokenSlice";
 import paginationSlice from "../shared/components/pagination/store/paginationSlice";
 import roleReducer from "../pages/admin/users/store/roleSlice";
+import searchReducer from "../shared/lib/features/searchSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     authSlice,
     paginationSlice,
     userRole: roleReducer,
+    search: searchReducer
   },
 });
 

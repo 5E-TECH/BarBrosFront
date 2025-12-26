@@ -12,9 +12,7 @@ import BarberTable from "../../components/barberTable";
 const initialState = {
   name: "",
   phoneNumber: "",
-  email: "",
   location: "",
-  img: "",
 };
 
 const BarberShopDetail = () => {
@@ -27,18 +25,39 @@ const BarberShopDetail = () => {
   const datas = data?.data;
   const navigate = useNavigate();
 
-  const handleSave = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    updateBarbershop.mutate({
-      id: !id,
-      data: form,
-    }),
-      setShow(false);
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleEdit = () => {
+    if (datas) {
+      setForm({
+        name: datas.name || "",
+        phoneNumber: datas.phoneNumber || "",
+        location: datas.location || "",
+      });
+    }
+    setShow(true);
+  };
+
+  const handleSave = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!id) return;
+
+    updateBarbershop.mutate(
+      {
+        id: id,
+        data: form,
+      },
+      {
+        onSuccess: () => {
+          setShow(false);
+          setForm(initialState);
+        },
+      }
+    );
+    setShow(false);
   };
 
   if (!datas) {
@@ -117,11 +136,7 @@ const BarberShopDetail = () => {
               </div>
             </div>
             <div className="w-[1150px] flex flex-1 justify-end">
-              <ButtonCom
-                onClick={() => setShow(true)}
-                title="Edit"
-                type="button"
-              />
+              <ButtonCom onClick={handleEdit} title="Edit" type="button" />
             </div>
           </div>
         </div>
@@ -133,71 +148,63 @@ const BarberShopDetail = () => {
                 onClick={() => setShow(false)}
                 className="inline-flex items-center justify-center
                bg-[#e5e2e2] p-2 rounded-xl
-               cursor-pointer hover:bg-red-400"
+               cursor-pointer hover:bg-red-400 transition"
               >
                 <X size={18} color="#3F434A" />
               </div>
             </div>
 
-            <form action="" onSubmit={handleSave}>
+            <form onSubmit={handleSave}>
               <div className="flex flex-col mb-9">
-                <label htmlFor="" className="text-helpertext mb-2.5">
+                <label htmlFor="name" className="text-helpertext mb-2.5">
                   Name
                 </label>
                 <input
                   type="text"
                   name="name"
                   id="name"
+                  required
                   value={form.name}
                   onChange={handleChange}
                   placeholder="Enter name"
-                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
                 />
               </div>
+
               <div className="flex flex-col mb-9">
-                <label htmlFor="" className="text-helpertext mb-2.5">
+                <label htmlFor="phoneNumber" className="text-helpertext mb-2.5">
                   Phone Number
                 </label>
                 <input
                   type="text"
                   name="phoneNumber"
                   id="phoneNumber"
+                  required
                   value={form.phoneNumber}
                   onChange={handleChange}
                   placeholder="Enter phone number"
-                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
                 />
               </div>
+
               <div className="flex flex-col mb-9">
-                <label htmlFor="" className="text-helpertext mb-2.5">
-                  Login
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  id="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="examle@gmail.com"
-                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
-                />
-              </div>
-              <div className="flex flex-col mb-9">
-                <label htmlFor="" className="text-helpertext mb-2.5">
+                <label htmlFor="location" className="text-helpertext mb-2.5">
                   Location
                 </label>
                 <input
                   type="text"
                   name="location"
                   id="location"
+                  required
                   value={form.location}
                   onChange={handleChange}
                   placeholder="Enter location"
-                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
                 />
               </div>
+
               <div className="flex justify-end">
-                <ButtonCom title="Save" />
+                <ButtonCom title="Save" type="submit" />
               </div>
             </form>
           </div>

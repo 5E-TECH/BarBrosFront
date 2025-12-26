@@ -49,13 +49,13 @@ const BarberTable = () => {
     );
   };
 
-  if(isLoading) {
-    return <TableLoading/>
+  if (isLoading) {
+    return <TableLoading />;
   }
 
   return (
     <div>
-      <PageHeader title="BarberShop"/>
+      <PageHeader title="BarberShop" />
       <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md mt-6 mb-10">
         {contextHolder}
 
@@ -121,7 +121,10 @@ const BarberTable = () => {
                   </td>
 
                   <td
-                    onClick={() => deleteBarberShop.mutate({ id: item.id })}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteBarberShop.mutate({ id: item.id });
+                    }}
                     className="pr-12"
                   >
                     <Trash2 className="text-red-500 cursor-pointer" />
