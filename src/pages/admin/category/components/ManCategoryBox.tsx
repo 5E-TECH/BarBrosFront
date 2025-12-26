@@ -11,7 +11,7 @@ const ManCategoryBox = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [img, setImg] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  
+  const [disable, setDisable] = useState(false)
 
   const [form, setForm] = useState({
     name: "",
@@ -48,6 +48,7 @@ const ManCategoryBox = () => {
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setDisable(true)
 
     if (!selectedId) return;
 
@@ -66,6 +67,7 @@ const ManCategoryBox = () => {
       },
       {
         onSuccess: () => {
+          setDisable(false)
           setShow(false);
           setSelectedId(null);
           setImg(null);
@@ -206,6 +208,7 @@ const ManCategoryBox = () => {
               <ButtonCom
                 title="Save"
                 type="submit"
+                disabled={disable}
               />
             </div>
           </form>
