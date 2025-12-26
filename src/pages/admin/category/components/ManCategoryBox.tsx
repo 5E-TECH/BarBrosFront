@@ -85,7 +85,7 @@ const ManCategoryBox = () => {
       name: data.name,
       categoryType: data.categoryType,
     });
-    setPreview(data.img); // Mavjud rasmni ko'rsatish
+    setPreview(data.img);
     setImg(null); 
     setShow(true);
   };
@@ -104,10 +104,10 @@ const ManCategoryBox = () => {
               className="gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition"
             >
               <div
-                onClick={() => handleEdit(data)}
-                className="flex justify-end mb-2 cursor-pointer"
+                
+                className="flex justify-end mb-2"
               >
-                <SquarePen size={20} className="text-main hover:text-main/80" />
+                <SquarePen onClick={() => handleEdit(data)} size={20} className="text-main hover:text-main cursor-pointer " />
               </div>
 
               <div className="flex items-center justify-between">

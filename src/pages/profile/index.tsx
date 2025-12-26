@@ -37,6 +37,17 @@ const Profile = () => {
     });
   };
 
+  const handleEdit = (datas: any) => {
+    datas.id
+    setForm({
+      full_name: datas.full_name,
+      phone_number: datas.phone_number,
+      email: datas.email,
+      password: ""
+    })
+    setShow(true)
+  }
+
   if(!data) {
     <DetailsLoading/>
   }
@@ -92,7 +103,7 @@ const Profile = () => {
             </div>
             <div className="w-[1150px] flex flex-1 justify-end mt-6 px-8">
               <ButtonCom
-                onClick={() => setShow(true)}
+                onClick={() => handleEdit(datas)}
                 title="Edit"
                 type="button"
               />
