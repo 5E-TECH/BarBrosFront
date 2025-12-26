@@ -11,6 +11,7 @@ const WomanCategoryBox = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [img, setImg] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [disable, setDisable] = useState(false)
 
   const [form, setForm] = useState({
     name: "",
@@ -47,6 +48,7 @@ const WomanCategoryBox = () => {
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setDisable(true)
 
     if (!selectedId) return;
 
@@ -69,6 +71,7 @@ const WomanCategoryBox = () => {
           setSelectedId(null);
           setImg(null);
           setPreview(null);
+          setDisable(false)
           setForm({
             name: "",
             categoryType: "",
@@ -201,7 +204,7 @@ const WomanCategoryBox = () => {
             </div>
 
             <div className="flex justify-end">
-              <ButtonCom title="Save" type="submit" />
+              <ButtonCom title="Save" type="submit" disabled={disable}/>
             </div>
           </form>
         </div>
