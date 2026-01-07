@@ -25,9 +25,6 @@ const UserTable: FC<Props> = ({
   const navigate = useNavigate();
 
 
-  
-
-
 
   if (!data) {
     return <TableLoading />;

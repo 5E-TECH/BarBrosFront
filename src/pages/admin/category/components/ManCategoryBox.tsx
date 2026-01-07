@@ -5,6 +5,7 @@ import { BASE_ASSETS_URL } from "../../../../shared/const";
 import CategoryLoading from "../../../../shared/components/loadings/categoryLoading";
 import Popup from "../../../../shared/ui/Popup";
 import ButtonCom from "../../../../shared/components/button";
+import { useNavigate } from "react-router-dom";
 
 const ManCategoryBox = () => {
   const [show, setShow] = useState(false);
@@ -12,6 +13,9 @@ const ManCategoryBox = () => {
   const [img, setImg] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [disable, setDisable] = useState(false)
+
+
+  const navigate = useNavigate()
 
   const [form, setForm] = useState({
     name: "",
@@ -100,10 +104,11 @@ const ManCategoryBox = () => {
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {processedData.length > 0 &&
-          processedData.map((data: any) => (
+          processedData.map((data: any) => (  
             <div
+            onClick={() => navigate(`category-detail/${data.id}`)}
               key={data.id}
-              className="gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition"
+              className="gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer"
             >
               <div
                 

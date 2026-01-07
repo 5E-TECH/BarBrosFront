@@ -3,14 +3,19 @@ import { api } from "../../../../shared/api";
 
 export const users = "users";
 
+interface GetUsersParams {
+  page: number;
+  limit: number;
+}
+
 export const useUsers = () => {
   const client = useQueryClient();
 
-  const getAllUsers = ({params}: any) =>
+  const getAllUsers = ({ page, limit }: GetUsersParams) =>
     useQuery({
-      queryKey: [users, params],
+      queryKey: [users, page, limit],
       queryFn: () =>
-        api.get(`user/all`, {params}).then((res) => res.data),
+        api.get(`user/all?page=${page}&limit=${limit}`).then((res) => res.data),
     });
 
   const getByIdUsers = ({ id }: any) =>

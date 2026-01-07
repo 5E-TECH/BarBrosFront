@@ -20,6 +20,9 @@ const AdminDetail = lazy(
 );
 
 const Category = lazy(() => import("../pages/admin/category"));
+const CategoryDetail = lazy(
+  () => import("../pages/admin/category/page/CategoryDetail")
+);
 const Profile = lazy(() => import("../pages/profile"));
 
 const AppRouter = () => {
@@ -54,7 +57,13 @@ const AppRouter = () => {
               ],
             },
             { path: "/profile", element: <Profile /> },
-            { path: "category", element: <Category /> },
+            {
+              path: "category",
+              element: <Category />,
+              children: [
+                { path: "category-detail/:id", element: <CategoryDetail /> },
+              ],
+            },
           ],
         },
       ],

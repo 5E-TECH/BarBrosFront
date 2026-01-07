@@ -50,7 +50,7 @@ const Users = () => {
   return (
     <div>
       {showTable && (
-        <div className="flex gap-25 items-center mb-2">
+        <div className="flex gap-25 items-center mb-12">
           <PageHeader title="Users" />
 
           <div
@@ -95,10 +95,10 @@ const Users = () => {
       {showTable && selectRole === "admin" && (
         <AdminTable
           data={admins}
-          page={page}
-          total={total}
-          pageSize={pageSize}
-          onPageChange={(newPage) => dispatch(setPage(newPage))}
+          // page={page}
+          // total={total}
+          // pageSize={pageSize}
+          // onPageChange={(newPage) => dispatch(setPage(newPage))}
         />
       )}
 

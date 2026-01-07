@@ -1,6 +1,6 @@
 import { memo, type FC } from "react";
 import avatar from "../../../../../shared/assets/Avatar.png";
-import CustomPagination from "../../../../../shared/components/pagination";
+// import CustomPagination from "../../../../../shared/components/pagination";
 import type { PaginationProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import Search from "../../../../../shared/components/Search";
@@ -16,10 +16,10 @@ interface Props {
 
 const AdminTable: FC<Props> = ({
   data,
-  page,
-  total,
-  pageSize,
-  onPageChange,
+  // page,
+  // total,
+  // pageSize,
+  // onPageChange,
 }) => {
   const navigate = useNavigate();
 
@@ -89,7 +89,7 @@ const AdminTable: FC<Props> = ({
             </tbody>
           </table>
 
-          <div className="flex justify-end my-4 pr-6 w-full">
+          {/* <div className="flex justify-end my-4 pr-6 w-full">
             <CustomPagination
               current={page}
               onChange={onPageChange}
@@ -97,7 +97,7 @@ const AdminTable: FC<Props> = ({
               total={total}
               showSizeChanger={false}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

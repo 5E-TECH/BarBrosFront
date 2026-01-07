@@ -56,7 +56,7 @@ const BarberTable = () => {
   return (
     <div>
       <PageHeader title="BarberShop" />
-      <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md mt-6 mb-10">
+      <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md mt-12 mb-10">
         {contextHolder}
 
         <div className="w-[97%] mt-6">
