@@ -9,7 +9,6 @@ import { setToken } from "./store/tokenSlice";
 import { useDispatch } from "react-redux";
 import { useApiNotification } from "../../shared/hooks/useApiNotification";
 
-
 // Yup schema
 const loginSchema = Yup.object().shape({
   username: Yup.string()
@@ -32,37 +31,37 @@ const InitialState: ILoginForm = {
 
 const Login = () => {
   const [show, setShow] = useState(false);
+  const [disable, setDisable] = useState(false);
   const navigate = useNavigate();
-  const {loginUser} = useLogin()
+  const { loginUser } = useLogin();
   const dispatch = useDispatch();
   const { handleApiError } = useApiNotification();
 
-
   const handleSubmit = (values: ILoginForm) => {
-  // DTOga moslab malumot tayyorlash
-  const data = {
-    email: values.username, // formadagi username -> DTOdagi email
-    password: values.password,
+    // DTOga moslab malumot tayyorlash
+    setDisable(true);
+    const data = {
+      email: values.username, // formadagi username -> DTOdagi email
+      password: values.password,
+    };
+
+
+    loginUser.mutate(data, {
+      onSuccess: (res: any) => {
+        dispatch(setToken(res?.data));
+        navigate("/");
+      },
+      onError: (err: any) => {
+        handleApiError(err, "login yoki parol xato...!!!");
+        setDisable(false)
+      },
+    });
+
+    // Bu yerda real API chaqiruvi bo'lishi mumkin, masalan:
+    // fetch("/api/login", { method: "POST", body: JSON.stringify(dto), headers: { "Content-Type": "application/json" } })
+
+    // Mock login tekshiruvi
   };
-
-  // console.log("Login DTO:", dto);
-
-  loginUser.mutate(data, {
-    onSuccess: (res:any) => {
-      dispatch(setToken(res?.data));
-      navigate("/")
-    },
-    onError: (err:any) => {
-      handleApiError(err, "login yoki parol xato...!!!")      
-    }
-  })
-
-  // Bu yerda real API chaqiruvi bo'lishi mumkin, masalan:
-  // fetch("/api/login", { method: "POST", body: JSON.stringify(dto), headers: { "Content-Type": "application/json" } })
-
-  // Mock login tekshiruvi
-  
-};
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -85,7 +84,6 @@ const Login = () => {
           >
             {() => (
               <Form>
-                {/* Username */}
                 <div className="flex flex-col mb-[27px]">
                   <label
                     htmlFor="username"
@@ -108,7 +106,6 @@ const Login = () => {
                   />
                 </div>
 
-                {/* Password */}
                 <div className="flex flex-col mb-[27px]">
                   <label
                     htmlFor="password"
@@ -143,6 +140,7 @@ const Login = () => {
                 </div>
 
                 <button
+                  disabled={disable}
                   type="submit"
                   className="w-full rounded-[7px] py-2 font-medium text-[15px] text-white cursor-pointer bg-main hover:bg-mainhover"
                 >

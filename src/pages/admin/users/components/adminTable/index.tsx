@@ -1,6 +1,6 @@
 import { memo, type FC } from "react";
 import avatar from "../../../../../shared/assets/Avatar.png";
-import CustomPagination from "../../../../../shared/components/pagination";
+// import CustomPagination from "../../../../../shared/components/pagination";
 import type { PaginationProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import Search from "../../../../../shared/components/Search";
@@ -16,16 +16,16 @@ interface Props {
 
 const AdminTable: FC<Props> = ({
   data,
-  page,
-  total,
-  pageSize,
-  onPageChange,
+  // page,
+  // total,
+  // pageSize,
+  // onPageChange,
 }) => {
   const navigate = useNavigate();
 
   return (
     <div>
-      <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md">
+      <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md dark:bg-[#191a1f]">
         <div className="w-full px-6 mt-6 flex justify-between gap-10">
           <Search />
           <button
@@ -39,7 +39,7 @@ const AdminTable: FC<Props> = ({
         <div className="w-full h-[80%]">
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
-              <tr>
+              <tr className="dark:text-white">
                 <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
                 <th className="w-[200px] pb-3 text-left">
                   Ro'yxatdan o'tgan sana
@@ -54,7 +54,7 @@ const AdminTable: FC<Props> = ({
                 <tr
                   onClick={() => navigate(`admin-detail/${item.id}`)}
                   key={item.id}
-                  className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer"
+                  className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b]"
                 >
                   <td className="py-3 pl-8 flex items-center gap-4">
                     <img src={avatar} alt="" className="w-10 h-10" />
@@ -89,7 +89,7 @@ const AdminTable: FC<Props> = ({
             </tbody>
           </table>
 
-          <div className="flex justify-end my-4 pr-6 w-full">
+          {/* <div className="flex justify-end my-4 pr-6 w-full">
             <CustomPagination
               current={page}
               onChange={onPageChange}
@@ -97,7 +97,7 @@ const AdminTable: FC<Props> = ({
               total={total}
               showSizeChanger={false}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

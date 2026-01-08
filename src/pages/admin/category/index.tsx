@@ -6,6 +6,7 @@ import Popup from "../../../shared/ui/Popup";
 import ButtonCom from "../../../shared/components/button";
 import ManCategoryBox from "./components/ManCategoryBox";
 import WomanCategoryBox from "./components/WomanCategoryBox";
+import { Outlet, useOutlet } from "react-router-dom";
 
 type CategoryType = "man" | "woman";
 
@@ -24,6 +25,9 @@ const Categories: FC = () => {
   const [disable, setDisable] = useState(false);
 
   const { createCategory } = useCategory();
+
+  const outlet = useOutlet();
+  const showTable = !outlet;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -64,98 +68,111 @@ const Categories: FC = () => {
 
   return (
     <div>
-      <div className="flex justify-between mb-15">
-        <PageHeader title="Categories" />
-        <button
-          onClick={() => setShow(true)}
-          className="bg-main flex gap-2.5 text-white rounded-xl px-3 py-4 cursor-pointer font-medium"
-        >
-          <Plus size={22} /> Add Category
-        </button>
+      {showTable && (
+        <div className="flex justify-between mb-15">
+          <PageHeader title="Categories" />
+          <button
+            onClick={() => setShow(true)}
+            className="bg-main flex gap-2.5 text-white rounded-xl px-3 py-4 cursor-pointer font-medium"
+          >
+            <Plus size={22} /> Add Category
+          </button>
 
-        <Popup isShow={show} onClose={() => setShow(false)}>
-          <div className="bg-white w-[500px] rounded-xl px-8 py-10">
-            <div className="flex justify-end">
-              <div
-                onClick={() => setShow(false)}
-                className="inline-flex items-center justify-center
-                  bg-[#e5e2e2] p-2 rounded-xl cursor-pointer hover:bg-red-400"
-              >
-                <X size={18} color="#3F434A" />
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              <div className="flex flex-col mb-9">
-                <label className="text-helpertext mb-2.5">Category Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="Enter category name"
-                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
-                />
-              </div>
-
-              <div className="flex flex-col mb-9">
-                <label className="text-helpertext mb-2.5">Category Type</label>
-                <select
-                  name="categoryType"
-                  value={form.categoryType}
-                  onChange={handleChange}
-                  required
-                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
-                >
-                  <option value="" disabled>
-                    Select Category type
-                  </option>
-                  <option value="man">Man</option>
-                  <option value="woman">Woman</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col mb-12">
-                <label className="text-helpertext mb-2.5">Category Image</label>
-                <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleImageChange}
-                  />
-
-                  {preview ? (
-                    <img
-                      src={preview}
-                      alt="preview"
-                      className="h-full object-contain rounded-xl"
-                    />
-                  ) : (
-                    <span className="text-helpertext text-sm">
-                      Click to upload image
-                    </span>
-                  )}
-                </label>
-              </div>
-
+          <Popup isShow={show} onClose={() => setShow(false)}>
+            <div className="bg-white w-[500px] rounded-xl px-8 py-10">
               <div className="flex justify-end">
-                <ButtonCom title="Submit" type="submit" disabled={disable} />
+                <div
+                  onClick={() => setShow(false)}
+                  className="inline-flex items-center justify-center
+                  bg-[#e5e2e2] p-2 rounded-xl cursor-pointer hover:bg-red-400"
+                >
+                  <X size={18} color="#3F434A" />
+                </div>
               </div>
-            </form>
-          </div>
-        </Popup>
-      </div>
 
-      <div className="px-4 py-5 rounded-2xl bg-gray-100 shadow-md mb-11">
-        <h1 className="text-2xl font-bold pb-2 text-gray-700">Man</h1>
-        <ManCategoryBox />
-      </div>
-      <div className="px-4 py-5 rounded-2xl bg-orange-50 shadow-md">
-        <h1 className="text-2xl font-bold pb-2 text-gray-700">Woman</h1>
-        <WomanCategoryBox/>
-      </div>
+              <form onSubmit={handleSubmit}>
+                <div className="flex flex-col mb-9">
+                  <label className="text-helpertext mb-2.5">
+                    Category Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Enter category name"
+                    className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                  />
+                </div>
+
+                <div className="flex flex-col mb-9">
+                  <label className="text-helpertext mb-2.5">
+                    Category Type
+                  </label>
+                  <select
+                    name="categoryType"
+                    value={form.categoryType}
+                    onChange={handleChange}
+                    required
+                    className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                  >
+                    <option value="" disabled>
+                      Select Category type
+                    </option>
+                    <option value="man">Man</option>
+                    <option value="woman">Woman</option>
+                  </select>
+                </div>
+
+                <div className="flex flex-col mb-12">
+                  <label className="text-helpertext mb-2.5">
+                    Category Image
+                  </label>
+                  <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleImageChange}
+                    />
+
+                    {preview ? (
+                      <img
+                        src={preview}
+                        alt="preview"
+                        className="h-full object-contain rounded-xl"
+                      />
+                    ) : (
+                      <span className="text-helpertext text-sm">
+                        Click to upload image
+                      </span>
+                    )}
+                  </label>
+                </div>
+
+                <div className="flex justify-end">
+                  <ButtonCom title="Submit" type="submit" disabled={disable} />
+                </div>
+              </form>
+            </div>
+          </Popup>
+        </div>
+      )}
+
+      {showTable && (
+        <>
+          <div className="px-4 py-5 rounded-2xl bg-gray-100 shadow-md mb-11 dark:bg-[#191a1f]">
+            <h1 className="text-2xl font-bold pb-2 text-gray-700 dark:text-white">Man</h1>
+            <ManCategoryBox />
+          </div>
+          <div className="px-4 py-5 rounded-2xl bg-orange-50 shadow-md dark:bg-[#191a1f]">
+            <h1 className="text-2xl font-bold pb-2 text-gray-700 dark:text-white">Woman</h1>
+            <WomanCategoryBox />
+          </div>
+        </>
+      )}
+      <Outlet />
     </div>
   );
 };

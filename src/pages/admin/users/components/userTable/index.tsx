@@ -25,9 +25,6 @@ const UserTable: FC<Props> = ({
   const navigate = useNavigate();
 
 
-  
-
-
 
   if (!data) {
     return <TableLoading />;
@@ -35,14 +32,14 @@ const UserTable: FC<Props> = ({
 
   return (
     <div>
-      <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md">
+      <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md dark:bg-[#191a1f]">
         <div className="w-full px-6 mt-6 flex justify-between gap-10">
           <SearchInput/>
         </div>
         <div className="w-full h-[80%]">
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
-              <tr>
+              <tr className="dark:text-white">
                 <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
                 <th className="w-[200px] pb-3 text-left">
                   Ro'yxatdan o'tgan sana
@@ -58,7 +55,7 @@ const UserTable: FC<Props> = ({
                   <tr
                     onClick={() => navigate(`user-detail/${item.id}`)}
                     key={item.id}
-                    className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer"
+                    className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b]"
                   >
                     <td className="py-3 pl-8 flex items-center gap-4">
                       <img src={avatar} alt="" className="w-10 h-10" />
