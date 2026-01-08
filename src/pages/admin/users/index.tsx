@@ -55,26 +55,26 @@ const Users = () => {
 
           <div
             onClick={() => setSelectRole("user")}
-            className="flex items-center px-6 py-2 rounded-xl bg-white w-[300px] hover:shadow-md cursor-pointer"
+            className="flex items-center px-6 py-2 rounded-xl bg-white w-[300px] hover:shadow-md cursor-pointer dark:bg-[#191a1f]"
           >
-            <div className="w-full">
+            <div className="w-full dark:text-white">
               <p className="text-helpertext text-[18px] font-medium">Users</p>
               <strong className="text-[24px]">{users?.length ?? 0}</strong>
             </div>
-            <div className="rounded-2xl bg-[#fff4e6] px-3 py-3">
+            <div className="rounded-2xl bg-[#fff4e6] dark:bg-[#1f222b] px-3 py-3">
               <UsersRound size={30} color="#FA8B00" />
             </div>
           </div>
 
           <div
             onClick={() => setSelectRole("admin")}
-            className="flex items-center px-6 py-2 rounded-xl bg-white hover:shadow-md w-[300px] cursor-pointer"
+            className="flex items-center px-6 py-2 rounded-xl bg-white hover:shadow-md w-[300px] cursor-pointer dark:bg-[#191a1f]"
           >
-            <div className="w-full">
+            <div className="w-full dark:text-white">
               <p className="text-helpertext text-[18px] font-medium">Admins</p>
               <strong className="text-[24px]">{admins?.length ?? 0}</strong>
             </div>
-            <div className="rounded-2xl bg-[#fff4e6] px-3 py-3">
+            <div className="rounded-2xl bg-[#fff4e6] dark:bg-[#1f222b] px-3 py-3">
               <UsersRound size={30} color="#FA8B00" />
             </div>
           </div>

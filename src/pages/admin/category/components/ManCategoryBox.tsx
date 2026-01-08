@@ -12,10 +12,9 @@ const ManCategoryBox = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [img, setImg] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const [disable, setDisable] = useState(false)
+  const [disable, setDisable] = useState(false);
 
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     name: "",
@@ -52,7 +51,7 @@ const ManCategoryBox = () => {
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setDisable(true)
+    setDisable(true);
 
     if (!selectedId) return;
 
@@ -71,7 +70,7 @@ const ManCategoryBox = () => {
       },
       {
         onSuccess: () => {
-          setDisable(false)
+          setDisable(false);
           setShow(false);
           setSelectedId(null);
           setImg(null);
@@ -92,7 +91,7 @@ const ManCategoryBox = () => {
       categoryType: data.categoryType,
     });
     setPreview(data.img);
-    setImg(null); 
+    setImg(null);
     setShow(true);
   };
 
@@ -104,17 +103,21 @@ const ManCategoryBox = () => {
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {processedData.length > 0 &&
-          processedData.map((data: any) => (  
+          processedData.map((data: any) => (
             <div
-            onClick={() => navigate(`category-detail/${data.id}`)}
+              onClick={() => navigate(`category-detail/${data.id}`)}
               key={data.id}
-              className="gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer"
+              className="gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer dark:bg-[#1f222b] dark:border-0"
             >
-              <div
-                
-                className="flex justify-end mb-2"
-              >
-                <SquarePen onClick={() => handleEdit(data)} size={20} className="text-main hover:text-main cursor-pointer " />
+              <div className="flex justify-end mb-2">
+                <SquarePen
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(data);
+                  }}
+                  size={20}
+                  className="text-main hover:text-main cursor-pointer "
+                />
               </div>
 
               <div className="flex items-center justify-between">
@@ -210,11 +213,7 @@ const ManCategoryBox = () => {
             </div>
 
             <div className="flex justify-end">
-              <ButtonCom
-                title="Save"
-                type="submit"
-                disabled={disable}
-              />
+              <ButtonCom title="Save" type="submit" disabled={disable} />
             </div>
           </form>
         </div>

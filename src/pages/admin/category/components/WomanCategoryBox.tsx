@@ -103,7 +103,7 @@ const WomanCategoryBox = () => {
           processedData.map((data: any) => (
             <div
               key={data.id}
-              className="gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition"
+              className="gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition dark:bg-[#1f222b] dark:border-0"
             >
               <div
                 className="flex justify-end mb-2"

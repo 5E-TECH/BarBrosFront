@@ -32,7 +32,7 @@ const SideBar = () => {
   const links = role ? sidebarConfig[role] : [];
 
   return (
-    <div className="w-[289px] h-screen max-sm:hidden border-r-2 border-[#EAEAEA] top-0 left-0 sticky">
+    <div className="w-[289px] h-screen max-sm:hidden border-r-2 border-[#EAEAEA] top-0 left-0 sticky dark:bg-[#191a1f] dark:text-white dark:border-0">
       <ul className="flex flex-col ">
         <div className="flex items-center mt-[13px] px-8 gap-2">
           <img src={logoo} alt="" className="w-[60px]"/>

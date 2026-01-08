@@ -162,12 +162,12 @@ const Categories: FC = () => {
 
       {showTable && (
         <>
-          <div className="px-4 py-5 rounded-2xl bg-gray-100 shadow-md mb-11">
-            <h1 className="text-2xl font-bold pb-2 text-gray-700">Man</h1>
+          <div className="px-4 py-5 rounded-2xl bg-gray-100 shadow-md mb-11 dark:bg-[#191a1f]">
+            <h1 className="text-2xl font-bold pb-2 text-gray-700 dark:text-white">Man</h1>
             <ManCategoryBox />
           </div>
-          <div className="px-4 py-5 rounded-2xl bg-orange-50 shadow-md">
-            <h1 className="text-2xl font-bold pb-2 text-gray-700">Woman</h1>
+          <div className="px-4 py-5 rounded-2xl bg-orange-50 shadow-md dark:bg-[#191a1f]">
+            <h1 className="text-2xl font-bold pb-2 text-gray-700 dark:text-white">Woman</h1>
             <WomanCategoryBox />
           </div>
         </>

@@ -17,7 +17,8 @@ const Footer = () => {
         fixed bottom-0 left-0 w-full 
         flex items-center justify-between
         shadow-md
-        bg-white 
+        bg-white
+        dark:bg-[#191a1f]
         h-9 px-6
         "
         // bg-[var(--color-bg-py)] dark:bg-[var(--color-dark-bg-py)]
@@ -32,7 +33,7 @@ const Footer = () => {
         )}
       </div>
 
-      <div className="flex items-center gap-4 text-sm text-gray-600">
+      <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-white">
         <span>
             © 2025, Made with ❤️ by{" "}
             <span className="font-semibold">Ye77i group</span>
