@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { UserRole } from "../../shared/enum";
-import { ClipboardList, FileText, Grid2X2Check, Home } from "lucide-react";
+import { AlarmClock, ClipboardList, FileText, Grid2X2Check, Home } from "lucide-react";
 import SideBarLink from "./sideBarLink";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
@@ -19,6 +19,7 @@ const sidebarConfig: Record<UserRole, LinkItem[]> = {
     { to: "/barbershop", icon: <ClipboardList />, label: "BarberShops" },
     { to: "/user", icon: <FileText />, label: "Users" },
     { to: "/category", icon: <Grid2X2Check />, label: "Categories" },
+    { to: "/booking", icon: <AlarmClock />, label: "Booking" },
   ],
 };
 

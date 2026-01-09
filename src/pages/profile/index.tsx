@@ -38,18 +38,18 @@ const Profile = () => {
   };
 
   const handleEdit = (datas: any) => {
-    datas.id
+    datas.id;
     setForm({
       full_name: datas.full_name,
       phone_number: datas.phone_number,
       email: datas.email,
-      password: ""
-    })
-    setShow(true)
-  }
+      password: "",
+    });
+    setShow(true);
+  };
 
-  if(!data) {
-    <DetailsLoading/>
+  if (!data) {
+    <DetailsLoading />;
   }
 
   return (
@@ -58,11 +58,11 @@ const Profile = () => {
         onClick={() => navigate("/")}
         className="cursor-pointer flex gap-1 items-center mb-6"
       >
-        <ChevronLeft size={30} />
+        <ChevronLeft size={30} color="gray" />
         <PageHeader title="Profile" />
       </div>
 
-      <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl">
+      <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl dark:bg-[#191a1f]">
         <div className="w-[15%] flex flex-col items-center gap-4">
           <img
             src={shelby}
@@ -78,7 +78,7 @@ const Profile = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 FullName:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
                 {datas?.full_name}
               </span>
             </div>
@@ -86,7 +86,7 @@ const Profile = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 Phone Number:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
                 {datas?.phone_number}
               </span>
             </div>
@@ -97,7 +97,7 @@ const Profile = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 Login:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
                 {datas?.email}
               </span>
             </div>
@@ -113,7 +113,7 @@ const Profile = () => {
       </div>
 
       <Popup isShow={show} onClose={() => setShow(false)}>
-        <div className="bg-white w-[500px] rounded-xl px-8 py-10">
+        <div className="bg-white w-[500px] rounded-xl px-8 py-10 dark:bg-[#1f222b]">
           <div className="flex justify-end">
             <div
               onClick={() => setShow(false)}
@@ -125,7 +125,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <form action="" onSubmit={handleSave}>
+          <form action="" onSubmit={handleSave} className="dark:text-white">
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
                 FullName

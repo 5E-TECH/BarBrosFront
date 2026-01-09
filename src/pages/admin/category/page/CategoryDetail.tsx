@@ -18,7 +18,7 @@ const CategoryDetail = () => {
         onClick={() => navigate(-1)}
         className="cursor-pointer flex gap-1 items-center mb-6"
       >
-        <ChevronLeft size={30} />
+        <ChevronLeft size={30} color="gray"/>
         <PageHeader title="CategoryDetail" />
       </div>
     </div>

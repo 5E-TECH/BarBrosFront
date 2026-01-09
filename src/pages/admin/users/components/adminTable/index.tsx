@@ -39,13 +39,12 @@ const AdminTable: FC<Props> = ({
         <div className="w-full h-[80%]">
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
-              <tr className="dark:text-white">
+              <tr>
                 <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
                 <th className="w-[200px] pb-3 text-left">
                   Ro'yxatdan o'tgan sana
                 </th>
                 <th className="w-[100px] pb-3 text-left">Phone number</th>
-                <th className="w-[100px]"></th>
               </tr>
             </thead>
 

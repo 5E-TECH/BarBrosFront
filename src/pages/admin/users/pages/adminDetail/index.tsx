@@ -71,11 +71,11 @@ const AdminDetail = () => {
         onClick={() => navigate(-1)}
         className="cursor-pointer flex gap-1 items-center mb-6"
       >
-        <ChevronLeft size={30} />
+        <ChevronLeft size={30} color="gray"/>
         <PageHeader title="AdminDetail" />
       </div>
 
-      <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl">
+      <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl dark:bg-[#191a1f]">
         <div className="w-[15%] flex flex-col items-center gap-4">
           <img
             src={shelby}
@@ -91,7 +91,7 @@ const AdminDetail = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 FullName:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
                 {admin?.full_name}
               </span>
             </div>
@@ -99,7 +99,7 @@ const AdminDetail = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 Phone Number:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
                 {admin?.phone_number}
               </span>
             </div>
@@ -110,7 +110,7 @@ const AdminDetail = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 Login:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
                 {admin?.email}
               </span>
             </div>
@@ -126,19 +126,19 @@ const AdminDetail = () => {
       </div>
 
       <Popup isShow={show} onClose={() => setShow(false)}>
-        <div className="bg-white w-[500px] rounded-xl px-8 py-10">
+        <div className="bg-white w-[500px] rounded-xl px-8 py-10 dark:bg-[#1f222b]">
           <div className="flex justify-end">
             <div
               onClick={() => setShow(false)}
               className="inline-flex items-center justify-center
                bg-[#e5e2e2] p-2 rounded-xl
-               cursor-pointer hover:bg-red-400"
+               cursor-pointer hover:bg-red-400 dark:bg-[#cbcccf]"
             >
               <X size={18} color="#3F434A" />
             </div>
           </div>
 
-          <form action="" onSubmit={handleSave}>
+          <form action="" onSubmit={handleSave} className="dark:text-white">
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
                 FullName

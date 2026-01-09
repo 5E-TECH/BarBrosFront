@@ -9,7 +9,7 @@ const TableLoading = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl overflow-hidden">
+      <div className="bg-white rounded-xl overflow-hidden dark:bg-[#1f222b]">
         <div className="grid grid-cols-3 gap-4 p-4 border-b border-gray-100">
           <div className="w-32 h-4 bg-gray-200 rounded animate-pulse" />
           <div className="w-40 h-4 bg-gray-200 rounded animate-pulse" />
