@@ -66,7 +66,7 @@ const BarberTable = () => {
         <div className="w-full h-[80%]">
           <table className="mt-[31px] mb-20 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
-              <tr className="dark:text-white">
+              <tr>
                 <th className="pl-12 pr-[172px] pb-3">BarberShop Name</th>
                 <th className="pr-[172px] pb-3">Address</th>
                 <th className="pr-[172px] pb-3">Phone number</th>
@@ -83,7 +83,7 @@ const BarberTable = () => {
                   onClick={() => navigate(`barbershop-detail/${item?.id}`)}
                   className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b]"
                 >
-                  <td className="pl-12 flex flex-row gap-3.5 items-center dark:text-white">
+                  <td className="pl-12 flex flex-row gap-3.5 items-center">
                     <div>
                       <img src={avatar} alt="" />
                     </div>
@@ -92,7 +92,7 @@ const BarberTable = () => {
                       <p className="text-helpertext">{item?.email}</p>
                     </div>
                   </td>
-                  <td className="text-helpertext dark:text-white">{item?.location}</td>
+                  <td className="text-helpertext">{item?.location}</td>
                   <td className="text-maintext">{item?.phoneNumber}</td>
                   <td className="text-helpertext">
                     {(() => {

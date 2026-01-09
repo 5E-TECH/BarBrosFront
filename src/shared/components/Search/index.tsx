@@ -27,7 +27,7 @@ const SearchInput: React.FC = () => {
   };
 
   return (
-    <div className="w-full flex gap-2.5 border border-[#e8e9eb] py-3 pl-4 rounded-2xl">
+    <div className="w-full flex gap-2.5 border border-[#e8e9eb] py-3 pl-4 rounded-2xl dark:bg-[#1f222b] dark:border-0 dark:text-white">
       <Search className="w-5 h-5" color="#5C6269" />
       <input
         type="text"

@@ -47,11 +47,11 @@ const UserDetail = () => {
         onClick={() => navigate(-1)}
         className="cursor-pointer flex gap-1 items-center mb-6"
       >
-        <ChevronLeft size={30} />
+        <ChevronLeft size={30} color="gray"/>
         <PageHeader title="UserDetail" />
       </div>
 
-      <div className="flex gap-12 bg-white px-10 py-9 rounded-2xl">
+      <div className="flex gap-12 bg-white px-10 py-9 rounded-2xl dark:bg-[#191a1f]">
         <div className="w-[150px]">
           <img
             src={shelby}
@@ -67,7 +67,7 @@ const UserDetail = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 FullName:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
                 {user?.full_name}
               </span>
             </div>
@@ -76,7 +76,7 @@ const UserDetail = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 Phone Number:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
                 {user?.phone_number}
               </span>
             </div>

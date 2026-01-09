@@ -79,12 +79,12 @@ const Categories: FC = () => {
           </button>
 
           <Popup isShow={show} onClose={() => setShow(false)}>
-            <div className="bg-white w-[500px] rounded-xl px-8 py-10">
+            <div className="bg-white w-[500px] rounded-xl px-8 py-10 dark:bg-[#1f222b] dark:text-white">
               <div className="flex justify-end">
                 <div
                   onClick={() => setShow(false)}
                   className="inline-flex items-center justify-center
-                  bg-[#e5e2e2] p-2 rounded-xl cursor-pointer hover:bg-red-400"
+                  bg-[#c3bebe] p-2 rounded-xl cursor-pointer hover:bg-red-400"
                 >
                   <X size={18} color="#3F434A" />
                 </div>
@@ -129,7 +129,7 @@ const Categories: FC = () => {
                   <label className="text-helpertext mb-2.5">
                     Category Image
                   </label>
-                  <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                  <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-[#191a1f]">
                     <input
                       type="file"
                       accept="image/*"

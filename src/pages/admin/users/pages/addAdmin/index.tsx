@@ -45,20 +45,20 @@ const AddUser = () => {
       </div>
       <div className="flex gap-[200px]">
         <div>
-          <div className="flex justify-between items-center px-8 py-7 w-[300px] bg-white rounded-xl">
-            <div className="rounded-2xl bg-[#fff4e6] px-6 py-6">
+          <div className="flex justify-between items-center px-8 py-7 w-[300px] bg-white rounded-xl dark:bg-[#191a1f]">
+            <div className="rounded-2xl bg-[#fff4e6] px-6 py-6 dark:bg-[#1f222b]">
               <UserRoundPlus size={40} color="#FA8B00" />
             </div>
-            <h4 className="font-medium text-[20px]">Admin</h4>
+            <h4 className="font-medium text-[20px] dark:text-white">Admin</h4>
           </div>
         </div>
 
-        <div className="w-[681px] rounded-2xl py-[22px] px-[42px] bg-white">
+        <div className="w-[681px] rounded-2xl py-[22px] px-[42px] bg-white dark:bg-[#191a1f]">
           <div className="mb-3.5">
             <h3 className="text-maintext font-medium text-[28px]">Add Admin</h3>
           </div>
 
-          <form action="" onSubmit={handleSubmit}>
+          <form action="" onSubmit={handleSubmit} className="dark:text-white">
             <div className="flex flex-col mb-9">
               <label htmlFor="" className="text-helpertext mb-2.5">
                 FullName
@@ -79,7 +79,7 @@ const AddUser = () => {
                 Phone number
               </label>
               <input
-                type="number"
+                type="text"
                 name="phone_number"
                 id="phone_number"
                 required
