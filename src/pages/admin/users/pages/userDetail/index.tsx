@@ -67,7 +67,7 @@ const UserDetail = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 FullName:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#30333c]">
                 {user?.full_name}
               </span>
             </div>
@@ -76,7 +76,7 @@ const UserDetail = () => {
               <label className="text-helpertext text-[16px] font-medium pb-1">
                 Phone Number:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
+              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#30333c]">
                 {user?.phone_number}
               </span>
             </div>

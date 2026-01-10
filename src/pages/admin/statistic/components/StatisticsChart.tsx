@@ -20,19 +20,19 @@ const data = [
 
 const StatisticsChart = () => {
   return (
-    <div className="h-full bg-white shadow-sm rounded-xl p-5 w-full">
+    <div className="h-full bg-white shadow-sm rounded-xl p-5 w-full dark:bg-[#191a1f]">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Statistics</h2>
+        <h2 className="text-lg text-maintext font-semibold">Statistics</h2>
 
-        <button className="flex items-center gap-2 bg-white border px-4 py-2 rounded-lg shadow-sm">
+        <button className="flex items-center gap-2 border rounded-lg px-3 py-1 text-sm text-maintext">
           <Calendar size={18} />
-          <span className="text-sm text-gray-600">19 Aug – 25 Aug</span>
+          <span>19 Aug – 25 Aug</span>
         </button>
       </div>
 
       {/* Chart */}
-      <div className="h-[320px]">
+      <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} barSize={35}>
             <XAxis dataKey="name" axisLine={false} tickLine={false} />
@@ -47,7 +47,7 @@ const StatisticsChart = () => {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-6 justify-center mt-4 text-sm">
+      <div className="flex items-center gap-6 justify-center mt-4 text-sm text-helpertext">
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-orange-500"></span>
           <span>Income</span>

@@ -18,7 +18,7 @@ const BarberTable = () => {
       <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md dark:bg-[#191a1f]">
         <div className="w-full h-[80%]">
           <table className="mt-8 mb-10 w-full">
-            <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
+            <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#1f222b]">
               <tr>
                 <th className="w-[300px] pl-10 pb-3 text-left">FullName</th>
                 <th className="w-[100px] pb-3 pr-60 ">Phone number</th>
@@ -30,7 +30,7 @@ const BarberTable = () => {
               {barber.map((item: any) => (
                 <tr
                   key={item.id}
-                  className="border-b border-[#e8e9eb] hover:bg-gray-50 text-maintext font-medium cursor-pointer dark:hover:bg-[#1f222b]"
+                  className="border-b border-[#e8e9eb] hover:bg-gray-50 text-maintext font-medium cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#1f222b]"
                 >
                   <td className="py-4 pl-10 flex items-center">{item.full_name}</td>
                   <td className="pl-40 text-help text-helpertext">{item.phone_number}</td>

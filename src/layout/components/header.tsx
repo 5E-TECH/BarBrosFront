@@ -1,7 +1,6 @@
-import { Bell, LogOut, Moon, Sun } from "lucide-react";
+import { Bell, CircleUserRound, LogOut, Moon, Sun } from "lucide-react";
 import { memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import profile from "../../shared/assets/profile.jpg";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ const Header = () => {
         onClick={() => navigate("/profile")}
         className="flex items-center gap-2 cursor-pointer"
       >
-        <img src={profile} alt="" className="w-[30px]" />
+        <CircleUserRound size={28}/>
         <h4>Admin</h4>
       </div>
     </div>
