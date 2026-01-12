@@ -1,4 +1,3 @@
-// import React, { useState } from "react";
 import {
   LineChart,
   Line,
@@ -23,7 +22,6 @@ const data = [
 export default function AnalyticsChart() {
   return (
     <div className="w-full h-full p-5 bg-white rounded-2xl shadow-md dark:bg-[#191a1f]">
-      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-maintext">Analytics</h2>
 
@@ -33,7 +31,6 @@ export default function AnalyticsChart() {
         </div>
       </div>
 
-      {/* Amounts */}
       <div className="flex items-center gap-10 mb-5 text-helpertext">
         <div className="flex items-center gap-2 ">
           <span className="bg-orange-100 text-orange-500 px-2 py-1 rounded-full">
@@ -50,7 +47,6 @@ export default function AnalyticsChart() {
         </div>
       </div>
 
-      {/* Chart */}
       <div className="w-full h-64">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
@@ -71,7 +67,6 @@ export default function AnalyticsChart() {
               }
             />
 
-            {/* Background Area */}
             <Area
               type="monotone"
               dataKey="value"
@@ -80,7 +75,6 @@ export default function AnalyticsChart() {
               fillOpacity={0.4}
             />
 
-            {/* Line */}
             <Line
               type="monotone"
               dataKey="value"

@@ -9,7 +9,6 @@ import { setToken } from "./store/tokenSlice";
 import { useDispatch } from "react-redux";
 import { useApiNotification } from "../../shared/hooks/useApiNotification";
 
-// Yup schema
 const loginSchema = Yup.object().shape({
   username: Yup.string()
     .required("Username is required")
@@ -38,13 +37,11 @@ const Login = () => {
   const { handleApiError } = useApiNotification();
 
   const handleSubmit = (values: ILoginForm) => {
-    // DTOga moslab malumot tayyorlash
     setDisable(true);
     const data = {
-      email: values.username, // formadagi username -> DTOdagi email
+      email: values.username,
       password: values.password,
     };
-
 
     loginUser.mutate(data, {
       onSuccess: (res: any) => {
@@ -53,29 +50,29 @@ const Login = () => {
       },
       onError: (err: any) => {
         handleApiError(err, "login yoki parol xato...!!!");
-        setDisable(false)
+        setDisable(false);
       },
     });
-
-    // Bu yerda real API chaqiruvi bo'lishi mumkin, masalan:
-    // fetch("/api/login", { method: "POST", body: JSON.stringify(dto), headers: { "Content-Type": "application/json" } })
-
-    // Mock login tekshiruvi
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="text-center w-[600px] rounded-md shadow-2xl py-[50px]">
-        <div className="px-[100px]">
-          <div className="bg-[#F8F8F8] rounded-full flex justify-center items-center mb-[37px] w-[250px] h-[250px] mx-auto">
+    <div className="flex justify-center items-center min-h-screen p-4">
+      {/* Kartochka kengligi mobil uchun 'w-full', paddinglari esa kichraytirildi */}
+      <div className="text-center w-full max-w-[600px] rounded-md md:shadow-2xl py-8 md:py-[50px]">
+        {/* Ichki padding mobil ekranda kamaytirildi (px-4), desktopda (md:px-[100px]) qoldi */}
+        <div className="px-4 md:px-[100px]">
+          {/* Doira o'lchami mobil uchun kichraytirildi */}
+          <div className="bg-[#F8F8F8] rounded-full flex justify-center items-center mb-[30px] md:mb-[37px] w-40 h-40 md:w-[250px] md:h-[250px] mx-auto">
             <img
               src={lock}
               alt="Lock icon"
-              className="object-contain w-[100px] h-[100px]"
+              className="object-contain w-20 h-20 md:w-[100px] md:h-[100px]"
             />
           </div>
 
-          <h1 className="text-[28px] font-medium text-[#3F434A] mb-6">Kirish</h1>
+          <h1 className="text-2xl md:text-[28px] font-medium text-[#3F434A] mb-6">
+            Kirish
+          </h1>
 
           <Formik
             initialValues={InitialState}
@@ -84,7 +81,7 @@ const Login = () => {
           >
             {() => (
               <Form>
-                <div className="flex flex-col mb-[27px]">
+                <div className="flex flex-col mb-5 md:mb-[27px]">
                   <label
                     htmlFor="username"
                     className="text-[#8A9099] font-normal text-[14px] flex justify-between mb-1.5"
@@ -106,7 +103,7 @@ const Login = () => {
                   />
                 </div>
 
-                <div className="flex flex-col mb-[27px]">
+                <div className="flex flex-col mb-5 md:mb-[27px]">
                   <label
                     htmlFor="password"
                     className="text-[#8A9099] font-normal text-[14px] flex justify-between mb-1.5"
@@ -142,9 +139,9 @@ const Login = () => {
                 <button
                   disabled={disable}
                   type="submit"
-                  className="w-full rounded-[7px] py-2 font-medium text-[15px] text-white cursor-pointer bg-main hover:bg-mainhover"
+                  className="w-full rounded-xl py-3 font-semibold text-base text-white cursor-pointer bg-main transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Kirish
+                  {disable ? "Yuklanmoqda..." : "Kirish"}
                 </button>
               </Form>
             )}
