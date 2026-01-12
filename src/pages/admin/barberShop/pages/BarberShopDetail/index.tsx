@@ -103,7 +103,7 @@ const BarberShopDetail = () => {
                 <label className="text-helpertext text-[16px] font-medium pb-1">
                   Name:
                 </label>
-                <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
+                <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#30333c]">
                   {datas?.name}
                 </span>
               </div>
@@ -111,7 +111,7 @@ const BarberShopDetail = () => {
                 <label className="text-helpertext text-[16px] font-medium pb-1">
                   Phone Number:
                 </label>
-                <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
+                <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#30333c]">
                   {datas?.phoneNumber}
                 </span>
               </div>
@@ -122,7 +122,7 @@ const BarberShopDetail = () => {
                 <label className="text-helpertext text-[16px] font-medium pb-1">
                   Username:
                 </label>
-                <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
+                <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#30333c]">
                   {datas?.username}
                 </span>
               </div>
@@ -130,7 +130,7 @@ const BarberShopDetail = () => {
                 <label className="text-helpertext text-[16px] font-medium pb-1">
                   Location:
                 </label>
-                <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#9a9a9c]">
+                <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#30333c]">
                   {datas?.location}
                 </span>
               </div>

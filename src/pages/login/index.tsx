@@ -75,7 +75,7 @@ const Login = () => {
             />
           </div>
 
-          <h1 className="text-[28px] font-medium text-maintext mb-6">Kirish</h1>
+          <h1 className="text-[28px] font-medium text-[#3F434A] mb-6">Kirish</h1>
 
           <Formik
             initialValues={InitialState}
@@ -87,7 +87,7 @@ const Login = () => {
                 <div className="flex flex-col mb-[27px]">
                   <label
                     htmlFor="username"
-                    className="text-helpertext font-normal text-[14px] flex justify-between mb-1.5"
+                    className="text-[#8A9099] font-normal text-[14px] flex justify-between mb-1.5"
                   >
                     Login
                   </label>
@@ -109,7 +109,7 @@ const Login = () => {
                 <div className="flex flex-col mb-[27px]">
                   <label
                     htmlFor="password"
-                    className="text-helpertext font-normal text-[14px] flex justify-between mb-1.5"
+                    className="text-[#8A9099] font-normal text-[14px] flex justify-between mb-1.5"
                   >
                     Parol
                   </label>

@@ -7,11 +7,13 @@ import PageHeader from "../../../shared/components/pageHeader";
 const Statistics = () => {
   return (
     <div>
-      <div className='mb-6'>
+      <div className="mb-6">
         <PageHeader title="Statistics" />
       </div>
-      <div className="flex justify-between gap-40">
-        <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3">
+      <div
+        className="grid grid-cols-3 gap-20 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 "
+      >
+        <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3 dark:border-[#424242]">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
             <strong className="text-maintext text-[30px] font-medium flex">
@@ -26,7 +28,7 @@ const Statistics = () => {
           </div>
         </div>
 
-        <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3">
+        <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3 dark:border-[#424242]">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
             <strong className="text-maintext text-[30px] font-medium flex">
@@ -41,7 +43,7 @@ const Statistics = () => {
           </div>
         </div>
 
-        <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3">
+        <div className="border-2 border-[#EAEAEA] rounded-xl px-6 py-7 flex justify-between gap-3 dark:border-[#424242]">
           <div className="flex flex-col">
             <span className="text-helpertext font-normal text-[15px]">Kun</span>
             <strong className="text-maintext text-[30px] font-medium flex">
@@ -56,14 +58,23 @@ const Statistics = () => {
           </div>
         </div>
       </div>
-      <div className="h-[402px] w-full flex gap-[30px] mt-[30px]">
-        <div className="w-[50%]">
-          <StatisticsChart />
-        </div>
-        <div className="w-[50%]">
-          <AnalyticsChart />
-        </div>
-      </div>
+ <div className="
+  w-full
+  mt-[30px]
+  flex
+  gap-[30px]
+  xl:flex-row
+  flex-col
+">
+  <div className="w-full xl:w-1/2 h-[402px]">
+    <StatisticsChart />
+  </div>
+
+  <div className="w-full xl:w-1/2 h-[402px]">
+    <AnalyticsChart />
+  </div>
+</div>
+
     </div>
   );
 };

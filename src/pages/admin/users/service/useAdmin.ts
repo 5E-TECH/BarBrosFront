@@ -22,7 +22,7 @@ export const useAdmins = () => {
     useQuery({
       queryKey: [admin, page, limit],
       queryFn: () =>
-        api.get(`admin/all?page=${page}&limit=${limit}`).then((res) => res.data),
+        api.get(`admin/all`).then((res) => res.data),
     });
 
   const getByIdAdmin = ({ id }: any) =>

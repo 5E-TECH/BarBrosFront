@@ -38,7 +38,7 @@ const AdminTable: FC<Props> = ({
         </div>
         <div className="w-full h-[80%]">
           <table className="mt-8 mb-10 w-full">
-            <thead className="uppercase text-helpertext border-b border-[#e8e9eb]">
+            <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#30333c]">
               <tr>
                 <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
                 <th className="w-[200px] pb-3 text-left">
@@ -53,7 +53,7 @@ const AdminTable: FC<Props> = ({
                 <tr
                   onClick={() => navigate(`admin-detail/${item.id}`)}
                   key={item.id}
-                  className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b]"
+                  className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#30333c]"
                 >
                   <td className="py-3 pl-8 flex items-center gap-4">
                     <img src={avatar} alt="" className="w-10 h-10" />

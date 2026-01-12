@@ -105,3 +105,30 @@
 .ant-pagination-item-active a {
   color: white !important; 
 }
+
+
+
+
+
+
+.dark .ant-pagination-prev .ant-pagination-item-link,
+.dark .ant-pagination-next .ant-pagination-item-link {
+  color: #ff8400;
+}
+
+.dark .ant-pagination-disabled .ant-pagination-item-link {
+  color: #c3c3c3; 
+}
+
+.dark .ant-pagination-prev:hover .ant-pagination-item-link,
+.dark .ant-pagination-next:hover .ant-pagination-item-link {
+  color: #ff8400; 
+}
+
+.dark .ant-pagination-item a {
+  color: #000; 
+}
+
+.dark .ant-pagination-item-active {
+  border-color: #ff8400;
+}

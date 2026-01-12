@@ -22,20 +22,20 @@ const data = [
 
 export default function AnalyticsChart() {
   return (
-    <div className="w-full h-full p-5 bg-white rounded-2xl shadow-md">
+    <div className="w-full h-full p-5 bg-white rounded-2xl shadow-md dark:bg-[#191a1f]">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Analytics</h2>
+        <h2 className="text-xl font-semibold text-maintext">Analytics</h2>
 
-        <div className="flex items-center gap-2 border rounded-lg px-3 py-1 text-sm text-gray-600">
+        <div className="flex items-center gap-2 border rounded-lg px-3 py-1 text-sm text-maintext">
           <span>📅</span>
           <span>19 Aug – 25 Aug</span>
         </div>
       </div>
 
       {/* Amounts */}
-      <div className="flex items-center gap-10 mb-5">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center gap-10 mb-5 text-helpertext">
+        <div className="flex items-center gap-2 ">
           <span className="bg-orange-100 text-orange-500 px-2 py-1 rounded-full">
             ↑
           </span>
