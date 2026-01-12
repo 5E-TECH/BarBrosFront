@@ -6,7 +6,7 @@ import type { PaginationProps } from "antd";
 const CustomPagination: React.FC<PaginationProps> = (props) => {
   return (
     <div>
-      <Pagination {...props} />
+      <Pagination {...props} className="custom-dark-pagination"/>
     </div>
   );
 };

@@ -24,9 +24,6 @@ const Users = () => {
   const { getAllAdmins } = useAdmins();
   const search = useSelector((state: RootState) => state.search.userSearch);
 
-  // useEffect(() => {
-  //   dispatch(fetchUsers({ search, page }));
-  // }, [search, page]);
 
   const params = {page, limit, search}
 
