@@ -57,7 +57,7 @@ const Profile = () => {
         onClick={() => navigate("/")}
         className="cursor-pointer flex gap-1 items-center mb-2 md:mb-6"
       >
-        <ChevronLeft size={30} color="gray" />
+        <ChevronLeft size={30} color="gray" className="mt-[-9px] md:mt-[-3px]"/>
         <PageHeader title="Profile" />
       </div>
 

@@ -69,30 +69,33 @@ const Categories: FC = () => {
   return (
     <div>
       {showTable && (
-        <div className="flex justify-between mb-15">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 md:mb-15">
           <PageHeader title="Categories" />
           <button
             onClick={() => setShow(true)}
-            className="bg-main flex gap-2.5 text-white rounded-xl px-3 py-4 cursor-pointer font-medium"
+            className="w-full sm:w-auto bg-main flex items-center justify-center gap-2.5 text-white rounded-xl px-5 py-4 cursor-pointer font-medium hover:opacity-90 transition"
           >
             <Plus size={22} /> Add Category
           </button>
 
           <Popup isShow={show} onClose={() => setShow(false)}>
-            <div className="bg-white w-[500px] rounded-xl px-8 py-10 dark:bg-[#1f222b] dark:text-white">
-              <div className="flex justify-end">
+            <div className="bg-white w-[92vw] max-w-[450px] rounded-2xl px-5 md:px-8 py-7 md:py-10 dark:bg-[#1f222b] dark:text-white shadow-2xl">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg md:text-xl font-bold">New Category</h3>
                 <div
                   onClick={() => setShow(false)}
-                  className="inline-flex items-center justify-center
-                  bg-[#c3bebe] p-2 rounded-xl cursor-pointer hover:bg-red-400"
+                  className="inline-flex items-center justify-center bg-gray-100 dark:bg-gray-800 p-2 rounded-xl cursor-pointer hover:bg-red-400 group transition"
                 >
-                  <X size={18} color="#3F434A" />
+                  <X
+                    size={18}
+                    className="text-gray-600 dark:text-gray-300 group-hover:text-white"
+                  />
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit}>
-                <div className="flex flex-col mb-9">
-                  <label className="text-helpertext mb-2.5">
+              <form onSubmit={handleSubmit} className="space-y-5 md:space-y-7">
+                <div className="flex flex-col">
+                  <label className="text-helpertext text-md mb-2 font-medium">
                     Category Name
                   </label>
                   <input
@@ -102,56 +105,69 @@ const Categories: FC = () => {
                     value={form.name}
                     onChange={handleChange}
                     placeholder="Enter category name"
-                    className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 dark:border-gray-700"
+                    className="border border-[#E8E9EB] rounded-xl px-4 py-3.5 outline-0 focus:border-main dark:border-gray-700 w-full"
                   />
                 </div>
 
-                <div className="flex flex-col mb-9">
-                  <label className="text-helpertext mb-2.5">
+                <div className="flex flex-col">
+                  <label className="text-helpertext text-md mb-2 font-medium">
                     Category Type
                   </label>
-                  <select
-                    name="categoryType"
-                    value={form.categoryType}
-                    onChange={handleChange}
-                    required
-                    className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 dark:border-gray-700"
-                  >
-                    <option value="" disabled>
-                      Select Category type
-                    </option>
-                    <option value="man">Man</option>
-                    <option value="woman">Woman</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      name="categoryType"
+                      value={form.categoryType}
+                      onChange={handleChange}
+                      required
+                      className="appearance-none border border-[#E8E9EB] rounded-xl px-4 py-3.5 outline-0 focus:border-main dark:border-gray-700 w-full cursor-pointer pr-10"
+                    >
+                      <option value="" disabled>
+                        Select Category type
+                      </option>
+                      <option value="man">Man</option>
+                      <option value="woman">Woman</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                      <svg
+                        className="fill-current h-4 w-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="flex flex-col mb-12">
-                  <label className="text-helpertext mb-2.5">
+                <div className="flex flex-col">
+                  <label className="text-helpertext text-md mb-2 font-medium">
                     Category Image
                   </label>
-                  <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-[#191a1f] dark:border-gray-700">
+                  <label className="border-2 border-dashed border-[#E8E9EB] rounded-2xl h-[120px] md:h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-[#24262d] dark:border-gray-700 transition overflow-hidden">
                     <input
                       type="file"
                       accept="image/*"
                       className="hidden"
                       onChange={handleImageChange}
                     />
-
                     {preview ? (
                       <img
                         src={preview}
                         alt="preview"
-                        className="h-full object-contain rounded-xl"
+                        className="h-full w-full object-cover"
                       />
                     ) : (
-                      <span className="text-helpertext text-sm">
-                        Click to upload image
-                      </span>
+                      <div className="flex flex-col items-center gap-1">
+                        <Plus size={24} className="text-gray-400" />
+                        <span className="text-helpertext text-xs">
+                          Upload Image
+                        </span>
+                      </div>
                     )}
                   </label>
                 </div>
 
-                <div className="flex justify-end">
+                <div className="flex justify-end pt-2">
                   <ButtonCom title="Submit" type="submit" disabled={disable} />
                 </div>
               </form>
@@ -161,16 +177,21 @@ const Categories: FC = () => {
       )}
 
       {showTable && (
-        <>
-          <div className="px-4 py-5 rounded-2xl bg-gray-100 shadow-md mb-11 dark:bg-[#191a1f]">
-            <h1 className="text-2xl font-bold pb-2 text-gray-700 dark:text-white">Man</h1>
+        <div className="flex flex-col gap-6 md:gap-11">
+          <div className="px-4 py-5 rounded-2xl bg-gray-100 shadow-sm dark:bg-[#191a1f]">
+            <h1 className="text-xl md:text-2xl font-bold pb-4 text-gray-700 dark:text-white border-b border-gray-200 dark:border-gray-800 mb-4">
+              Man
+            </h1>
             <ManCategoryBox />
           </div>
-          <div className="px-4 py-5 rounded-2xl bg-orange-50 shadow-md dark:bg-[#191a1f]">
-            <h1 className="text-2xl font-bold pb-2 text-gray-700 dark:text-white">Woman</h1>
+
+          <div className="px-4 py-5 rounded-2xl bg-orange-50/50 shadow-sm dark:bg-[#191a1f]">
+            <h1 className="text-xl md:text-2xl font-bold pb-4 text-gray-700 dark:text-white border-b border-orange-100 dark:border-gray-800 mb-4">
+              Woman
+            </h1>
             <WomanCategoryBox />
           </div>
-        </>
+        </div>
       )}
       <Outlet />
     </div>

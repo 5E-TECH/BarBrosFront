@@ -1,14 +1,29 @@
-import { memo } from "react";
+import { memo, type FC } from "react";
 import { Trash2 } from "lucide-react";
-import { Switch, notification } from "antd";
+import { Switch, notification, type PaginationProps } from "antd";
 import SearchInput from "../../../../shared/components/Search";
 import avatar from "../../../../shared/assets/Avatar.png";
 import { useBarberShop } from "../service/useBarberShop";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../../shared/components/pageHeader";
 import TableLoading from "../../../../shared/components/loadings/tableLoading";
+import CustomPagination from "../../../../shared/components/pagination";
 
-const BarberTable = () => {
+interface Props {
+  data: any[];
+  page?: number;
+  total?: number;
+  pageSize?: number;
+  onPageChange?: PaginationProps["onChange"];
+  onSearch: (searchTerm: string) => void;
+}
+
+const BarberTable: FC<Props> = ({
+  page,
+  total,
+  pageSize,
+  onPageChange,
+}) => {
   const { getBarbershops, deleteBarberShop, updateStatusBarbershop } =
     useBarberShop();
   const { data, isLoading, refetch } = getBarbershops();
@@ -198,6 +213,15 @@ const BarberTable = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className="flex justify-end pb-6 pr-6 w-full">
+          <CustomPagination
+            current={page}
+            onChange={onPageChange}
+            pageSize={pageSize}
+            total={total}
+            showSizeChanger={false}
+          />
         </div>
       </div>
     </div>
