@@ -141,7 +141,7 @@ const ManCategoryBox = () => {
       </div>
 
       <Popup isShow={show} onClose={() => setShow(false)}>
-        <div className="bg-white w-[500px] rounded-xl px-8 py-10">
+        <div className="bg-white w-[500px] rounded-xl px-8 py-10 dark:bg-[#1f222b]">
           <div className="flex justify-end">
             <div
               onClick={() => setShow(false)}
@@ -152,7 +152,7 @@ const ManCategoryBox = () => {
             </div>
           </div>
 
-          <form onSubmit={handleSave}>
+          <form onSubmit={handleSave} className="dark:text-white">
             <div className="flex flex-col mb-9">
               <label className="text-helpertext mb-2.5">Category Name</label>
               <input
@@ -162,7 +162,7 @@ const ManCategoryBox = () => {
                 value={form.name}
                 onChange={handleChange}
                 placeholder="Enter category name"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700"
               />
             </div>
 
@@ -173,19 +173,19 @@ const ManCategoryBox = () => {
                 value={form.categoryType}
                 onChange={handleChange}
                 required
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700"
               >
                 <option value="" disabled>
                   Select Category type
                 </option>
-                <option value="man">Man</option>
-                <option value="woman">Woman</option>
+                <option value="man" className="dark:text-gray-700">Man</option>
+                <option value="woman" className="dark:text-gray-700">Woman</option>
               </select>
             </div>
 
             <div className="flex flex-col mb-12">
               <label className="text-helpertext mb-2.5">Category Image</label>
-              <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50 transition">
+              <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-[#191a1f] transition dark:border-gray-700">
                 <input
                   type="file"
                   accept="image/*"
@@ -205,11 +205,6 @@ const ManCategoryBox = () => {
                   </span>
                 )}
               </label>
-              <p className="text-xs text-helpertext mt-2">
-                {img
-                  ? "New image selected"
-                  : "Current image will be kept if not changed"}
-              </p>
             </div>
 
             <div className="flex justify-end">

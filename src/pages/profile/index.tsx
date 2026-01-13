@@ -38,7 +38,6 @@ const Profile = () => {
   };
 
   const handleEdit = (datas: any) => {
-    datas.id;
     setForm({
       full_name: datas.full_name,
       phone_number: datas.phone_number,
@@ -49,59 +48,62 @@ const Profile = () => {
   };
 
   if (!data) {
-    <DetailsLoading />;
+    return <DetailsLoading />;
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 md:p-0">
       <div
         onClick={() => navigate("/")}
-        className="cursor-pointer flex gap-1 items-center mb-6"
+        className="cursor-pointer flex gap-1 items-center mb-2 md:mb-6"
       >
         <ChevronLeft size={30} color="gray" />
         <PageHeader title="Profile" />
       </div>
 
-      <div className="flex justify-between w-full gap-12 bg-white px-10 py-9 rounded-2xl dark:bg-[#191a1f]">
-        <div className="w-[15%] flex flex-col items-center gap-4">
+      <div className="flex flex-col md:flex-row justify-between w-full bg-white px-6 md:px-10 py-6 md:py-9 rounded-2xl dark:bg-[#191a1f] gap-6 md:gap-0">
+        <div className="w-full md:w-[15%] flex flex-col items-center gap-4">
           <img
             src={shelby}
             alt=""
-            className="w-[100px] h-[100px] rounded-full object-cover"
+            className="w-[100px] h-[100px] rounded-full object-cover border-2 border-gray-100 dark:border-gray-800"
           />
-          <span className="text-helpertext font-medium">{datas?.role}</span>
+          <span className="text-helpertext font-medium bg-gray-50 dark:bg-gray-800 px-4 py-1 rounded-full text-md">
+            {datas?.role}
+          </span>
         </div>
 
-        <div className="w-[85%] flex flex-col gap-8 mt-8">
-          <div className="flex gap-8">
+        <div className="w-full md:w-[85%] flex flex-col gap-6 md:gap-8 md:mt-8">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8">
             <div className="flex flex-col w-full">
-              <label className="text-helpertext text-[16px] font-medium pb-1">
+              <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1">
                 FullName:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#30333c]">
+              <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-4 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
                 {datas?.full_name}
               </span>
             </div>
             <div className="flex flex-col w-full">
-              <label className="text-helpertext text-[16px] font-medium pb-1">
+              <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1">
                 Phone Number:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#30333c]">
+              <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-4 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
                 {datas?.phone_number}
               </span>
             </div>
           </div>
 
-          <div className="flex gap-8 w-[65%]">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8 w-full md:w-[65%] items-end">
             <div className="flex flex-col w-full">
-              <label className="text-helpertext text-[16px] font-medium pb-1">
+              <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1">
                 Login:
               </label>
-              <span className="flex justify-between text-maintext text-[16px] font-medium border border-[#E8E9EB] px-8 py-3 rounded-[15px] dark:border-[#30333c]">
+              <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-4 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
                 {datas?.email}
               </span>
             </div>
-            <div className="w-[1150px] flex flex-1 justify-end mt-6 px-8">
+
+            <div className="w-full md:w-auto flex justify-end mt-2 md:mt-0 md:px-8">
               <ButtonCom
                 onClick={() => handleEdit(datas)}
                 title="Edit"
@@ -113,8 +115,8 @@ const Profile = () => {
       </div>
 
       <Popup isShow={show} onClose={() => setShow(false)}>
-        <div className="bg-white w-[500px] rounded-xl px-8 py-10 dark:bg-[#1f222b]">
-          <div className="flex justify-end">
+        <div className="bg-white w-[95vw] md:w-[500px] rounded-xl px-6 md:px-8 py-8 md:py-10 dark:bg-[#1f222b] mx-auto">
+          <div className="flex justify-end mb-4">
             <div
               onClick={() => setShow(false)}
               className="inline-flex items-center justify-center
@@ -125,61 +127,61 @@ const Profile = () => {
             </div>
           </div>
 
-          <form action="" onSubmit={handleSave} className="dark:text-white">
-            <div className="flex flex-col mb-9">
-              <label htmlFor="" className="text-helpertext mb-2.5">
+          <form
+            action=""
+            onSubmit={handleSave}
+            className="dark:text-white max-h-[70vh] overflow-y-auto px-1"
+          >
+            <div className="flex flex-col mb-6 md:mb-9">
+              <label htmlFor="" className="text-helpertext mb-2.5 text-sm">
                 FullName
               </label>
               <input
                 type="text"
                 name="full_name"
-                id=""
                 value={form.full_name}
                 onChange={handleChange}
                 placeholder="Enter name"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-3 md:py-[15px] outline-0 bg-transparent dark:border-gray-700"
               />
             </div>
-            <div className="flex flex-col mb-9">
-              <label htmlFor="" className="text-helpertext mb-2.5">
+            <div className="flex flex-col mb-6 md:mb-9">
+              <label htmlFor="" className="text-helpertext mb-2.5 text-sm">
                 Phone Number
               </label>
               <input
                 type="text"
                 name="phone_number"
-                id=""
                 value={form.phone_number}
                 onChange={handleChange}
                 placeholder="Enter phone number"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-3 md:py-[15px] outline-0 bg-transparent dark:border-gray-700"
               />
             </div>
-            <div className="flex flex-col mb-9">
-              <label htmlFor="" className="text-helpertext mb-2.5">
+            <div className="flex flex-col mb-6 md:mb-9">
+              <label htmlFor="" className="text-helpertext mb-2.5 text-sm">
                 Login
               </label>
               <input
                 type="text"
                 name="email"
-                id=""
                 value={form.email}
                 onChange={handleChange}
                 placeholder="Enter login"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-3 md:py-[15px] outline-0 bg-transparent dark:border-gray-700"
               />
             </div>
-            <div className="flex flex-col mb-9">
-              <label htmlFor="" className="text-helpertext mb-2.5">
+            <div className="flex flex-col mb-6 md:mb-9">
+              <label htmlFor="" className="text-helpertext mb-2.5 text-sm">
                 Password
               </label>
               <input
-                type="text"
+                type="password"
                 name="password"
-                id=""
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Enter password"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-3 md:py-[15px] outline-0 bg-transparent dark:border-gray-700"
               />
             </div>
             <div className="flex justify-end">
