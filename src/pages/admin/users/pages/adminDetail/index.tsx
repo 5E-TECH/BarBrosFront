@@ -114,7 +114,7 @@ const AdminDetail = () => {
                 {admin?.email}
               </span>
             </div>
-            <div className="w-[1150px] flex flex-1 justify-end mt-6 px-8">
+            <div className="w-[1150px] flex flex-1 justify-end mt-6 px-7">
               <ButtonCom
                 onClick={handleEdit}
                 title="Edit"
@@ -151,7 +151,7 @@ const AdminDetail = () => {
                 value={form.full_name}
                 onChange={handleChange}
                 placeholder="Enter name"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 dark:border-gray-700"
               />
             </div>
             <div className="flex flex-col mb-9">
@@ -165,7 +165,7 @@ const AdminDetail = () => {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Enter password"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 dark:border-gray-700"
               />
             </div>
             <div className="flex justify-end">

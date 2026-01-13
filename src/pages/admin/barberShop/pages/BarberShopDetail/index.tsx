@@ -71,7 +71,7 @@ const BarberShopDetail = () => {
           onClick={() => navigate(-1)}
           className="cursor-pointer flex gap-1 items-center mb-6"
         >
-          <ChevronLeft size={30} color="gray"/>
+          <ChevronLeft size={30} color="gray" />
           <PageHeader title="BarberShopDetail" />
         </div>
 
@@ -87,12 +87,12 @@ const BarberShopDetail = () => {
               className="w-[100px] h-[100px] rounded-full object-cover mb-2"
             />
             <span
-              className={`px-3 py-1 rounded-full text-sm font-medium text-white
+              className={`px-3 py-1 rounded-full text-sm font-medium text-white mb-3
             ${datas?.status === "active" ? "bg-green-500" : "bg-red-500"}`}
             >
               {datas.status}
             </span>
-            <span className="text-helpertext font-medium pt-1">
+            <span className="text-helpertext font-medium bg-gray-50 dark:bg-gray-800 px-4 py-1 rounded-full text-md">
               {datas?.role}
             </span>
           </div>
@@ -167,7 +167,7 @@ const BarberShopDetail = () => {
                   value={form.name}
                   onChange={handleChange}
                   placeholder="Enter name"
-                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
+                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700"
                 />
               </div>
 
@@ -183,7 +183,7 @@ const BarberShopDetail = () => {
                   value={form.phoneNumber}
                   onChange={handleChange}
                   placeholder="Enter phone number"
-                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
+                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700"
                 />
               </div>
 
@@ -199,7 +199,7 @@ const BarberShopDetail = () => {
                   value={form.location}
                   onChange={handleChange}
                   placeholder="Enter location"
-                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
+                  className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700"
                 />
               </div>
 

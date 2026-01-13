@@ -37,7 +37,7 @@ const SideBar = () => {
       <ul className="flex flex-col ">
         <div className="flex items-center mt-[13px] px-8 gap-2">
           <img src={logoo} alt="" className="w-[60px]"/>
-          <h1 className="text-orange-700 font-bold text-xl">STYLE UP</h1>
+          <h1 className="font-bold text-xl">STYLE UP</h1>
         </div>
       </ul>
       <div className="mt-[53px]">

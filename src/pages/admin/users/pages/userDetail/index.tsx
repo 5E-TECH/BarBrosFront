@@ -36,10 +36,9 @@ const UserDetail = () => {
   //   refetch();
   // };
 
-
   if (!data) {
-      return <DetailsLoading/>;
-    }
+    return <DetailsLoading />;
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -47,7 +46,7 @@ const UserDetail = () => {
         onClick={() => navigate(-1)}
         className="cursor-pointer flex gap-1 items-center mb-6"
       >
-        <ChevronLeft size={30} color="gray"/>
+        <ChevronLeft size={30} color="gray" />
         <PageHeader title="UserDetail" />
       </div>
 
@@ -58,7 +57,9 @@ const UserDetail = () => {
             alt=""
             className="w-[100px] h-[100px] rounded-[50%] mb-3 object-cover"
           />
-          <span className="pl-8 text-helpertext font-medium">{user?.role}</span>
+          <span className="text-helpertext font-medium bg-gray-50 dark:bg-gray-800 ml-5 px-4 py-1 rounded-full text-md">
+            {user?.role}
+          </span>
         </div>
 
         <div className="flex flex-col gap-8 w-full mt-8">

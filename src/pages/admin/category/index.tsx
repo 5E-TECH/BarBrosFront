@@ -102,7 +102,7 @@ const Categories: FC = () => {
                     value={form.name}
                     onChange={handleChange}
                     placeholder="Enter category name"
-                    className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                    className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 dark:border-gray-700"
                   />
                 </div>
 
@@ -115,7 +115,7 @@ const Categories: FC = () => {
                     value={form.categoryType}
                     onChange={handleChange}
                     required
-                    className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0"
+                    className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 dark:border-gray-700"
                   >
                     <option value="" disabled>
                       Select Category type
@@ -129,7 +129,7 @@ const Categories: FC = () => {
                   <label className="text-helpertext mb-2.5">
                     Category Image
                   </label>
-                  <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-[#191a1f]">
+                  <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-[#191a1f] dark:border-gray-700">
                     <input
                       type="file"
                       accept="image/*"
