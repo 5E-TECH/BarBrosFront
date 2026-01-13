@@ -40,7 +40,7 @@ const AddUser = () => {
         onClick={() => navigate(-1)}
         className="cursor-pointer flex gap-1 items-center mb-6"
       >
-        <ChevronLeft size={30} color="gray" />
+        <ChevronLeft size={30} color="gray" className="mt-[-9px] md:mt-[-3px]"/>
         <PageHeader title="Add Admin" />
       </div>
 

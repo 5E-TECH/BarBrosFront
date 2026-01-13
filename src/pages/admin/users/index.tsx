@@ -105,15 +105,7 @@ const Users = () => {
         />
       )}
 
-      {showTable && selectRole === "admin" && (
-        <AdminTable
-          data={admins}
-          // page={page}
-          // total={total}
-          // pageSize={pageSize}
-          // onPageChange={(newPage) => dispatch(setPage(newPage))}
-        />
-      )}
+      {showTable && selectRole === "admin" && <AdminTable data={admins} />}
 
       <Outlet />
     </div>
