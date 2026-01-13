@@ -42,7 +42,6 @@ const BarberTable = () => {
             </table>
           </div>
 
-          {/* MOBILE CARD VIEW (Rasmda ko'rsatilgan dizayn) */}
           <div className="md:hidden flex flex-col gap-4 p-4">
             {barber?.map((item: any, index: number) => (
               <div

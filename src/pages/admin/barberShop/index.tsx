@@ -1,5 +1,5 @@
 import { memo } from "react";
-import BarberTable from "./components/barberTable";
+import BarberShopTable from "./components/barberShopTable";
 import { Outlet, useOutlet } from "react-router-dom";
 
 const BarberShop = () => {
@@ -8,7 +8,7 @@ const BarberShop = () => {
 
   return (
     <div>
-      <div>{showTable && <BarberTable />}</div>
+      <div>{showTable && <BarberShopTable data={[]} onSearch={() => {}} />}</div>
       <Outlet />
     </div>
   );
