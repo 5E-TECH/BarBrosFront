@@ -13,6 +13,7 @@ const ManCategoryBox = () => {
   const [img, setImg] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [disable, setDisable] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -49,6 +50,8 @@ const ManCategoryBox = () => {
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setDisable(true);
+    setErrorMessage(null);
+
     if (!selectedId) return;
 
     const formData = new FormData();
@@ -62,10 +65,14 @@ const ManCategoryBox = () => {
         onSuccess: () => {
           setDisable(false);
           setShow(false);
-          setSelectedId(null);
-          setImg(null);
-          setPreview(null);
-          setForm({ name: "", categoryType: "" });
+          setErrorMessage(null);
+        },
+        onError: (error: any) => {
+          setDisable(false);
+          const serverError =
+            error?.response?.data?.message ||
+            "Something went wrong. Please try again.";
+          setErrorMessage(serverError);
         },
       }
     );
@@ -110,18 +117,12 @@ const ManCategoryBox = () => {
                   <h3 className="text-base font-bold text-maintext truncate dark:text-white">
                     {data.name}
                   </h3>
-                  <div className="w-12 h-12 flex items-center justify-center rounded-lg">
-                    {data.img ? (
-                      <img
-                        src={data.img}
-                        alt={data.name}
-                        className="w-full h-full object-contain p-1"
-                      />
-                    ) : (
-                      <span className="text-[10px] text-helpertext uppercase">
-                        No Img
-                      </span>
-                    )}
+                  <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden shrink-0">
+                    <img
+                      src={data.img}
+                      alt={data.name}
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 </div>
               </div>
@@ -176,8 +177,12 @@ const ManCategoryBox = () => {
                   <option value="" disabled>
                     Select Type
                   </option>
-                  <option value="man" className="dark:bg-gray-700">Man</option>
-                  <option value="woman" className="dark:bg-gray-700">Woman</option>
+                  <option value="man" className="dark:bg-gray-700">
+                    Man
+                  </option>
+                  <option value="woman" className="dark:bg-gray-700">
+                    Woman
+                  </option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
                   <ChevronDown size={18} />
@@ -212,12 +217,20 @@ const ManCategoryBox = () => {
               </label>
             </div>
 
-            <div className="flex justify-end pt-2">
-              <ButtonCom
-                title="Save Changes"
-                type="submit"
-                disabled={disable}
-              />
+            <div className="space-y-3 pt-2">
+              {errorMessage && (
+                <p className="text-red-500 text-sm font-medium animate-pulse">
+                  {errorMessage}
+                </p>
+              )}
+
+              <div className="flex justify-end">
+                <ButtonCom
+                  title={disable ? "Saving..." : "Save Changes"}
+                  type="submit"
+                  disabled={disable}
+                />
+              </div>
             </div>
           </form>
         </div>

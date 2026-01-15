@@ -70,28 +70,35 @@ const AdminTable: FC<Props> = ({ data }) => {
 
           {/* MOBILE CARD VIEW */}
           <div className="md:hidden flex flex-col gap-4 p-4">
-            {data?.map((item: any, index) => (
+            {data?.map((item: any, index: number) => (
               <div
                 key={item.id}
                 onClick={() => navigate(`admin-detail/${item.id}`)}
-                className="bg-[#24262d] text-white rounded-lg p-4 space-y-3 divide-y divide-[#30333c] cursor-pointer"
+                className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-lg p-4 space-y-3 divide-y divide-gray-100 dark:divide-[#30333c] cursor-pointer border border-gray-100 dark:border-gray-800 shadow-sm transition-colors"
               >
                 <div className="flex justify-between items-center pb-2">
-                  <span className="text-gray-400">#</span>
+                  <span className="text-helpertext dark:text-gray-400 font-bold">
+                    #
+                  </span>
                   <span className="font-semibold">{index + 1}</span>
                 </div>
+
                 <div className="flex justify-between items-center pt-2">
-                  <span className="text-gray-400 uppercase text-xs">
-                    Customer
+                  <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-medium">
+                    FullName
                   </span>
-                  <span className="text-sm">{item?.full_name}</span>
+                  <span className="text-sm font-medium">{item?.full_name}</span>
                 </div>
+
                 <div className="flex justify-between items-center pt-2">
-                  <span className="text-gray-400 uppercase text-xs">Phone</span>
+                  <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-medium">
+                    Phone
+                  </span>
                   <span className="text-sm">{item?.phone_number}</span>
                 </div>
+
                 <div className="flex justify-between items-center pt-2">
-                  <span className="text-gray-400 uppercase text-xs">
+                  <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-medium">
                     Created At
                   </span>
                   <span className="text-sm">

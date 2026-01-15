@@ -23,6 +23,7 @@ const Categories: FC = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(initialState);
   const [disable, setDisable] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { createCategory } = useCategory();
 
@@ -53,8 +54,12 @@ const Categories: FC = () => {
         setShow(false);
         setDisable(false);
       },
-      onError: () => {
+      onError: (error: any) => {
         setDisable(false);
+        const errorMes =
+          error?.response?.data?.message ||
+          "Something went wrong. Please try again.";
+        setErrorMessage(errorMes);
       },
     });
   };
@@ -124,8 +129,12 @@ const Categories: FC = () => {
                       <option value="" disabled>
                         Select Category type
                       </option>
-                      <option value="man">Man</option>
-                      <option value="woman">Woman</option>
+                      <option value="man" className="dark:bg-gray-700">
+                        Man
+                      </option>
+                      <option value="woman" className="dark:bg-gray-700">
+                        Woman
+                      </option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
                       <svg
@@ -166,6 +175,7 @@ const Categories: FC = () => {
                     )}
                   </label>
                 </div>
+                <p className="text-red-500 text-[14px]">{errorMessage}</p>
 
                 <div className="flex justify-end pt-2">
                   <ButtonCom title="Submit" type="submit" disabled={disable} />
@@ -178,15 +188,15 @@ const Categories: FC = () => {
 
       {showTable && (
         <div className="flex flex-col gap-6 md:gap-11">
-          <div className="px-4 py-5 rounded-2xl bg-gray-100 shadow-sm dark:bg-[#191a1f]">
-            <h1 className="text-xl md:text-2xl font-bold pb-4 text-gray-700 dark:text-white border-b border-gray-200 dark:border-gray-800 mb-4">
+          <div className="px-4 py-5 rounded-2xl shadow-sm dark:bg-[#191a1f]">
+            <h1 className="text-xl md:text-2xl font-bold pb-4 text-gray-700 dark:text-white mb-4">
               Man
             </h1>
             <ManCategoryBox />
           </div>
 
-          <div className="px-4 py-5 rounded-2xl bg-orange-50/50 shadow-sm dark:bg-[#191a1f]">
-            <h1 className="text-xl md:text-2xl font-bold pb-4 text-gray-700 dark:text-white border-b border-orange-100 dark:border-gray-800 mb-4">
+          <div className="px-4 py-5 rounded-2xl shadow-sm dark:bg-[#191a1f]">
+            <h1 className="text-xl md:text-2xl font-bold pb-4 text-gray-700 dark:text-white mb-4">
               Woman
             </h1>
             <WomanCategoryBox />

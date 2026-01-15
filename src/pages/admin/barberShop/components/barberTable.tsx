@@ -46,38 +46,42 @@ const BarberTable = () => {
             {barber?.map((item: any, index: number) => (
               <div
                 key={item.id}
-                className="bg-[#24262d] text-white rounded-xl p-5 space-y-4 divide-y divide-[#30333c] border border-gray-800"
+                className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 divide-y divide-gray-100 dark:divide-[#30333c] border border-gray-100 dark:border-gray-800 shadow-sm transition-colors"
               >
                 <div className="flex justify-between items-center pb-2">
-                  <span className="text-gray-400 font-bold">#{index + 1}</span>
-                  <span className="bg-[#00a3ff] text-[10px] px-3 py-1 rounded-full uppercase font-bold">
+                  <span className="text-helpertext dark:text-gray-400 font-bold">
+                    #{index + 1}
+                  </span>
+                  <span className="bg-[#00a3ff] text-[10px] px-3 py-1 rounded-full uppercase font-bold text-white">
                     Barber
                   </span>
                 </div>
 
                 <div className="flex justify-between items-center pt-3">
-                  <span className="text-gray-400 uppercase text-[11px] font-semibold">
+                  <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
                     FullName
                   </span>
-                  <span className="text-sm">{item.full_name}</span>
+                  <span className="text-sm font-medium">{item.full_name}</span>
                 </div>
 
                 <div className="flex justify-between items-center pt-3">
-                  <span className="text-gray-400 uppercase text-[11px] font-semibold">
+                  <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
                     Phone
                   </span>
                   <span className="text-sm">{item.phone_number}</span>
                 </div>
 
                 <div className="flex justify-between items-center pt-3">
-                  <span className="text-gray-400 uppercase text-[11px] font-semibold">
+                  <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
                     Avg Rating
                   </span>
                   <div className="flex items-center gap-1">
                     <span className="text-sm text-yellow-500 font-bold">
                       {item.avg_reyting}
                     </span>
-                    <span className="text-[10px] text-gray-500">/ 5.0</span>
+                    <span className="text-[10px] text-gray-500 dark:text-gray-400">
+                      / 5.0
+                    </span>
                   </div>
                 </div>
               </div>
