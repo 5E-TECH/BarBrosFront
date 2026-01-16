@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import shelby from "../../shared/assets/shelby.png";
+import shelby from "../../shared/assets/profile.jpg";
 import ButtonCom from "../../shared/components/button";
 import { ChevronLeft, X } from "lucide-react";
 import PageHeader from "../../shared/components/pageHeader";
@@ -57,11 +57,15 @@ const Profile = () => {
         onClick={() => navigate("/")}
         className="cursor-pointer flex gap-1 items-center mb-2 md:mb-6"
       >
-        <ChevronLeft size={30} color="gray" className="mt-[-9px] md:mt-[-3px]"/>
+        <ChevronLeft
+          size={30}
+          color="gray"
+          className="mt-[-9px] md:mt-[-3px]"
+        />
         <PageHeader title="Profile" />
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between w-full bg-white px-6 md:px-10 py-6 md:py-9 rounded-2xl dark:bg-[#191a1f] gap-6 md:gap-0">
+      <div className="flex flex-col md:flex-row justify-between w-full px-6 md:px-10 py-6 md:py-9 rounded-2xl dark:bg-[#191a1f] gap-6 md:gap-0">
         <div className="w-full md:w-[15%] flex flex-col items-center gap-4">
           <img
             src={shelby}

@@ -41,7 +41,7 @@ const UserTable: FC<Props> = ({
   return (
     <div>
       <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md dark:bg-[#191a1f]">
-        <div className="w-full px-6 mt-6 flex justify-between gap-10">
+        <div className="w-full px-6 mt-6">
           <SearchInput />
         </div>
 

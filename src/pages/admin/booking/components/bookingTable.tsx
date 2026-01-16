@@ -1,6 +1,8 @@
 import { memo } from "react";
 import { useBooking } from "../service/useBooking";
 import TableLoading from "../../../../shared/components/loadings/tableLoading";
+import SearchInput from "../../../../shared/components/Search";
+
 
 const BookingTable = () => {
   const { getAllBookings } = useBooking();
@@ -14,6 +16,9 @@ const BookingTable = () => {
   return (
     <div>
       <div className="bg-white py-2 w-full rounded-md shadow-md dark:bg-[#191a1f] mt-12">
+        <div className="w-full px-6 mt-6">
+          <SearchInput />
+        </div>
         <div className="hidden md:block overflow-x-auto">
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#30333c]">
