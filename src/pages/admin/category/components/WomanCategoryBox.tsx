@@ -21,10 +21,12 @@ const WomanCategoryBox = () => {
     name: "",
     categoryType: "",
   });
-  const { getCategoryWoman, updateCategory } = useCategory();
-  const datas = getCategoryWoman?.data?.data || [];
+  const { getCategory, updateCategory } = useCategory();
+  const datas = getCategory.data?.data || [];
 
-  const processedData = datas.map((element: any) => {
+  const flWoman = datas.filter((data: any) => data.categoryType === "woman");
+
+  const processedData = flWoman.map((element: any) => {
     let imgUrl = element.img;
 
     if (imgUrl && !/^https?:\/\//.test(imgUrl)) {
@@ -92,7 +94,7 @@ const WomanCategoryBox = () => {
     setShow(true);
   };
 
-  if (getCategoryWoman.isLoading) {
+  if (getCategory.isLoading) {
     return <CategoryLoading />;
   }
 

@@ -12,7 +12,7 @@ export const useAdmins = () => {
   const client = useQueryClient();
 
   const createAdmin = useMutation({
-    mutationFn: (data: any) => api.post("admin/create", data),
+    mutationFn: (data: any) => api.post("user/create-admin", data),
     onSuccess: () => {
         client.invalidateQueries({queryKey: [admin]})
     }
@@ -22,19 +22,19 @@ export const useAdmins = () => {
     useQuery({
       queryKey: [admin, page, limit],
       queryFn: () =>
-        api.get(`admin/all`).then((res) => res.data),
+        api.get(`user/all-admin`).then((res) => res.data),
     });
 
   const getByIdAdmin = ({ id }: any) =>
     useQuery({
       queryKey: [admin, id],
-      queryFn: () => api.get(`admin/one/${id}`).then((res) => res.data),
+      queryFn: () => api.get(`user/one/${id}`).then((res) => res.data),
       enabled: !!id,
     });
 
   const updateAdmin = useMutation({
     mutationFn: ({ id, data }: { id: string | undefined; data: any }) =>
-      api.patch(`admin/update/${id}`, data),
+      api.patch(`user/update/${id}`, data),
     onSuccess: () => client.invalidateQueries({ queryKey: [admin] }),
   });
 

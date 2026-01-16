@@ -21,10 +21,12 @@ const ManCategoryBox = () => {
     name: "",
     categoryType: "",
   });
-  const { getCategoryMan, updateCategory } = useCategory();
-  const datas = getCategoryMan?.data?.data || [];
+  const { getCategory, updateCategory } = useCategory();
+  const datas = getCategory?.data?.data || [];
 
-  const processedData = datas.map((element: any) => {
+    const flWoman = datas.filter((data: any) => data.categoryType === "man")
+
+  const processedData = flWoman.map((element: any) => {
     let imgUrl = element.img;
     if (imgUrl && !/^https?:\/\//.test(imgUrl)) {
       imgUrl = `${BASE_ASSETS_URL}${
@@ -86,7 +88,7 @@ const ManCategoryBox = () => {
     setShow(true);
   };
 
-  if (getCategoryMan.isLoading) {
+  if (getCategory.isLoading) {
     return <CategoryLoading />;
   }
 

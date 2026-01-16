@@ -19,7 +19,7 @@ const Auth = () => {
     }
 
     api
-      .get("admin/my-account") 
+      .get("user/profile") 
       .then((res:any) => {
         setValid(true); 
         dispatch(setRole(res?.data?.data?.role))        

@@ -14,7 +14,7 @@ const Profile = () => {
   const [form, setForm] = useState({
     full_name: "",
     phone_number: "",
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -41,7 +41,7 @@ const Profile = () => {
     setForm({
       full_name: datas.full_name,
       phone_number: datas.phone_number,
-      email: datas.email,
+      username: datas.username,
       password: "",
     });
     setShow(true);
@@ -97,17 +97,17 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8 w-full md:w-[65%] items-end">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full md:w-[62%] items-end">
             <div className="flex flex-col w-full">
               <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1">
-                Login:
+                Username:
               </label>
               <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-4 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
-                {datas?.email}
+                {datas?.username}
               </span>
             </div>
 
-            <div className="w-full md:w-auto flex justify-end mt-2 md:mt-0 md:px-8">
+            <div className="w-full md:w-auto flex justify-end mt-2 md:mt-0 md:px-3">
               <ButtonCom
                 onClick={() => handleEdit(datas)}
                 title="Edit"
@@ -168,8 +168,8 @@ const Profile = () => {
               </label>
               <input
                 type="text"
-                name="email"
-                value={form.email}
+                name="username"
+                value={form.username}
                 onChange={handleChange}
                 placeholder="Enter login"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-3 md:py-[15px] outline-0 bg-transparent dark:border-gray-700"
