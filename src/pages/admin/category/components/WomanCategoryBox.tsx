@@ -13,6 +13,7 @@ const WomanCategoryBox = () => {
   const [img, setImg] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [disable, setDisable] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -52,33 +53,29 @@ const WomanCategoryBox = () => {
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setDisable(true);
+    setErrorMessage(null);
 
     if (!selectedId) return;
 
     const formData = new FormData();
     formData.append("name", form.name);
     formData.append("categoryType", form.categoryType);
-
-    if (img) {
-      formData.append("img", img);
-    }
+    if (img) formData.append("img", img);
 
     updateCategory.mutate(
-      {
-        id: selectedId,
-        data: formData,
-      },
+      { id: selectedId, data: formData },
       {
         onSuccess: () => {
-          setShow(false);
-          setSelectedId(null);
-          setImg(null);
-          setPreview(null);
           setDisable(false);
-          setForm({
-            name: "",
-            categoryType: "",
-          });
+          setShow(false);
+          setErrorMessage(null);
+        },
+        onError: (error: any) => {
+          setDisable(false);
+          const serverError =
+            error?.response?.data?.message ||
+            "Something went wrong. Please try again.";
+          setErrorMessage(serverError);
         },
       }
     );
@@ -127,15 +124,11 @@ const WomanCategoryBox = () => {
                     {data.name}
                   </h3>
                   <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden shrink-0">
-                    {data.img ? (
-                      <img
-                        src={data.img}
-                        alt={data.name}
-                        className="w-full h-full object-contain"
-                      />
-                    ) : (
-                      <span className="text-xs text-helpertext">No Image</span>
-                    )}
+                    <img
+                      src={data.img}
+                      alt={data.name}
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 </div>
               </div>
@@ -230,12 +223,20 @@ const WomanCategoryBox = () => {
               </label>
             </div>
 
-            <div className="flex justify-end pt-2">
-              <ButtonCom
-                title="Save Changes"
-                type="submit"
-                disabled={disable}
-              />
+            <div className="space-y-3 pt-2">
+              {errorMessage && (
+                <p className="text-red-500 text-sm font-medium animate-pulse">
+                  {errorMessage}
+                </p>
+              )}
+
+              <div className="flex justify-end">
+                <ButtonCom
+                  title={disable ? "Saving..." : "Save Changes"}
+                  type="submit"
+                  disabled={disable}
+                />
+              </div>
             </div>
           </form>
         </div>

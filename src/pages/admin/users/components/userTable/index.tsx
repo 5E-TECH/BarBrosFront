@@ -41,7 +41,7 @@ const UserTable: FC<Props> = ({
   return (
     <div>
       <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md dark:bg-[#191a1f]">
-        <div className="w-full px-6 mt-6 flex justify-between gap-10">
+        <div className="w-full px-6 mt-6">
           <SearchInput />
         </div>
 
@@ -52,7 +52,7 @@ const UserTable: FC<Props> = ({
                 <tr>
                   <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
                   <th className="w-[200px] pb-3 text-left">
-                    Ro'yxatdan o'tgan sana
+                    Date of registration
                   </th>
                   <th className="w-[100px] pb-3 text-left">Phone number</th>
                 </tr>
@@ -98,30 +98,37 @@ const UserTable: FC<Props> = ({
                 <div
                   key={item.id}
                   onClick={() => navigate(`user-detail/${item.id}`)}
-                  className="bg-[#24262d] text-white rounded-lg p-4 space-y-3 divide-y divide-gray-700 cursor-pointer border border-gray-800"
+                  className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-lg p-4 space-y-3 divide-y divide-gray-100 dark:divide-gray-700 cursor-pointer border border-gray-200 dark:border-gray-800 shadow-sm"
                 >
                   <div className="flex justify-between items-center pb-2">
-                    <span className="text-gray-400 text-sm font-bold">#</span>
+                    <span className="text-helpertext dark:text-gray-400 text-sm font-bold">
+                      #
+                    </span>
                     <span className="font-semibold text-sm">
                       {page && pageSize
                         ? (page - 1) * pageSize + index + 1
                         : index + 1}
                     </span>
                   </div>
+
                   <div className="flex justify-between items-center pt-2">
-                    <span className="text-gray-400 uppercase text-[11px] font-medium">
-                      Customer
+                    <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-medium">
+                      Fullname
                     </span>
-                    <span className="text-sm">{item?.full_name}</span>
+                    <span className="text-sm font-medium">
+                      {item?.full_name}
+                    </span>
                   </div>
+
                   <div className="flex justify-between items-center pt-2">
-                    <span className="text-gray-400 uppercase text-[11px] font-medium">
+                    <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-medium">
                       Phone
                     </span>
                     <span className="text-sm">{item?.phone_number}</span>
                   </div>
+
                   <div className="flex justify-between items-center pt-2">
-                    <span className="text-gray-400 uppercase text-[11px] font-medium">
+                    <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-medium">
                       Created At
                     </span>
                     <span className="text-sm">

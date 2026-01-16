@@ -88,7 +88,7 @@ const BarberShopTable: FC<Props> = ({
                 <th className="pr-[172px] pb-3 text-left">Address</th>
                 <th className="pr-[172px] pb-3 text-left">Phone number</th>
                 <th className="pr-[172px] pb-3 text-left">
-                  Date of establishment
+                  Date of registration
                 </th>
                 <th className="pr-[150px] pb-3 text-left">Status</th>
                 <th></th>
@@ -157,10 +157,12 @@ const BarberShopTable: FC<Props> = ({
             <div
               key={item.id}
               onClick={() => navigate(`barbershop-detail/${item?.id}`)}
-              className="bg-[#24262d] text-white rounded-xl p-5 space-y-4 divide-y divide-[#30333c] border border-gray-800"
+              className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 divide-y divide-gray-100 dark:divide-[#30333c] border border-gray-100 dark:border-gray-800 shadow-sm transition-colors cursor-pointer"
             >
               <div className="flex justify-between items-center pb-2">
-                <span className="text-gray-400 font-bold">#{index + 1}</span>
+                <span className="text-helpertext dark:text-gray-400 font-bold">
+                  #{index + 1}
+                </span>
                 <div onClick={(e) => e.stopPropagation()}>
                   <Switch
                     size="small"
@@ -171,21 +173,21 @@ const BarberShopTable: FC<Props> = ({
               </div>
 
               <div className="flex justify-between items-center pt-3">
-                <span className="text-gray-400 uppercase text-[11px] font-semibold">
+                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
                   Name
                 </span>
-                <span className="text-sm">{item?.name}</span>
+                <span className="text-sm font-medium">{item?.name}</span>
               </div>
 
               <div className="flex justify-between items-center pt-3">
-                <span className="text-gray-400 uppercase text-[11px] font-semibold">
+                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
                   Phone
                 </span>
                 <span className="text-sm">{item?.phoneNumber}</span>
               </div>
 
               <div className="flex justify-between items-center pt-3">
-                <span className="text-gray-400 uppercase text-[11px] font-semibold">
+                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
                   Action
                 </span>
                 <button
@@ -193,7 +195,7 @@ const BarberShopTable: FC<Props> = ({
                     e.stopPropagation();
                     deleteBarberShop.mutate({ id: item.id });
                   }}
-                  className="p-1"
+                  className="p-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
                 >
                   <Trash2 size={18} className="text-red-500" />
                 </button>
