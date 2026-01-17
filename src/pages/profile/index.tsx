@@ -1,7 +1,7 @@
 import React, { memo, useState } from "react";
 import shelby from "../../shared/assets/profile.jpg";
 import ButtonCom from "../../shared/components/button";
-import { ChevronLeft, X } from "lucide-react";
+import { ChevronLeft, Eye, EyeClosed, X } from "lucide-react";
 import PageHeader from "../../shared/components/pageHeader";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProfile } from "./service/useProfile";
@@ -11,6 +11,7 @@ import DetailsLoading from "../../shared/components/loadings/detailsLoading";
 
 const Profile = () => {
   const [show, setShow] = useState(false);
+  const [saw, setSaw] = useState(false);
   const [form, setForm] = useState({
     full_name: "",
     phone_number: "",
@@ -179,14 +180,28 @@ const Profile = () => {
               <label htmlFor="" className="text-helpertext mb-2.5 text-sm">
                 Password
               </label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="Enter password"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-3 md:py-[15px] outline-0 bg-transparent dark:border-gray-700"
-              />
+              <div className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] dark:border-gray-700 dark:bg-transparent flex items-center justify-between gap-4">
+                <input
+                  type={saw ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  onChange={handleChange}
+                  value={form.password}
+                  placeholder="Enter Password"
+                  className="outline-0 w-full"
+                />
+                <button
+                  type="button"
+                  onClick={() => setSaw(!saw)}
+                  className="cursor-pointer"
+                >
+                  {show ? (
+                    <EyeClosed size={20} color="gray" />
+                  ) : (
+                    <Eye size={20} color="gray" />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="flex justify-end">
               <ButtonCom title="Save" />

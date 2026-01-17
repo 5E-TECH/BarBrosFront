@@ -24,10 +24,14 @@ const Users = () => {
   const { getAllAdmins } = useAdmins();
   const search = useSelector((state: RootState) => state.search.userSearch);
 
+  const role = useSelector((state: RootState) => state.roleSlice.role);
+
+  console.log("role:", role);
+
   const params = { page, limit, search };
 
   const { data, isLoading } = getAllUsers(params);
-  const dataAdmin = getAllAdmins({ page, limit });
+  const dataAdmin = getAllAdmins({ page, limit }, role !== "admin");
 
   const admins = dataAdmin?.data?.data?.data;
   const users = data?.data?.data ?? [];
@@ -72,25 +76,27 @@ const Users = () => {
             </div>
           </div>
 
-          <div
-            onClick={() => setSelectRole("admin")}
-            className="flex items-center px-4 py-3 rounded-xl bg-white
+          {role === "supperadmin" && (
+            <div
+              onClick={() => setSelectRole("admin")}
+              className="flex items-center px-4 py-3 rounded-xl bg-white
                        w-full sm:w-[300px]
                        hover:shadow-md cursor-pointer
                        dark:bg-[#191a1f]"
-          >
-            <div className="w-full dark:text-white">
-              <p className="text-helpertext text-[16px] sm:text-[18px] font-medium">
-                Admins
-              </p>
-              <strong className="text-[20px] sm:text-[24px]">
-                {admins?.length ?? 0}
-              </strong>
+            >
+              <div className="w-full dark:text-white">
+                <p className="text-helpertext text-[16px] sm:text-[18px] font-medium">
+                  Admins
+                </p>
+                <strong className="text-[20px] sm:text-[24px]">
+                  {admins?.length ?? 0}
+                </strong>
+              </div>
+              <div className="rounded-2xl bg-[#fff4e6] dark:bg-[#1f222b] px-3 py-3 sm:px-4 sm:py-4">
+                <UsersRound size={30} color="#FA8B00" />
+              </div>
             </div>
-            <div className="rounded-2xl bg-[#fff4e6] dark:bg-[#1f222b] px-3 py-3 sm:px-4 sm:py-4">
-              <UsersRound size={30} color="#FA8B00" />
-            </div>
-          </div>
+          )}
         </div>
       )}
 
