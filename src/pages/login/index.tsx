@@ -83,7 +83,7 @@ const Login = () => {
                     htmlFor="username"
                     className="text-[#8A9099] font-normal text-[14px] flex justify-between mb-1.5"
                   >
-                    Login
+                    Username
                   </label>
                   <div className="border border-[#E8E9EB] rounded-2xl flex justify-between px-4 py-2.5">
                     <Field

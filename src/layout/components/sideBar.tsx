@@ -26,7 +26,7 @@ const sidebarConfig: Record<UserRole, LinkItem[]> = {
 const SideBar = () => {
   const userRole = useSelector((state: RootState) => state.roleSlice.role);
   let role: UserRole | undefined = undefined;
-  if (userRole === "supperadmin") {
+  if (userRole === "supperadmin" || userRole === "admin") {
     role = UserRole.Admin;
   }
 

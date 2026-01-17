@@ -18,11 +18,12 @@ export const useAdmins = () => {
     }
   })
 
-  const getAllAdmins = ({ page, limit }: GetAdminsParam) =>
+  const getAllAdmins = ({ page, limit }: GetAdminsParam, enabled: boolean = true) =>
     useQuery({
       queryKey: [admin, page, limit],
       queryFn: () =>
         api.get(`user/all-admin`).then((res) => res.data),
+      enabled
     });
 
   const getByIdAdmin = ({ id }: any) =>

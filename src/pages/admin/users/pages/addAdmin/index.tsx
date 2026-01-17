@@ -125,7 +125,7 @@ const AddUser = () => {
               <label htmlFor="password" className="text-helpertext mb-2.5">
                 Password
               </label>
-              <div className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] dark:border-gray-700 dark:bg-transparent flex items-center justify-between">
+              <div className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] dark:border-gray-700 dark:bg-transparent flex items-center justify-between gap-4">
                 <input
                   type={show ? "text" : "password"}
                   name="password"
@@ -133,7 +133,7 @@ const AddUser = () => {
                   onChange={handleChange}
                   value={form.password}
                   placeholder="Enter Password"
-                  className="outline-0"
+                  className="outline-0 w-full"
                 />
                 <button
                   type="button"
