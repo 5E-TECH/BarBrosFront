@@ -8,6 +8,7 @@ import profile from "../../../../../shared/assets/profile.jpg";
 import ButtonCom from "../../../../../shared/components/button";
 import DetailsLoading from "../../../../../shared/components/loadings/detailsLoading";
 import BarberTable from "../../components/barberTable";
+import ServiceTable from "../../components/serviceTable";
 
 const initialState = {
   name: "",
@@ -18,6 +19,7 @@ const initialState = {
 const BarberShopDetail = () => {
   const [show, setShow] = useState(false);
   const [form, setForm] = useState(initialState);
+  const [barberAndService, setBarberAndService] = useState(true);
 
   const { getByIdBarbershop, updateBarbershop } = useBarberShop();
   const { id } = useParams();
@@ -54,7 +56,7 @@ const BarberShopDetail = () => {
           setShow(false);
           setForm(initialState);
         },
-      }
+      },
     );
   };
 
@@ -69,7 +71,11 @@ const BarberShopDetail = () => {
           onClick={() => navigate(-1)}
           className="cursor-pointer flex items-center gap-1 mb-2 md:mb-6"
         >
-          <ChevronLeft size={30} color="gray" className="mt-[-9px] md:mt-[-3px]"/>
+          <ChevronLeft
+            size={30}
+            color="gray"
+            className="mt-[-9px] md:mt-[-3px]"
+          />
           <PageHeader title="BarberShop Detail" />
         </div>
 
@@ -135,11 +141,7 @@ const BarberShopDetail = () => {
             </div>
 
             <div className="w-full flex justify-end mt-4">
-              <ButtonCom
-                onClick={handleEdit}
-                title="Edit"
-                type="button"
-              />
+              <ButtonCom onClick={handleEdit} title="Edit" type="button" />
             </div>
           </div>
         </div>
@@ -208,18 +210,50 @@ const BarberShopDetail = () => {
               </div>
 
               <div className="flex justify-end">
-                <ButtonCom
-                  title="Save"
-                  type="submit"
-                />
+                <ButtonCom title="Save" type="submit" />
               </div>
             </form>
           </div>
         </Popup>
       </div>
 
+      <div className="w-full flex justify-center items-center p-6">
+        <div className="relative inline-flex bg-gray-100 rounded-full p-1.5 shadow-inner cursor-pointer">
+          {/* Sliding background indicator */}
+          <div
+            className={`absolute top-1.5 bottom-1.5 w-[calc(50%-0.375rem)] bg-main rounded-full shadow-lg transition-all duration-300 ease-out ${
+              barberAndService ? "left-1.5" : "left-[calc(50%+0.375rem)]"
+            }`}
+          />
+
+          {/* Barbers Button */}
+          <button
+            onClick={() => setBarberAndService(true)}
+            className={`relative z-10 px-8 py-3 rounded-full cursor-pointer font-semibold transition-all duration-300 ease-out min-w-[140px] ${
+              barberAndService
+                ? "text-white scale-105"
+                : "text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            Barbers
+          </button>
+
+          {/* Services Button */}
+          <button
+            onClick={() => setBarberAndService(false)}
+            className={`relative z-10 px-8 py-3 rounded-full font-semibold transition-all duration-300 ease-out min-w-[140px] ${
+              !barberAndService
+                ? "text-white scale-105"
+                : "text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            Services
+          </button>
+        </div>
+      </div>
+
       <div className="mt-8">
-        <BarberTable />
+        {barberAndService ? <BarberTable /> : <ServiceTable />}
       </div>
     </div>
   );
