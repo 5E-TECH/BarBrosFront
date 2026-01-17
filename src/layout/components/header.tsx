@@ -5,6 +5,7 @@ import {
   Menu,
   Moon,
   Sun,
+  UserRound,
   X,
 } from "lucide-react";
 import { memo, useEffect, useState } from "react";
@@ -77,8 +78,9 @@ const Header = () => {
             onClick={() => navigate("/profile")}
             className="flex items-center gap-2 cursor-pointer"
           >
-            <CircleUserRound size={28} />
-            <h4>Admin</h4>
+            <div className="border border-gray-700 p-2 rounded-[50%]">
+              <UserRound size={22}/>
+            </div>
           </div>
         </>
       )}

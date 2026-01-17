@@ -14,6 +14,7 @@ const AdminDetail = () => {
     full_name: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -28,12 +29,29 @@ const AdminDetail = () => {
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateAdmin.mutate({
-      id: id!,
-      data: form,
-    });
-    setShow(false);
-    setForm({ full_name: "", password: "" });
+
+    setErrorMessage("");
+
+    updateAdmin.mutate(
+      {
+        id: id!,
+        data: form,
+      },
+      {
+        onSuccess: () => {
+          setShow(false);
+          setForm({ full_name: "", password: "" });
+        },
+        onError: (error: any) => {
+          const errorMes =
+            error?.response?.data?.message ||
+            "Something went wrong. Please try again.";
+          setErrorMessage(errorMes);
+        },
+      }
+    );
+
+    // BU YERDAN setShow(false) VA setForm(...) OLIB TASHLANDI!
   };
 
   const handleEdit = () => {
@@ -96,10 +114,10 @@ const AdminDetail = () => {
           <div className="flex flex-col md:flex-row items-end gap-6 md:gap-8">
             <div className="flex flex-col w-full md:w-[49%]">
               <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1.5">
-                Login:
+                Username:
               </label>
               <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-5 md:px-8 py-3 rounded-[15px] dark:border-[#30333c] break-all">
-                {admin?.email}
+                {admin?.username}
               </span>
             </div>
             <div className="w-full md:w-auto flex justify-end">
@@ -153,6 +171,7 @@ const AdminDetail = () => {
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 dark:border-gray-700 dark:bg-transparent"
               />
             </div>
+            <p className="text-red-500 text-[14px]">{errorMessage}</p>
             <div className="flex justify-end">
               <ButtonCom title="Save" type="submit" />
             </div>

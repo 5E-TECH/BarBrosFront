@@ -18,16 +18,6 @@ export const useCategory = () => {
     queryFn: () => api.get("/category/getAll").then((res) => res.data),
   });
 
-  const getCategoryMan = useQuery({
-    queryKey: [category, "man"],
-    queryFn: () => api.get("/category/getAll-man").then((res) => res.data),
-  });
-
-  const getCategoryWoman = useQuery({
-    queryKey: [category, "woman"],
-    queryFn: () => api.get("/category/getAll-woman").then((res) => res.data),
-  });
-
   const updateCategory = useMutation({
     mutationFn: ({ id, data }: { id: any; data: any }) =>
       api.patch(`/category/update/${id}`, data),
@@ -40,5 +30,5 @@ export const useCategory = () => {
     onSuccess: () => client.invalidateQueries({ queryKey: [category] }),
   });
 
-  return { createCategory, getCategory, getCategoryMan, getCategoryWoman, updateCategory, deleteCategory };
+  return { createCategory, getCategory, updateCategory, deleteCategory };
 };

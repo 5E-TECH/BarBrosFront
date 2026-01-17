@@ -9,7 +9,7 @@ export const useProfile = () => {
   const getMyAccount = () =>
     useQuery({
       queryKey: [profile],
-      queryFn: () => api.get("admin/my-account").then((res) => res.data),
+      queryFn: () => api.get("user/profile").then((res) => res.data),
     });
 
   return { getMyAccount };

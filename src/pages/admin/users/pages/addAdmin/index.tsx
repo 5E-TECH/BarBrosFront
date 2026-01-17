@@ -1,13 +1,13 @@
 import React, { memo, useState, type FormEvent } from "react";
 import PageHeader from "../../../../../shared/components/pageHeader";
-import { ChevronLeft, UserRoundPlus } from "lucide-react";
+import { ChevronLeft, Eye, EyeClosed, UserRoundPlus } from "lucide-react";
 import ButtonCom from "../../../../../shared/components/button";
 import { useNavigate } from "react-router-dom";
 import { useAdmins } from "../../service/useAdmin";
 
 const initialState = {
   full_name: "",
-  email: "",
+  username: "",
   phone_number: "",
   password: "",
 };
@@ -15,6 +15,8 @@ const initialState = {
 const AddUser = () => {
   const [form, setForm] = useState(initialState);
   const [disable, setDisable] = useState(false);
+  const [show, setShow] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const { createAdmin } = useAdmins();
   const navigate = useNavigate();
 
@@ -25,6 +27,13 @@ const AddUser = () => {
       onSuccess: () => {
         setForm(initialState);
         setDisable(false);
+      },
+      onError: (error: any) => {
+        setDisable(false);
+        const errorMes =
+          error?.response?.data?.message ||
+          "Something went wrong. Please try again.";
+        setErrorMessage(errorMes);
       },
     });
   };
@@ -40,7 +49,11 @@ const AddUser = () => {
         onClick={() => navigate(-1)}
         className="cursor-pointer flex gap-1 items-center mb-6"
       >
-        <ChevronLeft size={30} color="gray" className="mt-[-9px] md:mt-[-3px]"/>
+        <ChevronLeft
+          size={30}
+          color="gray"
+          className="mt-[-9px] md:mt-[-3px]"
+        />
         <PageHeader title="Add Admin" />
       </div>
 
@@ -95,14 +108,14 @@ const AddUser = () => {
 
             <div className="flex flex-col mb-6 md:mb-9">
               <label htmlFor="email" className="text-helpertext mb-2.5">
-                Login
+                Username
               </label>
               <input
                 type="text"
-                name="email"
-                id="email"
+                name="username"
+                id="username"
                 onChange={handleChange}
-                value={form.email}
+                value={form.username}
                 placeholder="Enter Login"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 dark:border-gray-700 dark:bg-transparent"
               />
@@ -112,17 +125,31 @@ const AddUser = () => {
               <label htmlFor="password" className="text-helpertext mb-2.5">
                 Password
               </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                onChange={handleChange}
-                value={form.password}
-                placeholder="Enter Password"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 dark:border-gray-700 dark:bg-transparent"
-              />
+              <div className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] dark:border-gray-700 dark:bg-transparent flex items-center justify-between">
+                <input
+                  type={show ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  onChange={handleChange}
+                  value={form.password}
+                  placeholder="Enter Password"
+                  className="outline-0"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShow(!show)}
+                  className="cursor-pointer"
+                >
+                  {show ? (
+                    <EyeClosed size={20} color="gray" />
+                  ) : (
+                    <Eye size={20} color="gray" />
+                  )}
+                </button>
+              </div>
             </div>
 
+            <p className="text-red-500 text-[14px]">{errorMessage}</p>
             <div className="flex justify-end mt-4">
               <div className="w-full md:w-auto">
                 <ButtonCom title="Add Admin" type="submit" disabled={disable} />
