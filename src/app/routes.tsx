@@ -9,20 +9,23 @@ const Statistic = lazy(() => import("../pages/admin/statistic"));
 
 const BarberShop = lazy(() => import("../pages/admin/barberShop"));
 const BarberShopDetail = lazy(
-  () => import("../pages/admin/barberShop/pages/BarberShopDetail")
+  () => import("../pages/admin/barberShop/pages/BarberShopDetail"),
 );
 
 const Users = lazy(() => import("../pages/admin/users"));
 const AddUser = lazy(() => import("../pages/admin/users/pages/addAdmin"));
 const UserDetail = lazy(() => import("../pages/admin/users/pages/userDetail"));
 const AdminDetail = lazy(
-  () => import("../pages/admin/users/pages/adminDetail")
+  () => import("../pages/admin/users/pages/adminDetail"),
 );
 const Booking = lazy(() => import("../pages/admin/booking"));
+const BookingDetail = lazy(
+  () => import("../pages/admin/booking/page/bookingDetail"),
+);
 
 const Category = lazy(() => import("../pages/admin/category"));
 const CategoryDetail = lazy(
-  () => import("../pages/admin/category/page/CategoryDetail")
+  () => import("../pages/admin/category/page/CategoryDetail"),
 );
 const Profile = lazy(() => import("../pages/profile"));
 
@@ -65,7 +68,13 @@ const AppRouter = () => {
                 { path: "category-detail/:id", element: <CategoryDetail /> },
               ],
             },
-            { path: "booking", element: <Booking /> },
+            {
+              path: "booking",
+              element: <Booking />,
+              children: [
+                { path: "booking-detail/:id", element: <BookingDetail /> },
+              ],
+            },
           ],
         },
       ],
