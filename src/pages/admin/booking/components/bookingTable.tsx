@@ -25,6 +25,9 @@ const BookingTable = () => {
                 <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
                 <th className="w-[200px] pb-3 text-left">Booking date</th>
                 <th className="w-[200px] pb-3 text-left">Booking time</th>
+                <th className="w-[200px] pb-3 text-left">Booking Status</th>
+                <th className="w-[200px] pb-3 text-left">Payment Model</th>
+                <th className="w-[200px] pb-3 text-left">Order Type</th>
               </tr>
             </thead>
             <tbody>
@@ -33,13 +36,16 @@ const BookingTable = () => {
                   key={item.id}
                   className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#30333c]"
                 >
-                  <td className="py-3 pl-8 flex items-center gap-4">
+                  <td className="py-3 pl-12 flex items-center gap-4">
                     <div>
                       <p className="text-maintext">name</p>
                     </div>
                   </td>
-                  <td className="text-helpertext">{item?.date}</td>
-                  <td className="text-helpertext">{item?.time}</td>
+                  <td className="text-helpertext pl-5">{item?.date}</td>
+                  <td className="text-helpertext pl-5">{item?.time}</td>
+                  <td className="text-helpertext pl-6">{item?.status}</td>
+                  <td className="text-helpertext pl-5">{item?.payment_model}</td>
+                  <td className="text-helpertext pl-5">{item?.order_type}</td>
                 </tr>
               ))}
             </tbody>
