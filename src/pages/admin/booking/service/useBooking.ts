@@ -4,18 +4,19 @@ import { api } from "../../../../shared/api";
 const bookingKey = "booking";
 
 export const useBooking = () => {
-  const getAllBookings = (page: number, pageSize: number) =>
+  const getAllBookings = (
+    page: number,
+    pageSize: number, 
+  ) =>
     useQuery({
-      queryKey: [bookingKey, "all", page, pageSize],
+      queryKey: [bookingKey, page, pageSize],
       queryFn: () =>
         api
-          .get("/booking/All", {
-            params: { page, limit: pageSize },
-          })
+          .get("/booking/All", { params: { page, limit: pageSize } })
           .then((res) => res.data),
     });
 
-  const getByIdBooking = (id: string | undefined) =>
+  const getByIdBooking = (id: any) =>
     useQuery({
       queryKey: [bookingKey, "detail", id],
       queryFn: () =>

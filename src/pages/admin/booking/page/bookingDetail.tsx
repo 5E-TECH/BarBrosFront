@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import PageHeader from "../../../../shared/components/pageHeader";
 import { FaMoneyBill } from "react-icons/fa";
-import { useBooking } from "../service/useBooking";
+// import { useBooking } from "../service/useBooking";
 
 const InfoBlock = ({
   icon: Icon,
@@ -39,9 +39,7 @@ const InfoBlock = ({
 const BookingDetail = () => {
   const navigate = useNavigate();
 
-  const { getByIdBooking } = useBooking();
-  const { data } = getByIdBooking();
-  console.log(data);
+  // const { getByIdBooking } = useBooking();
 
   const bookingData = {
     serviceName: "Hair cut",

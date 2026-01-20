@@ -16,14 +16,14 @@ interface Props {
   onSearch: (searchTerm: string) => void;
 }
 
-const BookingTable:FC<Props> = ({
-  page,
-  total,
-  pageSize,
+const BookingTable: FC<Props> = ({
+  page = 1, 
+  total = 0, 
+  pageSize = 10,
   onPageChange,
 }) => {
   const { getAllBookings } = useBooking();
-  const { data } = getAllBookings(page || 1, pageSize || 10);
+  const { data } = getAllBookings(page, pageSize);
   const datas = data?.data;
 
   const navigate = useNavigate();
