@@ -1,20 +1,36 @@
-import { memo } from "react";
+import { memo, type FC } from "react";
 import { useBooking } from "../service/useBooking";
 import TableLoading from "../../../../shared/components/loadings/tableLoading";
 import SearchInput from "../../../../shared/components/Search";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../../shared/components/pageHeader";
+import type { PaginationProps } from "antd";
+import CustomPagination from "../../../../shared/components/pagination";
 
-const BookingTable = () => {
+interface Props {
+  data: any[];
+  page?: number;
+  total?: number;
+  pageSize?: number;
+  onPageChange?: PaginationProps["onChange"];
+  onSearch: (searchTerm: string) => void;
+}
+
+const BookingTable: FC<Props> = ({
+  page = 1, 
+  total = 0, 
+  pageSize = 10,
+  onPageChange,
+}) => {
   const { getAllBookings } = useBooking();
-  const { data } = getAllBookings();
+  const { data } = getAllBookings(page, pageSize);
   const datas = data?.data;
 
   const navigate = useNavigate();
 
   const statusStyles: Record<string, string> = {
     pending: "bg-amber-500",
-    confirm: "bg-blue-600",
+    confirmed: "bg-blue-600",
     completed: "bg-green-600",
     cancelled: "bg-red-700",
   };
@@ -84,6 +100,7 @@ const BookingTable = () => {
         <div className="md:hidden flex flex-col gap-4 p-4">
           {datas.map((item: any, index: number) => (
             <div
+              onClick={() => navigate(`booking-detail/${item?.id}`)}
               key={item.id}
               className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 border border-gray-100 dark:border-gray-800 shadow-sm"
             >
@@ -146,6 +163,15 @@ const BookingTable = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="flex justify-end my-4 pr-6 w-full">
+          <CustomPagination
+            current={page}
+            onChange={onPageChange}
+            pageSize={pageSize}
+            total={total}
+            showSizeChanger={false}
+          />
         </div>
       </div>
     </div>

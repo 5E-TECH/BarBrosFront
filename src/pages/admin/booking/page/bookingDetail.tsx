@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import PageHeader from "../../../../shared/components/pageHeader";
 import { FaMoneyBill } from "react-icons/fa";
+// import { useBooking } from "../service/useBooking";
 
 const InfoBlock = ({
   icon: Icon,
@@ -38,6 +39,8 @@ const InfoBlock = ({
 const BookingDetail = () => {
   const navigate = useNavigate();
 
+  // const { getByIdBooking } = useBooking();
+
   const bookingData = {
     serviceName: "Hair cut",
     phoneNumber: "+998 94 232 55 67",
@@ -47,7 +50,7 @@ const BookingDetail = () => {
     date: "2026-01-01",
     time: "12:30:00",
     duration: "30 minuts",
-    paymentStatus: "pending",
+    order_type: "offline",
     barberName: "Barber Style",
     specialist: "Bahodir Nabijanov",
     rating: "5.0",
@@ -69,10 +72,10 @@ const BookingDetail = () => {
           <div className="flex flex-col sm:flex-row justify-between border-b border-gray-100 dark:border-[#1f222b] pb-8 md:pb-10 gap-4">
             <div>
               <div className="flex items-center gap-4 mb-4 md:mb-6">
-                <span className="font-bold text-lg md:text-xl uppercase">
+                <span className="font-bold text-lg md:text-lg">
                   Service Name:{" "}
                 </span>
-                <strong className="text-lg md:text-xl">
+                <strong className="text-xl md:text-xl uppercase">
                   {bookingData.serviceName}
                 </strong>
               </div>
@@ -119,11 +122,11 @@ const BookingDetail = () => {
               <div className="flex items-center gap-2">
                 <CreditCard size={20} className="text-main" />
                 <span className="text-[10px] md:text-sm text-gray-500 dark:text-maintext font-semibold uppercase">
-                  Payment Modal
+                  Order Type
                 </span>
               </div>
-              <div className="w-full sm:w-[120px] bg-main rounded-2xl font-medium text-sm md:text-[16px] flex justify-center items-center py-1 mt-2 text-white">
-                {bookingData.paymentStatus}
+              <div className="w-full sm:w-[120px] bg-red-500 rounded-2xl font-medium text-sm md:text-[16px] flex justify-center items-center py-1 mt-2 text-white">
+                {bookingData.order_type}
               </div>
             </div>
           </div>
@@ -142,21 +145,20 @@ const BookingDetail = () => {
               Barber: {bookingData.specialist}
             </span>
 
-            <div className="flex gap-4 mt-6 md:mt-8">
-              <div className="flex-1 rounded-2xl py-4 px-2 text-center bg-gray-50 dark:bg-[#1f222b]">
-                <p className="text-gray-500 dark:text-helpertext text-[11px] md:text-[13px] font-semibold uppercase">
+            <div className="flex gap-2 sm:gap-6 mt-6 md:mt-8">
+              <div className="flex-1 rounded-2xl py-4 px-1 md:px-2 text-center bg-gray-50 dark:bg-[#1f222b]">
+                <p className="text-gray-500 dark:text-helpertext text-[10px] md:text-[13px] font-semibold uppercase">
                   Rating
                 </p>
                 <strong className="text-lg md:text-xl text-main">
                   {bookingData.rating}
                 </strong>
               </div>
-
-              <div className="flex-1 rounded-2xl py-4 px-2 text-center bg-gray-50 dark:bg-[#1f222b]">
-                <p className="text-gray-500 dark:text-helpertext text-[11px] md:text-[13px] font-semibold uppercase">
+              <div className="flex-[1.5] sm:flex-1 rounded-2xl py-4 px-1 md:px-2 text-center bg-gray-50 dark:bg-[#1f222b]">
+                <p className="text-gray-500 dark:text-helpertext text-[10px] md:text-[13px] font-semibold uppercase">
                   Phone
                 </p>
-                <strong className="text-sm md:text-lg leading-tight block mt-1 break-all">
+                <strong className="text-[14px] sm:text-sm md:text-lg leading-tight block mt-1 whitespace-nowrap tabular-nums">
                   {bookingData.barberPhone}
                 </strong>
               </div>

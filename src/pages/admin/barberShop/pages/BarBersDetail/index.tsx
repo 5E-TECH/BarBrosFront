@@ -3,19 +3,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { 
   ChevronLeft, 
   X, 
-  MapPin, 
-  Phone, 
-  User, 
-  Clock, 
+  // Clock, 
   Calendar,
   Star,
   Scissors,
 } from "lucide-react";
+import PageHeader from "../../../../../shared/components/pageHeader";
 import profile from "../../../../../shared/assets/profile.jpg";
 import ButtonCom from "../../../../../shared/components/button";
 import DetailsLoading from "../../../../../shared/components/loadings/detailsLoading";
 import ServiceTable from "../../components/serviceTable";
 import { useBarber } from "../../service/useBarber";
+import { useService } from "../../service/useService";
 
 const initialState = {
   name: "",
@@ -23,16 +22,22 @@ const initialState = {
   location: "",
 };
 
-const BarberShopDetail = () => {
+const BarberDetail = () => {
   const [show, setShow] = useState(false);
   const [form, setForm] = useState(initialState);
 
   const { getBarberById } = useBarber();
+  const { getAllServicesByBarber } = useService();
   const { id } = useParams();
   console.log(id);
   
-  const { data } = getBarberById(1);
+  const { data } = getBarberById(id);
   const datas = data?.data;
+  
+  // Fetch services by barber ID
+  const { data: servicesData, isLoading: servicesLoading } = getAllServicesByBarber(id);
+  const barberServices = servicesData?.data || [];
+  
   const navigate = useNavigate();
 
   const handleChange = (e:any) => {
@@ -56,119 +61,88 @@ const BarberShopDetail = () => {
 
   // Calculate statistics
   const totalBookings = datas.booking?.length || 0;
-  const totalServices = datas.service?.length || 0;
+  const totalServices = barberServices.length || 0;
   const avgRating = parseFloat(datas.avg_reyting) || 0;
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] dark:bg-[#0f1015] pb-10">
-      {/* Header with Back Button */}
-      <div className="mb-8">
+    <div className="mb-10">
+      <div className="flex flex-col gap-6 mb-10 md:mb-15">
         <div
           onClick={() => navigate(-1)}
-          className="cursor-pointer flex items-center gap-2 mb-6 hover:gap-3 transition-all"
+          className="cursor-pointer flex items-center gap-1 mb-2 md:mb-6"
         >
           <ChevronLeft
             size={30}
-            className="text-gray-600 dark:text-gray-400"
+            color="gray"
+            className="mt-[-9px] md:mt-[-3px]"
           />
-          <h1 className="text-2xl md:text-3xl font-bold text-maintext dark:text-white">
-            Barber Detail
-          </h1>
+          <PageHeader title="Barber Detail" />
         </div>
 
-        {/* Main Profile Card */}
-        <div className="bg-white dark:bg-[#191a1f] rounded-2xl shadow-sm overflow-hidden">
-          {/* Profile Header Section */}
-          <div className="flex flex-col lg:flex-row gap-8 p-6 md:p-10">
-            {/* Left Side - Profile Image & Status */}
-            <div className="flex flex-col items-center lg:items-start gap-4 lg:w-1/4">
-              <div className="relative">
-                <img
-                  src={
-                    datas?.img
-                      ? `${import.meta.env.VITE_ASSET_BASE_URL}${datas?.img}`
-                      : profile
-                  }
-                  alt={datas?.full_name}
-                  className="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover shadow-lg"
-                />
-                <div className="absolute -bottom-2 -right-2">
-                  <span
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase text-white shadow-md ${
-                      datas?.is_avaylbl ? "bg-green-500" : "bg-orange-500"
-                    }`}
-                  >
-                    {datas?.is_avaylbl ? "Available" : "Busy"}
-                  </span>
-                </div>
-              </div>
+        <div className="flex flex-col lg:flex-row justify-between w-full gap-8 lg:gap-12 bg-white px-6 md:px-10 py-9 rounded-2xl dark:bg-[#191a1f] shadow-sm">
+          <div className="w-full lg:w-[15%] flex flex-col items-center border-b lg:border-b-0 pb-6 lg:pb-0">
+            <img
+              src={
+                datas?.img
+                  ? `${import.meta.env.VITE_ASSET_BASE_URL}${datas?.img}`
+                  : profile
+              }
+              alt={datas?.full_name}
+              className="w-[100px] h-[100px] rounded-full object-cover mb-4"
+            />
+            <span
+              className={`px-4 py-1 rounded-full text-xs font-bold uppercase text-white mb-3 ${
+                datas?.is_avaylbl ? "bg-green-500" : "bg-orange-500"
+              }`}
+            >
+              {datas?.is_avaylbl ? "Available" : "Busy"}
+            </span>
+            <span className="text-helpertext font-medium bg-gray-50 dark:bg-gray-800 px-4 py-1 rounded-full text-sm">
+              {datas?.role}
+            </span>
+          </div>
 
-              <div className="flex flex-col items-center lg:items-start gap-2 w-full">
-                <span className="px-4 py-1.5 bg-gray-100 dark:bg-gray-800 text-helpertext rounded-full text-sm font-medium">
-                  {datas?.role}
+          <div className="w-full lg:w-[85%] flex flex-col gap-6 md:gap-8 mt-4 lg:mt-8">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+              <div className="flex flex-col w-full">
+                <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1.5">
+                  Full Name:
+                </label>
+                <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-5 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
+                  {datas?.full_name}
                 </span>
-                <div className="flex items-center gap-1.5">
-                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  <span className="text-sm font-semibold text-maintext dark:text-white">
-                    {avgRating.toFixed(1)} Rating
-                  </span>
-                </div>
+              </div>
+              <div className="flex flex-col w-full">
+                <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1.5">
+                  Phone Number:
+                </label>
+                <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-5 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
+                  {datas?.phone_number}
+                </span>
               </div>
             </div>
 
-            {/* Right Side - Information */}
-            <div className="flex-1 space-y-6">
-              {/* Name and Edit Button */}
-              <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-maintext dark:text-white mb-2">
-                    {datas?.full_name}
-                  </h2>
-                  <p className="text-helpertext leading-relaxed max-w-2xl">
-                    {datas?.bio}
-                  </p>
-                </div>
-                <ButtonCom onClick={handleEdit} title="Edit" type="button" />
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+              <div className="flex flex-col w-full">
+                <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1.5">
+                  Username:
+                </label>
+                <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-5 md:px-8 py-3 rounded-[15px] dark:border-[#30333c] break-all">
+                  @{datas?.username}
+                </span>
               </div>
-
-              {/* Contact Information Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                  <label className="text-helpertext text-sm font-medium mb-2">
-                    Phone Number:
-                  </label>
-                  <div className="flex items-center gap-3 border border-[#E8E9EB] dark:border-[#30333c] px-5 py-3 rounded-[15px]">
-                    <Phone className="w-4 h-4 text-helpertext" />
-                    <span className="text-maintext dark:text-white font-medium">
-                      {datas?.phone_number}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col">
-                  <label className="text-helpertext text-sm font-medium mb-2">
-                    Username:
-                  </label>
-                  <div className="flex items-center gap-3 border border-[#E8E9EB] dark:border-[#30333c] px-5 py-3 rounded-[15px]">
-                    <User className="w-4 h-4 text-helpertext" />
-                    <span className="text-maintext dark:text-white font-medium break-all">
-                      @{datas?.username}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col md:col-span-2">
-                  <label className="text-helpertext text-sm font-medium mb-2">
-                    Barbershop Location:
-                  </label>
-                  <div className="flex items-center gap-3 border border-[#E8E9EB] dark:border-[#30333c] px-5 py-3 rounded-[15px]">
-                    <MapPin className="w-4 h-4 text-helpertext" />
-                    <span className="text-maintext dark:text-white font-medium">
-                      {datas?.barberShop?.location}
-                    </span>
-                  </div>
-                </div>
+              <div className="flex flex-col w-full">
+                <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1.5">
+                  Location:
+                </label>
+                <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-5 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
+                  {datas?.barberShop?.location}
+                </span>
               </div>
+            </div>
+
+            <div className="w-full flex justify-end mt-4">
+              <ButtonCom onClick={handleEdit} title="Edit" type="button" />
             </div>
           </div>
         </div>
@@ -215,7 +189,7 @@ const BarberShopDetail = () => {
 
       {/* Services Section */}
       <div className="bg-white dark:bg-[#191a1f] rounded-2xl p-6 md:p-8 shadow-sm mb-8">
-        <div className="flex items-center justify-between mb-6">
+        {/* <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl md:text-2xl font-bold text-maintext dark:text-white">
             Services & Expertise
           </h3>
@@ -225,7 +199,7 @@ const BarberShopDetail = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          {datas?.service?.slice(0, 6).map((service:any) => (
+          {barberServices?.slice(0, 6).map((service:any) => (
             <div
               key={service.id}
               className="border border-[#E8E9EB] dark:border-[#30333c] rounded-xl p-4 hover:border-main dark:hover:border-main transition-all hover:shadow-md"
@@ -244,13 +218,14 @@ const BarberShopDetail = () => {
               </p>
             </div>
           ))}
-        </div>
+        </div> */}
 
-        <ServiceTable />
+        {/* Pass barber's services to ServiceTable */}
+        <ServiceTable services={barberServices} isLoading={servicesLoading} />
       </div>
 
       {/* Work Schedule */}
-      <div className="bg-white dark:bg-[#191a1f] rounded-2xl p-6 md:p-8 shadow-sm mb-8">
+      <div className="bg-white dark:bg-[#191a1f] rounded-2xl p-6 md:p-8 shadow-sm">
         <h3 className="text-xl md:text-2xl font-bold text-maintext dark:text-white mb-6">
           Work Schedule
         </h3>
@@ -277,66 +252,6 @@ const BarberShopDetail = () => {
               </div>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Barbershop Info */}
-      <div className="bg-white dark:bg-[#191a1f] rounded-2xl p-6 md:p-8 shadow-sm">
-        <h3 className="text-xl md:text-2xl font-bold text-maintext dark:text-white mb-6">
-          Barbershop Information
-        </h3>
-
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="w-full md:w-1/3">
-            <img
-              src={`${import.meta.env.VITE_ASSET_BASE_URL}${datas?.barberShop?.img}`}
-              alt={datas?.barberShop?.name}
-              className="w-full h-48 object-cover rounded-xl shadow-md"
-            />
-          </div>
-
-          <div className="flex-1 space-y-4">
-            <div>
-              <h4 className="text-xl font-bold text-maintext dark:text-white mb-2">
-                {datas?.barberShop?.name}
-              </h4>
-              <p className="text-helpertext">
-                {datas?.barberShop?.descripton}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-main shrink-0" />
-                <span className="text-sm text-maintext dark:text-white">
-                  {datas?.barberShop?.location}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-main shrink-0" />
-                <span className="text-sm text-maintext dark:text-white">
-                  {datas?.barberShop?.phoneNumber}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Star className="w-4 h-4 text-yellow-500 shrink-0" />
-                <span className="text-sm text-maintext dark:text-white">
-                  {parseFloat(datas?.barberShop?.avg_rating).toFixed(1)} Rating
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`px-3 py-1 rounded-full text-xs font-bold uppercase text-white ${
-                    datas?.barberShop?.status === "active"
-                      ? "bg-green-500"
-                      : "bg-red-500"
-                  }`}
-                >
-                  {datas?.barberShop?.status}
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -417,4 +332,4 @@ const BarberShopDetail = () => {
   );
 };
 
-export default memo(BarberShopDetail);
+export default memo(BarberDetail);

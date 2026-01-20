@@ -145,7 +145,7 @@ const WomanCategoryBox = () => {
             </h3>
             <div
               onClick={() => setShow(false)}
-              className="inline-flex items-center justify-center bg-gray-100 dark:bg-gray-800 p-2 rounded-xl cursor-pointer hover:bg-red-400 group transition"
+              className="inline-flex items-center justify-center bg-gray-100 dark:bg-gray-800 p-2 rounded-xl cursor-pointer hover:bg-red-500 group transition"
             >
               <X
                 size={18}

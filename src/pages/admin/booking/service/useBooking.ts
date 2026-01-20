@@ -1,19 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../../../shared/api";
 
-const booking = "booking";
+const bookingKey = "booking";
 
 export const useBooking = () => {
-  const getAllBookings = () =>
+  const getAllBookings = (
+    page: number,
+    pageSize: number, 
+  ) =>
     useQuery({
-      queryKey: [booking],
-      queryFn: () => api.get("/booking/All").then((res) => res.data),
+      queryKey: [bookingKey, page, pageSize],
+      queryFn: () =>
+        api
+          .get("/booking/All", { params: { page, limit: pageSize } })
+          .then((res) => res.data),
     });
 
-  const getByIdBooking = () =>
+  const getByIdBooking = (id: any) =>
     useQuery({
-      queryKey: [booking],
-      queryFn: () => api.get(`/booking/User_booking`).then((res) => res.data)
+      queryKey: [bookingKey, "detail", id],
+      queryFn: () =>
+        api.get(`/booking/User_booking/${id}`).then((res) => res.data),
+      enabled: !!id,
     });
 
   return { getAllBookings, getByIdBooking };
