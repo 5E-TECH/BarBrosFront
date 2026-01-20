@@ -1,14 +1,29 @@
-import { memo } from "react";
+import { memo, type FC } from "react";
 import { Trash2 } from "lucide-react";
-import { Switch, notification } from "antd";
+import { Switch, notification, type PaginationProps } from "antd";
 import SearchInput from "../../../../shared/components/Search";
 import avatar from "../../../../shared/assets/Avatar.png";
 import { useBarberShop } from "../service/useBarberShop";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../../shared/components/pageHeader";
 import TableLoading from "../../../../shared/components/loadings/tableLoading";
+import CustomPagination from "../../../../shared/components/pagination";
 
-const BarberTable = () => {
+interface Props {
+  data: any[];
+  page?: number;
+  total?: number;
+  pageSize?: number;
+  onPageChange?: PaginationProps["onChange"];
+  onSearch: (searchTerm: string) => void;
+}
+
+const BarberShopTable: FC<Props> = ({
+  page,
+  total,
+  pageSize,
+  onPageChange,
+}) => {
   const { getBarbershops, deleteBarberShop, updateStatusBarbershop } =
     useBarberShop();
   const { data, isLoading, refetch } = getBarbershops();
@@ -59,19 +74,23 @@ const BarberTable = () => {
       <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md mt-12 mb-10 dark:bg-[#191a1f]">
         {contextHolder}
 
-        <div className="w-[97%] mt-6">
+        <div className="w-[97%] mt-6 px-3 md:px-0">
           <SearchInput />
         </div>
 
-        <div className="w-full h-[80%]">
+        <div className="hidden md:block w-full overflow-x-auto">
           <table className="mt-[31px] mb-20 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#1f222b]">
               <tr>
-                <th className="pl-12 pr-[172px] pb-3">BarberShop Name</th>
-                <th className="pr-[172px] pb-3">Address</th>
-                <th className="pr-[172px] pb-3">Phone number</th>
-                <th className="pr-[172px] pb-3">Date of establishment</th>
-                <th className="pr-[150px] pb-3">Status</th>
+                <th className="pl-12 pr-[172px] pb-3 text-left">
+                  BarberShop Name
+                </th>
+                <th className="pr-[172px] pb-3 text-left">Address</th>
+                <th className="pr-[172px] pb-3 text-left">Phone number</th>
+                <th className="pr-[172px] pb-3 text-left">
+                  Date of registration
+                </th>
+                <th className="pr-[150px] pb-3 text-left">Status</th>
                 <th></th>
               </tr>
             </thead>
@@ -108,18 +127,15 @@ const BarberTable = () => {
                         2,
                         "0"
                       );
-
                       return `${day}-${month}-${year} ${hours}:${minutes}`;
                     })()}
                   </td>
-
                   <td onClick={(e) => e.stopPropagation()}>
                     <Switch
                       checked={item.status === "active"}
                       onChange={() => handleToggle(item)}
                     />
                   </td>
-
                   <td
                     onClick={(e) => {
                       e.stopPropagation();
@@ -134,9 +150,72 @@ const BarberTable = () => {
             </tbody>
           </table>
         </div>
+
+        {/* MOBILE CARD VIEW - Rasmda so'ralgan dizayn */}
+        <div className="md:hidden w-full flex flex-col gap-4 p-4">
+          {data?.data?.data.map((item: any, index: number) => (
+            <div
+              key={item.id}
+              onClick={() => navigate(`barbershop-detail/${item?.id}`)}
+              className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 divide-y divide-gray-100 dark:divide-[#30333c] border border-gray-100 dark:border-gray-800 shadow-sm transition-colors cursor-pointer"
+            >
+              <div className="flex justify-between items-center pb-2">
+                <span className="text-helpertext dark:text-gray-400 font-bold">
+                  #{index + 1}
+                </span>
+                <div onClick={(e) => e.stopPropagation()}>
+                  <Switch
+                    size="small"
+                    checked={item.status === "active"}
+                    onChange={() => handleToggle(item)}
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center pt-3">
+                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
+                  Name
+                </span>
+                <span className="text-sm font-medium">{item?.name}</span>
+              </div>
+
+              <div className="flex justify-between items-center pt-3">
+                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
+                  Phone
+                </span>
+                <span className="text-sm">{item?.phoneNumber}</span>
+              </div>
+
+              <div className="flex justify-between items-center pt-3">
+                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
+                  Action
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteBarberShop.mutate({ id: item.id });
+                  }}
+                  className="p-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+                >
+                  <Trash2 size={18} className="text-red-500" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-end mb-6 pr-6 w-full">
+          <CustomPagination
+            current={page}
+            onChange={onPageChange}
+            pageSize={pageSize}
+            total={total}
+            showSizeChanger={false}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
-export default memo(BarberTable);
+export default memo(BarberShopTable);

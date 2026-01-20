@@ -24,11 +24,12 @@ const Users = () => {
   const { getAllAdmins } = useAdmins();
   const search = useSelector((state: RootState) => state.search.userSearch);
 
+  const role = useSelector((state: RootState) => state.roleSlice.role);
 
-  const params = {page, limit, search}
+  const params = { page, limit, search };
 
   const { data, isLoading } = getAllUsers(params);
-  const dataAdmin = getAllAdmins({ page, limit });
+  const dataAdmin = getAllAdmins({ page, limit }, role !== "admin");
 
   const admins = dataAdmin?.data?.data?.data;
   const users = data?.data?.data ?? [];
@@ -47,34 +48,53 @@ const Users = () => {
   return (
     <div>
       {showTable && (
-        <div className="flex gap-25 items-center mb-12">
+        <div
+          className="flex flex-col mb-12 gap-3
+                     sm:flex-row sm:items-center sm:gap-20"
+        >
           <PageHeader title="Users" />
 
           <div
             onClick={() => setSelectRole("user")}
-            className="flex items-center px-6 py-2 rounded-xl bg-white w-[300px] hover:shadow-md cursor-pointer dark:bg-[#191a1f]"
+            className="flex items-center px-4 py-3 rounded-xl bg-white
+                       w-full sm:w-[300px]
+                       hover:shadow-md cursor-pointer
+                       dark:bg-[#191a1f]"
           >
             <div className="w-full dark:text-white">
-              <p className="text-helpertext text-[18px] font-medium">Users</p>
-              <strong className="text-[24px]">{users?.length ?? 0}</strong>
+              <p className="text-helpertext text-[16px] sm:text-[18px] font-medium">
+                Users
+              </p>
+              <strong className="text-[20px] sm:text-[24px]">
+                {users?.length ?? 0}
+              </strong>
             </div>
-            <div className="rounded-2xl bg-[#fff4e6] dark:bg-[#1f222b] px-3 py-3">
+            <div className="rounded-2xl bg-[#fff4e6] dark:bg-[#1f222b] px-3 py-3 sm:px-4 sm:py-4">
               <UsersRound size={30} color="#FA8B00" />
             </div>
           </div>
 
-          <div
-            onClick={() => setSelectRole("admin")}
-            className="flex items-center px-6 py-2 rounded-xl bg-white hover:shadow-md w-[300px] cursor-pointer dark:bg-[#191a1f]"
-          >
-            <div className="w-full dark:text-white">
-              <p className="text-helpertext text-[18px] font-medium">Admins</p>
-              <strong className="text-[24px]">{admins?.length ?? 0}</strong>
+          {role === "supperadmin" && (
+            <div
+              onClick={() => setSelectRole("admin")}
+              className="flex items-center px-4 py-3 rounded-xl bg-white
+                       w-full sm:w-[300px]
+                       hover:shadow-md cursor-pointer
+                       dark:bg-[#191a1f]"
+            >
+              <div className="w-full dark:text-white">
+                <p className="text-helpertext text-[16px] sm:text-[18px] font-medium">
+                  Admins
+                </p>
+                <strong className="text-[20px] sm:text-[24px]">
+                  {admins?.length ?? 0}
+                </strong>
+              </div>
+              <div className="rounded-2xl bg-[#fff4e6] dark:bg-[#1f222b] px-3 py-3 sm:px-4 sm:py-4">
+                <UsersRound size={30} color="#FA8B00" />
+              </div>
             </div>
-            <div className="rounded-2xl bg-[#fff4e6] dark:bg-[#1f222b] px-3 py-3">
-              <UsersRound size={30} color="#FA8B00" />
-            </div>
-          </div>
+          )}
         </div>
       )}
 
@@ -89,15 +109,7 @@ const Users = () => {
         />
       )}
 
-      {showTable && selectRole === "admin" && (
-        <AdminTable
-          data={admins}
-          // page={page}
-          // total={total}
-          // pageSize={pageSize}
-          // onPageChange={(newPage) => dispatch(setPage(newPage))}
-        />
-      )}
+      {showTable && selectRole === "admin" && <AdminTable data={admins} />}
 
       <Outlet />
     </div>

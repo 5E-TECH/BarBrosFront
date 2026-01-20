@@ -1,10 +1,13 @@
-import { memo } from 'react';
-import PageHeader from '../../../shared/components/pageHeader';
+import { memo } from "react";
+import BookingTable from "./components/bookingTable";
+import { Outlet, useOutlet } from "react-router-dom";
 
 const Index = () => {
+  const outlet = useOutlet();
   return (
     <div>
-      <PageHeader title='Booking'/>
+      {!outlet && <BookingTable />}
+      <Outlet />
     </div>
   );
 };

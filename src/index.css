@@ -132,3 +132,39 @@
 .dark .ant-pagination-item-active {
   border-color: #ff8400;
 }
+
+
+/* Add this to your global CSS or tailwind.config.js */
+
+/* If using global CSS, add this: */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* If using tailwind.config.js, add this to the extend section: */
+/*
+module.exports = {
+  theme: {
+    extend: {
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
+      animation: {
+        shimmer: 'shimmer 2s infinite',
+      },
+    },
+  },
+}
+*/

@@ -57,11 +57,8 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen p-4">
-      {/* Kartochka kengligi mobil uchun 'w-full', paddinglari esa kichraytirildi */}
       <div className="text-center w-full max-w-[600px] rounded-md md:shadow-2xl py-8 md:py-[50px]">
-        {/* Ichki padding mobil ekranda kamaytirildi (px-4), desktopda (md:px-[100px]) qoldi */}
         <div className="px-4 md:px-[100px]">
-          {/* Doira o'lchami mobil uchun kichraytirildi */}
           <div className="bg-[#F8F8F8] rounded-full flex justify-center items-center mb-[30px] md:mb-[37px] w-40 h-40 md:w-[250px] md:h-[250px] mx-auto">
             <img
               src={lock}
@@ -86,7 +83,7 @@ const Login = () => {
                     htmlFor="username"
                     className="text-[#8A9099] font-normal text-[14px] flex justify-between mb-1.5"
                   >
-                    Login
+                    Username
                   </label>
                   <div className="border border-[#E8E9EB] rounded-2xl flex justify-between px-4 py-2.5">
                     <Field

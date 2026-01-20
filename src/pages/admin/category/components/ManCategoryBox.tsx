@@ -1,5 +1,5 @@
 import { memo, useState, type FormEvent } from "react";
-import { SquarePen, X } from "lucide-react";
+import { SquarePen, X, ChevronDown } from "lucide-react"; // ChevronDown qo'shildi
 import { useCategory } from "../service/useCategory";
 import { BASE_ASSETS_URL } from "../../../../shared/const";
 import CategoryLoading from "../../../../shared/components/loadings/categoryLoading";
@@ -13,6 +13,7 @@ const ManCategoryBox = () => {
   const [img, setImg] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [disable, setDisable] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -20,18 +21,18 @@ const ManCategoryBox = () => {
     name: "",
     categoryType: "",
   });
-  const { getCategoryMan, updateCategory } = useCategory();
-  const datas = getCategoryMan?.data?.data || [];
+  const { getCategory, updateCategory } = useCategory();
+  const datas = getCategory?.data?.data || [];
 
-  const processedData = datas.map((element: any) => {
+    const flWoman = datas.filter((data: any) => data.categoryType === "man")
+
+  const processedData = flWoman.map((element: any) => {
     let imgUrl = element.img;
-
     if (imgUrl && !/^https?:\/\//.test(imgUrl)) {
       imgUrl = `${BASE_ASSETS_URL}${
         imgUrl.startsWith("/") ? "" : "/"
       }${imgUrl}`;
     }
-
     return { ...element, img: imgUrl };
   });
 
@@ -44,7 +45,6 @@ const ManCategoryBox = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     setImg(file);
     setPreview(URL.createObjectURL(file));
   };
@@ -52,33 +52,29 @@ const ManCategoryBox = () => {
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setDisable(true);
+    setErrorMessage(null);
 
     if (!selectedId) return;
 
     const formData = new FormData();
     formData.append("name", form.name);
     formData.append("categoryType", form.categoryType);
-
-    if (img) {
-      formData.append("img", img);
-    }
+    if (img) formData.append("img", img);
 
     updateCategory.mutate(
-      {
-        id: selectedId,
-        data: formData,
-      },
+      { id: selectedId, data: formData },
       {
         onSuccess: () => {
           setDisable(false);
           setShow(false);
-          setSelectedId(null);
-          setImg(null);
-          setPreview(null);
-          setForm({
-            name: "",
-            categoryType: "",
-          });
+          setErrorMessage(null);
+        },
+        onError: (error: any) => {
+          setDisable(false);
+          const serverError =
+            error?.response?.data?.message ||
+            "Something went wrong. Please try again.";
+          setErrorMessage(serverError);
         },
       }
     );
@@ -86,134 +82,157 @@ const ManCategoryBox = () => {
 
   const handleEdit = (data: any) => {
     setSelectedId(data.id);
-    setForm({
-      name: data.name,
-      categoryType: data.categoryType,
-    });
+    setForm({ name: data.name, categoryType: data.categoryType });
     setPreview(data.img);
     setImg(null);
     setShow(true);
   };
 
-  if (getCategoryMan.isLoading) {
+  if (getCategory.isLoading) {
     return <CategoryLoading />;
   }
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6">
         {processedData.length > 0 &&
-          processedData.map((data: any) => (
-            <div
-              onClick={() => navigate(`category-detail/${data.id}`)}
-              key={data.id}
-              className="gap-4 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer dark:bg-[#1f222b] dark:border-0"
-            >
-              <div className="flex justify-end mb-2">
-                <SquarePen
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEdit(data);
-                  }}
-                  size={20}
-                  className="text-main hover:text-main cursor-pointer "
-                />
-              </div>
+          processedData
+            .filter((data: any) => !data.is_deleted)
+            .map((data: any) => (
+              <div
+                onClick={() => navigate(`category-detail/${data.id}`)}
+                key={data.id}
+                className="bg-white rounded-2xl px-4 py-4 border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer dark:bg-[#1f222b] dark:border-0"
+              >
+                <div className="flex justify-end mb-1">
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEdit(data);
+                    }}
+                  >
+                    <SquarePen size={20} className="text-main" />
+                  </div>
+                </div>
 
-              <div className="flex items-center justify-between">
-                <h3 className="text-gl font-bold text-maintext truncate">
-                  {data.name}
-                </h3>
-                <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden shrink-0">
-                  {data.img ? (
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-base font-bold text-maintext truncate dark:text-white">
+                    {data.name}
+                  </h3>
+                  <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden shrink-0">
                     <img
                       src={data.img}
                       alt={data.name}
                       className="w-full h-full object-contain"
                     />
-                  ) : (
-                    <span className="text-xs text-helpertext">No Image</span>
-                  )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
       </div>
 
       <Popup isShow={show} onClose={() => setShow(false)}>
-        <div className="bg-white w-[500px] rounded-xl px-8 py-10">
-          <div className="flex justify-end">
+        <div className="bg-white w-[92vw] max-w-[480px] rounded-2xl px-5 md:px-8 py-7 md:py-10 dark:bg-[#1f222b] shadow-2xl">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-lg md:text-xl font-bold dark:text-white">
+              Edit Category
+            </h3>
             <div
               onClick={() => setShow(false)}
-              className="inline-flex items-center justify-center
-                  bg-[#e5e2e2] p-2 rounded-xl cursor-pointer hover:bg-red-400 transition"
+              className="inline-flex items-center justify-center bg-gray-100 dark:bg-gray-800 p-2 rounded-xl cursor-pointer hover:bg-red-400 group transition"
             >
-              <X size={18} color="#3F434A" />
+              <X
+                size={18}
+                className="text-gray-600 dark:text-gray-300 group-hover:text-white"
+              />
             </div>
           </div>
 
-          <form onSubmit={handleSave}>
-            <div className="flex flex-col mb-9">
-              <label className="text-helpertext mb-2.5">Category Name</label>
+          <form onSubmit={handleSave} className="space-y-5 md:space-y-7">
+            <div className="flex flex-col">
+              <label className="text-helpertext text-sm mb-2 font-medium">
+                Category Name
+              </label>
               <input
                 type="text"
                 name="name"
                 required
                 value={form.name}
                 onChange={handleChange}
-                placeholder="Enter category name"
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
+                placeholder="Enter name"
+                className="border border-[#E8E9EB] rounded-xl px-4 py-3.5 md:py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:text-white w-full"
               />
             </div>
 
-            <div className="flex flex-col mb-9">
-              <label className="text-helpertext mb-2.5">Category Type</label>
-              <select
-                name="categoryType"
-                value={form.categoryType}
-                onChange={handleChange}
-                required
-                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main"
-              >
-                <option value="" disabled>
-                  Select Category type
-                </option>
-                <option value="man">Man</option>
-                <option value="woman">Woman</option>
-              </select>
+            <div className="flex flex-col">
+              <label className="text-helpertext text-sm mb-2 font-medium">
+                Category Type
+              </label>
+              <div className="relative">
+                <select
+                  name="categoryType"
+                  value={form.categoryType}
+                  onChange={handleChange}
+                  required
+                  className="appearance-none border border-[#E8E9EB] rounded-xl px-4 py-3.5 md:py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:text-white w-full cursor-pointer"
+                >
+                  <option value="" disabled>
+                    Select Type
+                  </option>
+                  <option value="man" className="dark:bg-gray-700">
+                    Man
+                  </option>
+                  <option value="woman" className="dark:bg-gray-700">
+                    Woman
+                  </option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                  <ChevronDown size={18} />
+                </div>
+              </div>
             </div>
 
-            <div className="flex flex-col mb-12">
-              <label className="text-helpertext mb-2.5">Category Image</label>
-              <label className="border border-dashed border-[#E8E9EB] rounded-xl h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50 transition">
+            <div className="flex flex-col">
+              <label className="text-helpertext text-sm mb-2 font-medium">
+                Category Image
+              </label>
+              <label className="border-2 border-dashed border-[#E8E9EB] rounded-2xl h-[130px] md:h-[150px] flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-[#191a1f] transition dark:border-gray-700 overflow-hidden">
                 <input
                   type="file"
                   accept="image/*"
                   className="hidden"
                   onChange={handleImageChange}
                 />
-
                 {preview ? (
                   <img
                     src={preview}
                     alt="preview"
-                    className="h-full object-contain rounded-xl"
+                    className="h-full w-full object-contain p-2"
                   />
                 ) : (
-                  <span className="text-helpertext text-sm">
-                    Click to upload image
-                  </span>
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-helpertext text-xs">
+                      Click to upload image
+                    </span>
+                  </div>
                 )}
               </label>
-              <p className="text-xs text-helpertext mt-2">
-                {img
-                  ? "New image selected"
-                  : "Current image will be kept if not changed"}
-              </p>
             </div>
 
-            <div className="flex justify-end">
-              <ButtonCom title="Save" type="submit" disabled={disable} />
+            <div className="space-y-3 pt-2">
+              {errorMessage && (
+                <p className="text-red-500 text-sm font-medium animate-pulse">
+                  {errorMessage}
+                </p>
+              )}
+
+              <div className="flex justify-end">
+                <ButtonCom
+                  title={disable ? "Saving..." : "Save Changes"}
+                  type="submit"
+                  disabled={disable}
+                />
+              </div>
             </div>
           </form>
         </div>

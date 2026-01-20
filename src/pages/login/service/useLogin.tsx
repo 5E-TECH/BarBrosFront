@@ -7,7 +7,7 @@ export const useLogin = () => {
     const client = useQueryClient();
 
     const loginUser = useMutation({
-        mutationFn: (data: any) => api.post("admin/signin", data),
+        mutationFn: (data: any) => api.post("user/signin-admin", data),
         onSuccess: () => client.invalidateQueries({queryKey: [login]})
     })
 
