@@ -10,7 +10,6 @@ import {
   Calendar,
   Star,
   Scissors,
-  Edit3
 } from "lucide-react";
 import profile from "../../../../../shared/assets/profile.jpg";
 import ButtonCom from "../../../../../shared/components/button";
@@ -30,6 +29,8 @@ const BarberShopDetail = () => {
 
   const { getBarberById } = useBarber();
   const { id } = useParams();
+  console.log(id);
+  
   const { data } = getBarberById(1);
   const datas = data?.data;
   const navigate = useNavigate();
@@ -306,19 +307,19 @@ const BarberShopDetail = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-main flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-main shrink-0" />
                 <span className="text-sm text-maintext dark:text-white">
                   {datas?.barberShop?.location}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-main flex-shrink-0" />
+                <Phone className="w-4 h-4 text-main shrink-0" />
                 <span className="text-sm text-maintext dark:text-white">
                   {datas?.barberShop?.phoneNumber}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Star className="w-4 h-4 text-yellow-500 flex-shrink-0" />
+                <Star className="w-4 h-4 text-yellow-500 shrink-0" />
                 <span className="text-sm text-maintext dark:text-white">
                   {parseFloat(datas?.barberShop?.avg_rating).toFixed(1)} Rating
                 </span>
