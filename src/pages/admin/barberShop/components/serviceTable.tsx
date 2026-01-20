@@ -1,9 +1,9 @@
 import { memo, useState, useEffect } from "react";
-import { useService } from "../service/useService";
-import { useParams } from "react-router-dom";
 import { BASE_ASSETS_URL } from "../../../../shared/const";
 
 const ServiceCard = ({ service }: any) => {
+  // console.log("salom",service);
+  
   // Process all images first
   const processedImages = (service.serviceImages || [])
     .map((img: any) => {
@@ -285,7 +285,9 @@ const CategorySection = ({
           <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center">
             {icon}
           </div>
-          <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+            {title}
+          </h2>
           <span className="bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-full">
             {services.length}
           </span>
@@ -331,13 +333,12 @@ const CategorySection = ({
   );
 };
 
-const ServiceTable = () => {
-  const { id } = useParams();
-  const { getAllServicesByBarbershop } = useService();
-  const { data, isLoading } = getAllServicesByBarbershop(id);
+interface ServiceTableProps {
+  services?: any[];
+  isLoading?: boolean;
+}
 
-  const services = data?.data || [];
-
+const ServiceTable = ({ services = [], isLoading = false }: ServiceTableProps) => {
   // Separate services by gender
   const menServices = services.filter(
     (service: any) => service.category?.categoryType === "man"

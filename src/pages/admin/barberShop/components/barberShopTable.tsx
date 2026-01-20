@@ -1,55 +1,46 @@
-import { memo, type FC } from "react";
+import { memo, useState, type FC } from "react";
 import { Trash2 } from "lucide-react";
-import { Switch, notification, type PaginationProps } from "antd";
-import SearchInput from "../../../../shared/components/Search";
+import { Switch, notification } from "antd";
 import avatar from "../../../../shared/assets/Avatar.png";
 import { useBarberShop } from "../service/useBarberShop";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../../shared/components/pageHeader";
 import TableLoading from "../../../../shared/components/loadings/tableLoading";
 import CustomPagination from "../../../../shared/components/pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { setPage } from "../../../../shared/components/pagination/store/paginationSlice";
+import type { RootState } from "../../../../app/store";
 
-interface Props {
-  data: any[];
-  page?: number;
-  total?: number;
-  pageSize?: number;
-  onPageChange?: PaginationProps["onChange"];
-  onSearch: (searchTerm: string) => void;
-}
-
-const BarberShopTable: FC<Props> = ({
-  page,
-  total,
-  pageSize,
-  onPageChange,
-}) => {
+const BarberShopTable: FC = () => {
   const { getBarbershops, deleteBarberShop, updateStatusBarbershop } =
     useBarberShop();
-  const { data, isLoading, refetch } = getBarbershops();
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { page, limit } = useSelector((state: RootState) => state.paginationSlice);
+
+  const params = { page, limit, search: searchTerm };
+
+  const { data, isLoading, refetch } = getBarbershops(params);
+
+  const items = data?.data?.data ?? [];
+  const total = data?.data?.total ?? 0;
+  const pageSize = data?.data?.pageSize ?? limit;
 
   const handleToggle = (item: any) => {
     const newStatus = item.status === "active" ? "inactive" : "active";
-    const oldStatus = item.status;
-    item.status = newStatus;
 
     updateStatusBarbershop.mutate(
       { id: item.id, status: newStatus },
       {
         onSuccess: () => {
-          if (newStatus === "active") {
-            api.success({
-              message: "Active",
-              description: `${item.name} is now active`,
-            });
-          } else {
-            api.error({
-              message: "Inactive",
-              description: `${item.name} is now inactive`,
-            });
-          }
+          api.success({
+            message: "Status updated",
+            description: `${item.name} is now ${newStatus}`,
+          });
           refetch();
         },
         onError: () => {
@@ -57,16 +48,39 @@ const BarberShopTable: FC<Props> = ({
             message: "Error",
             description: "Failed to update status",
           });
-          item.status = oldStatus;
-          refetch();
         },
       }
     );
   };
 
-  if (isLoading) {
-    return <TableLoading />;
-  }
+  const handleDelete = (id: string) => {
+    deleteBarberShop.mutate(
+      { id },
+      {
+        onSuccess: () => {
+          api.success({
+            message: "Success",
+            description: "Barbershop deleted",
+          });
+          refetch();
+        },
+        onError: () => {
+          api.error({
+            message: "Error",
+            description: "Delete failed",
+          });
+        },
+      }
+    );
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+    dispatch(setPage(1));
+    refetch();
+  };
+
+  if (isLoading) return <TableLoading />;
 
   return (
     <div>
@@ -75,139 +89,80 @@ const BarberShopTable: FC<Props> = ({
         {contextHolder}
 
         <div className="w-[97%] mt-6 px-3 md:px-0">
-          <SearchInput />
+          <input
+            type="text"
+            placeholder="Search barbershops..."
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-[#24262d] dark:text-white"
+          />
         </div>
 
         <div className="hidden md:block w-full overflow-x-auto">
           <table className="mt-[31px] mb-20 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#1f222b]">
               <tr>
-                <th className="pl-12 pr-[172px] pb-3 text-left">
-                  BarberShop Name
-                </th>
-                <th className="pr-[172px] pb-3 text-left">Address</th>
-                <th className="pr-[172px] pb-3 text-left">Phone number</th>
-                <th className="pr-[172px] pb-3 text-left">
-                  Date of registration
-                </th>
-                <th className="pr-[150px] pb-3 text-left">Status</th>
+                <th className="pl-12 pb-3 text-left">BarberShop Name</th>
+                <th className="pb-3 text-left">Address</th>
+                <th className="pb-3 text-left">Phone number</th>
+                <th className="pb-3 text-left">Date of registration</th>
+                <th className="pb-3 text-left">Status</th>
                 <th></th>
               </tr>
             </thead>
 
             <tbody>
-              {data?.data?.data.map((item: any) => (
-                <tr
-                  key={item.id}
-                  onClick={() => navigate(`barbershop-detail/${item?.id}`)}
-                  className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#1f222b]"
-                >
-                  <td className="pl-12 flex flex-row gap-3.5 items-center">
-                    <div>
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="flex flex-col py-5">
-                      <p className="text-maintext">{item?.name}</p>
-                      <p className="text-helpertext">{item?.email}</p>
-                    </div>
-                  </td>
-                  <td className="text-helpertext">{item?.location}</td>
-                  <td className="text-maintext">{item?.phoneNumber}</td>
-                  <td className="text-helpertext">
-                    {(() => {
-                      const date = new Date(Number(item?.created_at));
-                      const day = String(date.getDate()).padStart(2, "0");
-                      const month = String(date.getMonth() + 1).padStart(
-                        2,
-                        "0"
-                      );
-                      const year = date.getFullYear();
-                      const hours = String(date.getHours()).padStart(2, "0");
-                      const minutes = String(date.getMinutes()).padStart(
-                        2,
-                        "0"
-                      );
-                      return `${day}-${month}-${year} ${hours}:${minutes}`;
-                    })()}
-                  </td>
-                  <td onClick={(e) => e.stopPropagation()}>
-                    <Switch
-                      checked={item.status === "active"}
-                      onChange={() => handleToggle(item)}
-                    />
-                  </td>
-                  <td
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteBarberShop.mutate({ id: item.id });
-                    }}
-                    className="pr-12"
-                  >
-                    <Trash2 className="text-red-500 cursor-pointer" />
+              {items.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-8 text-helpertext">
+                    No barbershops found
                   </td>
                 </tr>
-              ))}
+              ) : (
+                items.map((item: any) => (
+                  <tr
+                    key={item.id}
+                    onClick={() => navigate(`barbershop-detail/${item?.id}`)}
+                    className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b]"
+                  >
+                    <td className="pl-12 flex items-center gap-4 py-3">
+                      <img src={avatar} className="w-10 h-10" />
+                      <div>
+                        <p className="text-maintext">{item?.name}</p>
+                        <p className="text-helpertext">{item?.email}</p>
+                      </div>
+                    </td>
+                    <td className="text-helpertext">{item?.location}</td>
+                    <td className="text-maintext">{item?.phoneNumber}</td>
+                    <td className="text-helpertext">
+                      {new Date(Number(item?.created_at)).toLocaleString()}
+                    </td>
+                    <td onClick={(e) => e.stopPropagation()}>
+                      <Switch
+                        checked={item.status === "active"}
+                        onChange={() => handleToggle(item)}
+                      />
+                    </td>
+                    <td
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(item.id);
+                      }}
+                      className="pr-12"
+                    >
+                      <Trash2 className="text-red-500 cursor-pointer" />
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
-        </div>
-
-        {/* MOBILE CARD VIEW - Rasmda so'ralgan dizayn */}
-        <div className="md:hidden w-full flex flex-col gap-4 p-4">
-          {data?.data?.data.map((item: any, index: number) => (
-            <div
-              key={item.id}
-              onClick={() => navigate(`barbershop-detail/${item?.id}`)}
-              className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 divide-y divide-gray-100 dark:divide-[#30333c] border border-gray-100 dark:border-gray-800 shadow-sm transition-colors cursor-pointer"
-            >
-              <div className="flex justify-between items-center pb-2">
-                <span className="text-helpertext dark:text-gray-400 font-bold">
-                  #{index + 1}
-                </span>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <Switch
-                    size="small"
-                    checked={item.status === "active"}
-                    onChange={() => handleToggle(item)}
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-between items-center pt-3">
-                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
-                  Name
-                </span>
-                <span className="text-sm font-medium">{item?.name}</span>
-              </div>
-
-              <div className="flex justify-between items-center pt-3">
-                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
-                  Phone
-                </span>
-                <span className="text-sm">{item?.phoneNumber}</span>
-              </div>
-
-              <div className="flex justify-between items-center pt-3">
-                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
-                  Action
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteBarberShop.mutate({ id: item.id });
-                  }}
-                  className="p-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
-                >
-                  <Trash2 size={18} className="text-red-500" />
-                </button>
-              </div>
-            </div>
-          ))}
         </div>
 
         <div className="flex justify-end mb-6 pr-6 w-full">
           <CustomPagination
             current={page}
-            onChange={onPageChange}
+            onChange={(p) => dispatch(setPage(p))}
             pageSize={pageSize}
             total={total}
             showSizeChanger={false}
