@@ -30,7 +30,7 @@ const BookingTable: FC<Props> = ({
 
   const statusStyles: Record<string, string> = {
     pending: "bg-amber-500",
-    confirm: "bg-blue-600",
+    confirmed: "bg-blue-600",
     completed: "bg-green-600",
     cancelled: "bg-red-700",
   };

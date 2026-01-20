@@ -50,7 +50,7 @@ const BookingDetail = () => {
     date: "2026-01-01",
     time: "12:30:00",
     duration: "30 minuts",
-    paymentStatus: "pending",
+    order_type: "offline",
     barberName: "Barber Style",
     specialist: "Bahodir Nabijanov",
     rating: "5.0",
@@ -122,11 +122,11 @@ const BookingDetail = () => {
               <div className="flex items-center gap-2">
                 <CreditCard size={20} className="text-main" />
                 <span className="text-[10px] md:text-sm text-gray-500 dark:text-maintext font-semibold uppercase">
-                  Payment Modal
+                  Order Type
                 </span>
               </div>
-              <div className="w-full sm:w-[120px] bg-main rounded-2xl font-medium text-sm md:text-[16px] flex justify-center items-center py-1 mt-2 text-white">
-                {bookingData.paymentStatus}
+              <div className="w-full sm:w-[120px] bg-red-500 rounded-2xl font-medium text-sm md:text-[16px] flex justify-center items-center py-1 mt-2 text-white">
+                {bookingData.order_type}
               </div>
             </div>
           </div>
