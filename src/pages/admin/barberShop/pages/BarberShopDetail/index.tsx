@@ -65,7 +65,7 @@ const BarberShopDetail = () => {
   }
 
   return (
-    <div>
+    <div className="mb-10">
       <div className="flex flex-col gap-6 mb-10 md:mb-15">
         <div
           onClick={() => navigate(-1)}

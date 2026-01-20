@@ -1,17 +1,10 @@
-import { memo, useState, useEffect, useRef } from "react";
+import { memo, useState, useEffect } from "react";
 import { useService } from "../service/useService";
 import { useParams } from "react-router-dom";
 import { BASE_ASSETS_URL } from "../../../../shared/const";
 
 const ServiceCard = ({ service }: any) => {
-  const [currentIndex, setCurrentIndex] = useState(1); // Start at first real image
-  const [isTransitioning, setIsTransitioning] = useState(true);
-  const transitionRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const price = service.barberShopServices?.[0]?.price || 0;
-  const barberCount = service.barbers?.length || 0;
-
-  // Process all images
+  // Process all images first
   const processedImages = (service.serviceImages || [])
     .map((img: any) => {
       let imgUrl = img.image || "";
@@ -23,23 +16,53 @@ const ServiceCard = ({ service }: any) => {
     .filter(Boolean);
 
   const hasMultipleImages = processedImages.length > 1;
+  
+  // Set initial index based on whether we have multiple images
+  const [currentIndex, setCurrentIndex] = useState(hasMultipleImages ? 1 : 0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const price = service.barberShopServices?.[0]?.price || 0;
+  const barberCount = service.barbers?.length || 0;
 
   // Create seamless loop: [last, ...originals, first]
-  // This allows smooth transitions in both directions
   const carouselImages = hasMultipleImages
     ? [
-        processedImages[processedImages.length - 1], // Clone of last
-        ...processedImages, // Original images
-        processedImages[0], // Clone of first
+        processedImages[processedImages.length - 1],
+        ...processedImages,
+        processedImages[0],
       ]
     : processedImages;
+
+  // Handle the seamless loop
+  useEffect(() => {
+    if (!hasMultipleImages || !isTransitioning) return;
+
+    const handleTransitionEnd = () => {
+      const lastIndex = processedImages.length + 1;
+
+      if (currentIndex === 0) {
+        setIsTransitioning(false);
+        setCurrentIndex(processedImages.length);
+      } else if (currentIndex === lastIndex) {
+        setIsTransitioning(false);
+        setCurrentIndex(1);
+      }
+    };
+
+    const timeout = setTimeout(() => {
+      handleTransitionEnd();
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [currentIndex, isTransitioning, processedImages.length, hasMultipleImages]);
 
   // Auto-advance every 3 seconds
   useEffect(() => {
     if (!hasMultipleImages) return;
 
     const interval = setInterval(() => {
-      handleNext();
+      setIsTransitioning(true);
+      setCurrentIndex((prev) => prev + 1);
     }, 3000);
 
     return () => clearInterval(interval);
@@ -62,51 +85,8 @@ const ServiceCard = ({ service }: any) => {
     e?.stopPropagation();
     if (!hasMultipleImages) return;
     setIsTransitioning(true);
-    setCurrentIndex(index + 1); // +1 because of cloned first image
+    setCurrentIndex(index + 1);
   };
-
-  // Handle the seamless loop
-  useEffect(() => {
-    if (!hasMultipleImages) return;
-
-    const handleTransitionEnd = () => {
-      const lastIndex = processedImages.length + 1;
-
-      // If we're at the cloned last image (index 0), jump to real last
-      if (currentIndex === 0) {
-        setIsTransitioning(false);
-        setCurrentIndex(processedImages.length);
-      }
-      // If we're at the cloned first image (last position), jump to real first
-      else if (currentIndex === lastIndex) {
-        setIsTransitioning(false);
-        setCurrentIndex(1);
-      }
-    };
-
-    // Clear any existing timeout
-    if (transitionRef.current) {
-      clearTimeout(transitionRef.current);
-    }
-
-    // Set timeout for transition end
-    if (isTransitioning) {
-      transitionRef.current = setTimeout(() => {
-        handleTransitionEnd();
-      }, 500); // Match transition duration
-    }
-
-    return () => {
-      if (transitionRef.current) {
-        clearTimeout(transitionRef.current);
-      }
-    };
-  }, [
-    currentIndex,
-    isTransitioning,
-    processedImages.length,
-    hasMultipleImages,
-  ]);
 
   // Get display index for indicators
   const getDisplayIndex = () => {
@@ -115,7 +95,7 @@ const ServiceCard = ({ service }: any) => {
     if (currentIndex === processedImages.length + 1) return 0;
     return currentIndex - 1;
   };
-
+  
   return (
     <div className="group relative rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer">
       {/* Image with Overlay */}
@@ -199,7 +179,7 @@ const ServiceCard = ({ service }: any) => {
           </>
         )}
 
-        {/* Dark Gradient Overlay */}
+        {/* Dark linear Overlay */}
         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent pointer-events-none" />
 
         {/* Content Overlay */}
@@ -281,21 +261,220 @@ const ServiceCard = ({ service }: any) => {
   );
 };
 
+const CategorySection = ({ 
+  title, 
+  services, 
+  icon 
+}: { 
+  title: string; 
+  services: any[]; 
+  icon: React.ReactNode;
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const hasMoreThan4 = services.length > 4;
+  const displayedServices = isExpanded ? services : services.slice(0, 4);
+
+  if (services.length === 0) return null;
+
+  return (
+    <div className="mb-12">
+      {/* Section Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center">
+            {icon}
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+          <span className="bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-full">
+            {services.length}
+          </span>
+        </div>
+
+        {/* See All / Show Less Button - Top Right */}
+        {hasMoreThan4 && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center gap-2 px-4 py-2 text-orange-500 hover:text-orange-600 font-semibold transition-all duration-300 group"
+          >
+            <span>{isExpanded ? 'Show Less' : 'See All'}</span>
+            <svg
+              className={`w-4 h-4 transition-transform duration-300 ${
+                isExpanded 
+                  ? 'rotate-180 group-hover:-translate-y-1' 
+                  : 'group-hover:translate-x-1'
+              }`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={isExpanded ? "M19 9l-7 7-7-7" : "M9 5l7 7-7 7"}
+              />
+            </svg>
+          </button>
+        )}
+      </div>
+
+      {/* Services Grid */}
+      <div className="relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {displayedServices.map((service: any) => (
+            <ServiceCard key={service.id} service={service} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ServiceTable = () => {
   const { id } = useParams();
-
   const { getAllServicesByBarbershop } = useService();
-  const { data } = getAllServicesByBarbershop(id);
+  const { data, isLoading } = getAllServicesByBarbershop(id);
 
   const services = data?.data || [];
 
+  // Separate services by gender
+  const menServices = services.filter(
+    (service: any) => service.category?.categoryType === "man"
+  );
+  
+  const womenServices = services.filter(
+    (service: any) => service.category?.categoryType === "woman"
+  );
+
+  // Loading State
+  if (isLoading) {
+    return (
+      <div className="w-full px-4 py-6">
+        {/* Men's Services Skeleton */}
+        <div className="mb-12">
+          {/* Section Header Skeleton */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
+            <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-6 w-12 bg-gray-200 rounded-full animate-pulse"></div>
+          </div>
+
+          {/* Service Cards Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="relative rounded-xl overflow-hidden shadow-md bg-gray-100 animate-pulse"
+              >
+                <div className="relative h-64 bg-gray-200">
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-shimmer"></div>
+                  
+                  {/* Top badges skeleton */}
+                  <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
+                    <div className="bg-white/50 px-3 py-1.5 rounded-full w-20 h-7"></div>
+                    <div className="bg-gray-300/50 px-3 py-1.5 rounded-full w-12 h-7"></div>
+                  </div>
+
+                  {/* Bottom content skeleton */}
+                  <div className="absolute bottom-4 left-4 right-4 space-y-2">
+                    <div className="h-6 bg-white/30 rounded w-3/4"></div>
+                    <div className="h-4 bg-white/20 rounded w-full"></div>
+                    <div className="h-4 bg-white/20 rounded w-2/3"></div>
+                    <div className="inline-block bg-white/30 px-4 py-2 rounded-lg w-28 h-10"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Women's Services Skeleton */}
+        <div className="mb-12">
+          {/* Section Header Skeleton */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
+            <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-6 w-12 bg-gray-200 rounded-full animate-pulse"></div>
+          </div>
+
+          {/* Service Cards Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[1, 2].map((i) => (
+              <div
+                key={i}
+                className="relative rounded-xl overflow-hidden shadow-md bg-gray-100 animate-pulse"
+              >
+                <div className="relative h-64 bg-gray-200">
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-shimmer"></div>
+                  
+                  {/* Top badges skeleton */}
+                  <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
+                    <div className="bg-white/50 px-3 py-1.5 rounded-full w-20 h-7"></div>
+                    <div className="bg-gray-300/50 px-3 py-1.5 rounded-full w-12 h-7"></div>
+                  </div>
+
+                  {/* Bottom content skeleton */}
+                  <div className="absolute bottom-4 left-4 right-4 space-y-2">
+                    <div className="h-6 bg-white/30 rounded w-3/4"></div>
+                    <div className="h-4 bg-white/20 rounded w-full"></div>
+                    <div className="h-4 bg-white/20 rounded w-2/3"></div>
+                    <div className="inline-block bg-white/30 px-4 py-2 rounded-lg w-28 h-10"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full px-4 py-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {services.map((service: any) => (
-          <ServiceCard key={service.id} service={service} />
-        ))}
-      </div>
+      {/* Men's Services Section */}
+      <CategorySection
+        title="Erkaklar uchun"
+        services={menServices}
+        icon={
+          <svg
+            className="w-6 h-6 text-orange-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            />
+          </svg>
+        }
+      />
+
+      {/* Women's Services Section */}
+      <CategorySection
+        title="Ayollar uchun"
+        services={womenServices}
+        icon={
+          <svg
+            className="w-6 h-6 text-orange-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+        }
+      />
 
       {/* Empty State */}
       {services.length === 0 && (

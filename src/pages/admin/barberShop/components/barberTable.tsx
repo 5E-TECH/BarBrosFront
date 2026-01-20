@@ -1,9 +1,10 @@
 import { memo } from "react";
 import { useBarber } from "../service/useBarber";
 import TableLoading from "../../../../shared/components/loadings/tableLoading";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const BarberTable = () => {
+  const navigate = useNavigate();
   const { getBarberShopBarbers } = useBarber();
   const { id } = useParams();
   const { data, isLoading } = getBarberShopBarbers(id);
@@ -30,6 +31,11 @@ const BarberTable = () => {
               <tbody>
                 {barber?.map((item: any) => (
                   <tr
+                    onClick={() =>
+                      navigate(
+                        `/barbershop/barber-detail/${item.id}`,
+                      )
+                    }
                     key={item.id}
                     className="border-b border-[#e8e9eb] hover:bg-gray-50 text-maintext font-medium cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#1f222b]"
                   >

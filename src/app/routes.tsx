@@ -12,6 +12,10 @@ const BarberShopDetail = lazy(
   () => import("../pages/admin/barberShop/pages/BarberShopDetail")
 );
 
+const BarBersDetail = lazy(
+  () => import("../pages/admin/barberShop/pages/BarBersDetail")
+);
+
 const Users = lazy(() => import("../pages/admin/users"));
 const AddUser = lazy(() => import("../pages/admin/users/pages/addAdmin"));
 const UserDetail = lazy(() => import("../pages/admin/users/pages/userDetail"));
@@ -46,6 +50,10 @@ const AppRouter = () => {
                   path: "barbershop-detail/:id",
                   element: <BarberShopDetail />,
                 },
+                {
+                  path:"barber-detail/:id",
+                  element:<BarBersDetail/>
+                }
               ],
             },
             {
