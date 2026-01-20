@@ -8,7 +8,7 @@ const BarberShop = () => {
 
   return (
     <div>
-      <div>{showTable && <BarberShopTable data={[]} onSearch={() => {}} />}</div>
+      <div>{showTable && <BarberShopTable />}</div>
       <Outlet />
     </div>
   );

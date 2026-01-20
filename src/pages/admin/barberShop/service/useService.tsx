@@ -6,17 +6,24 @@ export const service = "service";
 export const useService = () => {
   const getAllServicesByBarbershop = (id:any) =>
     useQuery({
-      queryKey: [service, id],
+      queryKey: [service, 'barbershop', id],
       queryFn: () => api.get(`/service/by-barber-shop/${id}`).then((res) => res.data),
     });
 
-  const getBarberShopBarbers = (id: any) =>
+  const getAllServicesByBarber = (id:any) =>
     useQuery({
       queryKey: [service, id],
-      queryFn: () =>
-        api.get(`/barber/barbershop/${id}`).then((res) => res.data),
-      enabled: !!id, 
+      queryFn: () => api.get(`/service/by-barber/${id}`).then((res) => res.data),
+      enabled: !!id,
     });
 
-  return { getAllServicesByBarbershop, getBarberShopBarbers };
+  // const getBarberShopBarbers = (id: any) =>
+  //   useQuery({
+  //     queryKey: [service, 'barbers', id],
+  //     queryFn: () =>
+  //       api.get(`/barber/barbershop/${id}`).then((res) => res.data),
+  //     enabled: !!id, 
+  //   });
+
+  return { getAllServicesByBarbershop, getAllServicesByBarber };
 };

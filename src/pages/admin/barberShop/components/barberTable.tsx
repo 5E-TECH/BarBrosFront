@@ -1,18 +1,12 @@
 import { memo } from "react";
-import { useBarber } from "../service/useBarber";
-import TableLoading from "../../../../shared/components/loadings/tableLoading";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const BarberTable = () => {
+interface BarberTableProps {
+  barbers: any[];
+}
+
+const BarberTable = ({ barbers = [] }: BarberTableProps) => {
   const navigate = useNavigate();
-  const { getBarberShopBarbers } = useBarber();
-  const { id } = useParams();
-  const { data, isLoading } = getBarberShopBarbers(id);
-  const barber = data?.data;
-
-  if (isLoading) {
-    return <TableLoading />;
-  }
 
   return (
     <div>
@@ -29,7 +23,7 @@ const BarberTable = () => {
               </thead>
 
               <tbody>
-                {barber?.map((item: any) => (
+                {barbers?.map((item: any) => (
                   <tr
                     onClick={() =>
                       navigate(
@@ -49,10 +43,15 @@ const BarberTable = () => {
           </div>
 
           <div className="md:hidden flex flex-col gap-4 p-4">
-            {barber?.map((item: any, index: number) => (
+            {barbers?.map((item: any, index: number) => (
               <div
                 key={item.id}
-                className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 divide-y divide-gray-100 dark:divide-[#30333c] border border-gray-100 dark:border-gray-800 shadow-sm transition-colors"
+                onClick={() =>
+                  navigate(
+                    `/barbershop/barber-detail/${item.id}`,
+                  )
+                }
+                className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 divide-y divide-gray-100 dark:divide-[#30333c] border border-gray-100 dark:border-gray-800 shadow-sm transition-colors cursor-pointer hover:shadow-md"
               >
                 <div className="flex justify-between items-center pb-2">
                   <span className="text-helpertext dark:text-gray-400 font-bold">
@@ -93,6 +92,33 @@ const BarberTable = () => {
               </div>
             ))}
           </div>
+
+          {/* Empty State */}
+          {barbers?.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-16">
+              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                <svg
+                  className="w-12 h-12 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                No Barbers Available
+              </h3>
+              <p className="text-gray-500">
+                Check back later for available barbers
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

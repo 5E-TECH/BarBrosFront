@@ -6,10 +6,10 @@ export const barbershop = "barbershop";
 export const useBarberShop = () => {
   const client = useQueryClient();
 
-  const getBarbershops = () =>
+  const getBarbershops = (params: any) =>
     useQuery({
-      queryKey: [barbershop],
-      queryFn: () => api.get("barber-shop").then((res) => res.data),
+      queryKey: [barbershop, params],
+      queryFn: () => api.get("barber-shop", { params }).then((res) => res.data),
       // staleTime: 1000 * 60 * 60 * 24,
       // refetchOnWindowFocus: false,
     });
