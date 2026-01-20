@@ -26,8 +26,6 @@ const Users = () => {
 
   const role = useSelector((state: RootState) => state.roleSlice.role);
 
-  console.log("role:", role);
-
   const params = { page, limit, search };
 
   const { data, isLoading } = getAllUsers(params);

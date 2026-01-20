@@ -10,5 +10,11 @@ export const useBooking = () => {
       queryFn: () => api.get("/booking/All").then((res) => res.data),
     });
 
-  return { getAllBookings };
+  const getByIdBooking = () =>
+    useQuery({
+      queryKey: [booking],
+      queryFn: () => api.get(`/booking/User_booking`).then((res) => res.data)
+    });
+
+  return { getAllBookings, getByIdBooking };
 };

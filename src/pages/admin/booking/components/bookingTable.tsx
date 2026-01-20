@@ -2,11 +2,22 @@ import { memo } from "react";
 import { useBooking } from "../service/useBooking";
 import TableLoading from "../../../../shared/components/loadings/tableLoading";
 import SearchInput from "../../../../shared/components/Search";
+import { useNavigate } from "react-router-dom";
+import PageHeader from "../../../../shared/components/pageHeader";
 
 const BookingTable = () => {
   const { getAllBookings } = useBooking();
   const { data } = getAllBookings();
   const datas = data?.data;
+
+  const navigate = useNavigate();
+
+  const statusStyles: Record<string, string> = {
+    pending: "bg-amber-500",
+    confirm: "bg-blue-600",
+    completed: "bg-green-600",
+    cancelled: "bg-red-700",
+  };
 
   if (!data) {
     return <TableLoading />;
@@ -14,6 +25,7 @@ const BookingTable = () => {
 
   return (
     <div>
+      <PageHeader title="Booking" />
       <div className="bg-white py-2 w-full rounded-md shadow-md dark:bg-[#191a1f] mt-12">
         <div className="w-full px-6 mt-6">
           <SearchInput />
@@ -22,58 +34,74 @@ const BookingTable = () => {
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#30333c]">
               <tr>
-                <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
-                <th className="w-[200px] pb-3 text-left">Booking date</th>
+                <th className="w-[300px] pl-16 pb-3 text-left">booking date</th>
                 <th className="w-[200px] pb-3 text-left">Booking time</th>
-                <th className="w-[200px] pb-3 text-left">Booking Status</th>
-                <th className="w-[200px] pb-3 text-left">Payment Model</th>
-                <th className="w-[200px] pb-3 text-left">Order Type</th>
+                <th className="w-[200px] pb-3 text-left">payment status</th>
+                <th className="w-[200px] pb-3 text-left">payment Model</th>
+                <th className="w-[200px] pb-3 text-left">order Type</th>
               </tr>
             </thead>
             <tbody>
               {datas.map((item: any) => (
                 <tr
+                  onClick={() => navigate(`booking-detail/${item?.id}`)}
                   key={item.id}
                   className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#30333c]"
                 >
-                  <td className="py-3 pl-12 flex items-center gap-4">
+                  <td className="py-3 pl-16 flex items-center gap-4">
                     <div>
-                      <p className="text-maintext">name</p>
+                      <p className="text-maintext">{item?.date}</p>
                     </div>
                   </td>
-                  <td className="text-helpertext pl-5">{item?.date}</td>
-                  <td className="text-helpertext pl-5">{item?.time}</td>
-                  <td className="text-helpertext pl-6">{item?.status}</td>
-                  <td className="text-helpertext pl-5">{item?.payment_model}</td>
-                  <td className="text-helpertext pl-5">{item?.order_type}</td>
+                  <td className="text-helpertext pl-1">{item?.time}</td>
+                  <td className="pl-1 py-3">
+                    <span
+                      className={`px-3 py-1 text-white rounded-full ${statusStyles[item?.status] || "bg-gray-400"}`}
+                    >
+                      {item?.status}
+                    </span>
+                  </td>
+
+                  <td className="text-white pl-1">
+                    <span className={`px-3 py-1 rounded-full bg-gray-500`}>
+                      {item?.payment_model}
+                    </span>
+                  </td>
+                  <td className="pl-1 py-3">
+                    <span
+                      className={`inline-block px-3 py-1 text-white rounded-full ${item?.order_type === "online" ? "bg-green-500" : "bg-red-500"}`}
+                    >
+                      {item?.order_type}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        {/* MOBILE CARD VIEW - Rasmda so'ralgan qora card dizayni */}
+        {/* MOBILE CARD VIEW */}
         <div className="md:hidden flex flex-col gap-4 p-4">
           {datas.map((item: any, index: number) => (
             <div
               key={item.id}
-              className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 divide-y divide-gray-100 dark:divide-[#30333c] border border-gray-100 dark:border-gray-800 shadow-sm"
+              className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 border border-gray-100 dark:border-gray-800 shadow-sm"
             >
-              <div className="flex justify-between items-center pb-2 border-b dark:border-b-0">
-                <span className="text-gray-400 font-bold">#{index + 1}</span>
-                <span className="bg-[#00a3ff] text-[10px] px-3 py-1 rounded-full uppercase font-bold text-white">
-                  Booking
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400 font-bold text-sm">
+                  #{index + 1}
+                </span>
+
+                <span
+                  className={`px-3 py-1 text-xs text-white rounded-full
+            ${statusStyles[item?.status] || "bg-gray-400"}
+          `}
+                >
+                  {item?.status}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center pt-3">
-                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
-                  FullName
-                </span>
-                <span className="text-sm font-medium">name</span>
-              </div>
-
-              <div className="flex justify-between items-center pt-3">
+              <div className="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-700">
                 <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
                   Date
                 </span>
@@ -85,6 +113,36 @@ const BookingTable = () => {
                   Time
                 </span>
                 <span className="text-sm font-medium">{item?.time}</span>
+              </div>
+
+              <div className="flex justify-between items-center pt-3">
+                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
+                  Payment
+                </span>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-medium
+            ${
+              item?.payment_model === "card"
+                ? "bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-200"
+                : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200"
+            }
+          `}
+                >
+                  {item?.payment_model}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center pt-3">
+                <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
+                  Order Type
+                </span>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs text-white
+            ${item?.order_type === "online" ? "bg-green-500" : "bg-red-500"}
+          `}
+                >
+                  {item?.order_type}
+                </span>
               </div>
             </div>
           ))}

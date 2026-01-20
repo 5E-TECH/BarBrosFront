@@ -66,7 +66,7 @@ const Profile = () => {
         <PageHeader title="Profile" />
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between w-full px-6 md:px-10 py-6 md:py-9 rounded-2xl dark:bg-[#191a1f] gap-6 md:gap-0">
+      <div className="flex flex-col md:flex-row justify-between w-full px-6 md:px-10 py-6 md:py-9 rounded-2xl bg-white dark:bg-[#191a1f] gap-6 md:gap-0">
         <div className="w-full md:w-[15%] flex flex-col items-center gap-4">
           <img
             src={shelby}
