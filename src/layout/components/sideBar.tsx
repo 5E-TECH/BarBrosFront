@@ -1,10 +1,16 @@
 import { memo } from "react";
 import { UserRole } from "../../shared/enum";
-import { AlarmClock, ClipboardList, FileText, Grid2X2Check, Home } from "lucide-react";
+import {
+  AlarmClock,
+  ClipboardList,
+  FileText,
+  Grid2X2Check,
+  Home,
+  Scissors,
+} from "lucide-react";
 import SideBarLink from "./sideBarLink";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
-import logoo from "../../shared/assets/logoo.svg"
 
 interface LinkItem {
   to: string;
@@ -35,9 +41,11 @@ const SideBar = () => {
   return (
     <div className="w-[289px] h-screen max-sm:hidden border-r-2 border-[#EAEAEA] top-0 left-0 sticky dark:bg-[#191a1f] dark:text-white dark:border-0">
       <ul className="flex flex-col ">
-        <div className="flex items-center mt-[13px] px-8 gap-2">
-          <img src={logoo} alt="" className="w-[60px]"/>
-          <h1 className="font-bold text-xl">STYLE UP</h1>
+        <div className="flex items-center mt-[13px] px-8 gap-3">
+          <div className="px-4 py-4 rounded-full bg-[#31343e] shadow-[0_0_10px_rgba(251,191,36,0.6)]">
+            <Scissors color="#fa8900" size={26} />
+          </div>
+          <h1 className="font-bold text-xl">STYLE <span className="bg-main rounded-full px-2 py-2 text-[16px]">UP</span></h1>
         </div>
       </ul>
       <div className="mt-[53px]">

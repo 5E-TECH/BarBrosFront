@@ -4,13 +4,13 @@ import {
   LogOut,
   Menu,
   Moon,
+  Scissors,
   Sun,
   UserRound,
   X,
 } from "lucide-react";
 import { memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logoo from "../../shared/assets/logoo.svg";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -47,15 +47,22 @@ const Header = () => {
   };
 
   return (
-    <div className="h-[65px] flex justify-end items-center px-[25px] gap-6 border-b-2 border-[#EAEAEA] sticky left-0 top-0 bg-white dark:bg-[#191a1f] dark:text-white dark:border-0 z-50">
+    <div className="h-[65px] flex justify-between items-center px-[25px] gap-6 border-b-2 border-[#EAEAEA] sticky left-0 top-0 bg-white dark:bg-[#191a1f] dark:text-white dark:border-0 z-50">
       {mobile && (
         <button
           onClick={() => setOpen(true)}
-          className="absolute flex items-center gap-45"
+          className="absolute flex items-center gap-35"
         >
-          <div className="flex items-center gap-2">
-            <img src={logoo} alt="" width={50} />
-            <h1 className="font-bold">STYLE UP</h1>
+          <div className="flex items-center px-8 gap-3 ml-[-25px]">
+            <div className="px-3 py-3 rounded-full bg-[#31343e] shadow-[0_0_10px_rgba(251,191,36,0.6)]">
+              <Scissors color="#fa8900" size={20} />
+            </div>
+            <h1 className="font-bold text-lg">
+              STYLE{" "}
+              <span className="bg-main rounded-full px-2 py-2 text-[13px]">
+                UP
+              </span>
+            </h1>
           </div>
           <Menu size={28} />
         </button>
@@ -79,7 +86,7 @@ const Header = () => {
             className="flex items-center gap-2 cursor-pointer"
           >
             <div className="border border-gray-700 p-2 rounded-[50%]">
-              <UserRound size={22}/>
+              <UserRound size={22} />
             </div>
           </div>
         </>
