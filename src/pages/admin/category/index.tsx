@@ -89,7 +89,7 @@ const Categories: FC = () => {
                 <h3 className="text-lg md:text-xl font-bold">New Category</h3>
                 <div
                   onClick={() => setShow(false)}
-                  className="inline-flex items-center justify-center bg-gray-100 dark:bg-gray-800 p-2 rounded-xl cursor-pointer hover:bg-red-400 group transition"
+                  className="inline-flex items-center justify-center bg-gray-100 dark:bg-gray-800 p-2 rounded-xl cursor-pointer hover:bg-red-500 group transition"
                 >
                   <X
                     size={18}
