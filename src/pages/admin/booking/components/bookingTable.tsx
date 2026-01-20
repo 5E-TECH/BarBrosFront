@@ -23,7 +23,7 @@ const BookingTable:FC<Props> = ({
   onPageChange,
 }) => {
   const { getAllBookings } = useBooking();
-  const { data } = getAllBookings();
+  const { data } = getAllBookings(page || 1, pageSize || 10);
   const datas = data?.data;
 
   const navigate = useNavigate();
