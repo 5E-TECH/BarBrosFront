@@ -141,7 +141,7 @@ const ServiceDetail = () => {
                       <tr
                         key={item.id}
                         className="border-b border-[#e8e9eb] hover:bg-gray-50 text-maintext font-medium cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#1f222b] transition-colors"
-                        onClick={() => navigate(`/barbershop-detail/${shop?.id}`)}
+                        onClick={() => navigate(`/barbershop/barbershop-detail/${shop?.id}`)}
                       >
                         <td className="py-5 pl-10">{shop?.name}</td>
                         <td className="py-5 pl-10 text-helpertext">{formatDate(shop?.created_at)}</td>
