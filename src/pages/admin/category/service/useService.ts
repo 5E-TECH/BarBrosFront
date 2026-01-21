@@ -33,9 +33,16 @@ export const useService = () => {
         api.get(`/service/by-category/${id}`).then((res) => res.data),
       enabled: !!id,
     });
+
+    const getServiceById = (id: any) => useQuery({
+      queryKey: [service, id],
+      queryFn: () => api.get(`/service/${id}`).then((res) => res.data),
+      enabled: !!id,
+    })
   return {
     createService,
     uploadServiceImage,
-    getServiceByCategory
+    getServiceByCategory,
+    getServiceById
   };
 };
