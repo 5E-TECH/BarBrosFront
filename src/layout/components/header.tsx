@@ -47,11 +47,11 @@ const Header = () => {
   };
 
   return (
-    <div className="h-[65px] flex justify-between items-center px-[25px] gap-6 border-b-2 border-[#EAEAEA] sticky left-0 top-0 bg-white dark:bg-[#191a1f] dark:text-white dark:border-0 z-50">
+    <div className="h-[65px] flex justify-end items-center px-[25px] gap-6 border-b-2 border-[#EAEAEA] sticky left-0 top-0 bg-white dark:bg-[#191a1f] dark:text-white dark:border-0 z-50">
       {mobile && (
         <button
           onClick={() => setOpen(true)}
-          className="absolute flex items-center gap-35"
+          className="absolute flex items-center gap-42"
         >
           <div className="flex items-center px-8 gap-3 ml-[-25px]">
             <div className="px-3 py-3 rounded-full bg-[#31343e] shadow-[0_0_10px_rgba(251,191,36,0.6)]">
@@ -59,7 +59,7 @@ const Header = () => {
             </div>
             <h1 className="font-bold text-lg">
               STYLE{" "}
-              <span className="bg-main rounded-full px-2 py-2 text-[13px]">
+              <span className="bg-main rounded-full px-2 py-2 text-[13px] text-white">
                 UP
               </span>
             </h1>

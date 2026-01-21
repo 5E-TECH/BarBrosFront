@@ -106,7 +106,14 @@
   color: white !important; 
 }
 
+.dark .ant-pagination-item:hover {
+  background-color: #fa9f37 !important; /* Oqroq to'q kulrang yoki o'zingizga ma'qul rang */
+}
 
+
+.dark .ant-pagination-item:hover a {
+  color: #ffffff !important;
+}
 
 
 
@@ -116,18 +123,12 @@
   color: #ff8400;
 }
 
-.dark .ant-pagination-disabled .ant-pagination-item-link {
-  color: #c3c3c3; 
-}
 
 .dark .ant-pagination-prev:hover .ant-pagination-item-link,
 .dark .ant-pagination-next:hover .ant-pagination-item-link {
   color: #ff8400; 
 }
 
-.dark .ant-pagination-item a {
-  color: #000; 
-}
 
 .dark .ant-pagination-item-active {
   border-color: #ff8400;
@@ -149,22 +150,3 @@
 .animate-shimmer {
   animation: shimmer 2s infinite;
 }
-
-/* If using tailwind.config.js, add this to the extend section: */
-/*
-module.exports = {
-  theme: {
-    extend: {
-      keyframes: {
-        shimmer: {
-          '0%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(100%)' },
-        },
-      },
-      animation: {
-        shimmer: 'shimmer 2s infinite',
-      },
-    },
-  },
-}
-*/
