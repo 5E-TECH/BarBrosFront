@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "../../helper/debounceFunc";
 import type { RootState } from "../../../app/store";
 import { setUserSearch } from "../../lib/features/searchSlice";
+import { useLocation } from "react-router-dom";
 
 const SearchInput: React.FC = () => {
+  const pathname = useLocation()
   const dispatch = useDispatch();
   const reduxValue = useSelector((state: RootState) => state.search.userSearch);
 
@@ -33,6 +35,10 @@ const SearchInput: React.FC = () => {
     setLocalValue("");
     dispatch(setUserSearch(""));
   };
+
+  useEffect(() => {
+    handleClear()
+  },[pathname])
 
   return (
     <div className="w-full flex items-center gap-2.5 border border-[#e8e9eb] py-3 pl-4 pr-3 rounded-2xl dark:bg-[#1f222b] dark:border-0 dark:text-white">
