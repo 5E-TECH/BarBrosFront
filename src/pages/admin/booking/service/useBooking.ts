@@ -20,7 +20,7 @@ export const useBooking = () => {
     useQuery({
       queryKey: [bookingKey, "detail", id],
       queryFn: () =>
-        api.get(`/booking/User_booking/${id}`).then((res) => res.data),
+        api.get(`/booking/admin/${id}`).then((res) => res.data),
       enabled: !!id,
     });
 

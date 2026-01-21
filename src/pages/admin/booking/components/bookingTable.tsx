@@ -17,8 +17,8 @@ interface Props {
 }
 
 const BookingTable: FC<Props> = ({
-  page = 1, 
-  total = 0, 
+  page = 1,
+  total = 0,
   pageSize = 10,
   onPageChange,
 }) => {
@@ -33,6 +33,12 @@ const BookingTable: FC<Props> = ({
     confirmed: "bg-blue-600",
     completed: "bg-green-600",
     cancelled: "bg-red-700",
+  };
+
+  const statusPayment: Record<string, string> = {
+    pending: "bg-amber-500",
+    paid: "bg-green-600",
+    faild: "bg-red-700",
   };
 
   if (!data) {
@@ -50,8 +56,10 @@ const BookingTable: FC<Props> = ({
           <table className="mt-8 mb-10 w-full">
             <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#30333c]">
               <tr>
+                <th className="w-[300px] pl-16 pb-3 text-left">user name</th>
                 <th className="w-[300px] pl-16 pb-3 text-left">booking date</th>
                 <th className="w-[200px] pb-3 text-left">Booking time</th>
+                <th className="w-[200px] pb-3 text-left">Booking status</th>
                 <th className="w-[200px] pb-3 text-left">payment status</th>
                 <th className="w-[200px] pb-3 text-left">payment Model</th>
                 <th className="w-[200px] pb-3 text-left">order Type</th>
@@ -66,9 +74,10 @@ const BookingTable: FC<Props> = ({
                 >
                   <td className="py-3 pl-16 flex items-center gap-4">
                     <div>
-                      <p className="text-maintext">{item?.date}</p>
+                      <p className="text-maintext">{item?.user?.full_name}</p>
                     </div>
                   </td>
+                  <td className="text-helpertext pl-16">{item?.date}</td>
                   <td className="text-helpertext pl-1">{item?.time}</td>
                   <td className="pl-1 py-3">
                     <span
@@ -81,6 +90,13 @@ const BookingTable: FC<Props> = ({
                   <td className="text-white pl-1">
                     <span className={`px-3 py-1 rounded-full bg-gray-500`}>
                       {item?.payment_model}
+                    </span>
+                  </td>
+                  <td className="text-helpertext pl-1">
+                    <span
+                      className={`px-3 py-1 text-white rounded-full ${statusPayment[item?.payment_status] || "bg-gray-400"}`}
+                    >
+                      {item?.payment_status}
                     </span>
                   </td>
                   <td className="pl-1 py-3">

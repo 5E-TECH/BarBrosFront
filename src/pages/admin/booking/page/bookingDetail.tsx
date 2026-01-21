@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Calendar1,
   ChevronLeft,
@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import PageHeader from "../../../../shared/components/pageHeader";
 import { FaMoneyBill } from "react-icons/fa";
-// import { useBooking } from "../service/useBooking";
+import { useBooking } from "../service/useBooking";
 
 const InfoBlock = ({
   icon: Icon,
@@ -32,30 +32,23 @@ const InfoBlock = ({
         {label}
       </span>
     </div>
-    <p className="font-bold text-lg md:text-[22px] pt-1">{value}</p>
+    <p className="font-bold text-lg md:text-[20px] pt-1">{value}</p>
   </div>
 );
 
 const BookingDetail = () => {
   const navigate = useNavigate();
 
-  // const { getByIdBooking } = useBooking();
-
-  const bookingData = {
-    serviceName: "Hair cut",
-    phoneNumber: "+998 94 232 55 67",
-    paymentMethod: "cash",
-    money: 50,
-    status: "pending",
-    date: "2026-01-01",
-    time: "12:30:00",
-    duration: "30 minuts",
-    order_type: "offline",
-    barberName: "Barber Style",
-    specialist: "Bahodir Nabijanov",
-    rating: "5.0",
-    barberPhone: "+998942325567",
+  const statusStyles: Record<string, string> = {
+    pending: "bg-amber-500",
+    confirmed: "bg-blue-600",
+    completed: "bg-green-600",
+    cancelled: "bg-red-700",
   };
+
+  const { getByIdBooking } = useBooking();
+  const { data } = getByIdBooking(useParams().id);
+  const booking = data?.data;
 
   return (
     <div className="p-2 md:p-0">
@@ -76,46 +69,48 @@ const BookingDetail = () => {
                   Service Name:{" "}
                 </span>
                 <strong className="text-xl md:text-xl uppercase">
-                  {bookingData.serviceName}
+                  {booking?.service?.name}
                 </strong>
               </div>
 
               <div className="flex items-center gap-4 mb-3">
                 <Phone size={24} className="text-main" />
                 <strong className="font-bold text-xl md:text-2xl">
-                  {bookingData.phoneNumber}
+                  {booking?.user?.phone_number}
                 </strong>
               </div>
 
               <div className="flex items-center gap-4 mb-3">
                 <CreditCard size={24} className="text-main" />
                 <strong className="font-bold text-lg md:text-xl uppercase">
-                  {bookingData.paymentMethod}
+                  {booking?.payment_model}
                 </strong>
               </div>
 
               <div className="flex items-center gap-4 mb-3">
                 <FaMoneyBill size={24} className="text-main" />
                 <strong className="font-bold text-lg md:text-xl uppercase">
-                  {bookingData.money} UZS
+                  {booking?.shopService?.price} UZS
                 </strong>
               </div>
             </div>
 
             <div className="sm:text-right">
-              <span className="inline-block text-lg md:text-xl bg-main rounded-2xl px-4 py-1 font-medium text-white">
-                {bookingData.status}
+              <span
+                className={`text-lg md:text-xl rounded-2xl px-4 py-1 font-medium text-white ${statusStyles[booking?.status] || "bg-gray-400"}`}
+              >
+                {booking?.status}
               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 md:mt-10">
-            <InfoBlock icon={Calendar1} label="Date" value={bookingData.date} />
-            <InfoBlock icon={Clock9} label="Time" value={bookingData.time} />
+            <InfoBlock icon={Calendar1} label="Date" value={booking?.date} />
+            <InfoBlock icon={Clock9} label="Time" value={booking?.time} />
             <InfoBlock
               icon={Timer}
               label="Duration"
-              value={bookingData.duration}
+              value={booking?.service.duration_minutes}
             />
 
             <div className="min-w-[120px]">
@@ -126,7 +121,7 @@ const BookingDetail = () => {
                 </span>
               </div>
               <div className="w-full sm:w-[120px] bg-red-500 rounded-2xl font-medium text-sm md:text-[16px] flex justify-center items-center py-1 mt-2 text-white">
-                {bookingData.order_type}
+                {booking?.order_type}
               </div>
             </div>
           </div>
@@ -139,10 +134,10 @@ const BookingDetail = () => {
 
           <div className="text-center w-full px-6">
             <h1 className="text-xl md:text-2xl font-bold pb-1">
-              {bookingData.barberName}
+              {booking?.barberShop?.name}
             </h1>
             <span className="text-sm text-gray-500 dark:text-helpertext italic">
-              Barber: {bookingData.specialist}
+              Barber: {booking?.barber?.full_name}
             </span>
 
             <div className="flex gap-2 sm:gap-6 mt-6 md:mt-8">
@@ -151,17 +146,28 @@ const BookingDetail = () => {
                   Rating
                 </p>
                 <strong className="text-lg md:text-xl text-main">
-                  {bookingData.rating}
+                  {booking?.barber?.avg_reyting}
                 </strong>
               </div>
               <div className="flex-[1.5] sm:flex-1 rounded-2xl py-4 px-1 md:px-2 text-center bg-gray-50 dark:bg-[#1f222b]">
                 <p className="text-gray-500 dark:text-helpertext text-[10px] md:text-[13px] font-semibold uppercase">
-                  Phone
+                  Phone Number
                 </p>
                 <strong className="text-[14px] sm:text-sm md:text-lg leading-tight block mt-1 whitespace-nowrap tabular-nums">
-                  {bookingData.barberPhone}
+                  {booking?.barber?.phone_number}
                 </strong>
               </div>
+            </div>
+            <div className="mt-6 w-full px-2">
+              <p className="text-gray-500 dark:text-helpertext text-[10px] md:text-[13px] font-semibold uppercase mb-1">
+                About Barber
+              </p>
+              <p
+                className="text-sm md:text-sm text-gray-700 dark:text-gray-300 line-clamp-2"
+                title={booking?.barber?.bio}
+              >
+                {booking?.barber?.bio || "No biography available"}
+              </p>
             </div>
           </div>
         </div>
