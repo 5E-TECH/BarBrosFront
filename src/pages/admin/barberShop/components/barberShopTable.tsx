@@ -1,4 +1,4 @@
-import { memo, useState, type FC } from "react";
+import { memo, type FC } from "react";
 import { Trash2 } from "lucide-react";
 import { Switch, notification } from "antd";
 import avatar from "../../../../shared/assets/Avatar.png";
@@ -10,6 +10,7 @@ import CustomPagination from "../../../../shared/components/pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../../../shared/components/pagination/store/paginationSlice";
 import type { RootState } from "../../../../app/store";
+import Search from "../../../../shared/components/Search";
 
 const BarberShopTable: FC = () => {
   const { getBarbershops, deleteBarberShop, updateStatusBarbershop } =
@@ -18,11 +19,9 @@ const BarberShopTable: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification();
-  const [searchTerm, setSearchTerm] = useState("");
-
   const { page, limit } = useSelector((state: RootState) => state.paginationSlice);
 
-  const params = { page, limit, search: searchTerm };
+  const params = { page, limit };
 
   const { data, isLoading, refetch } = getBarbershops(params);
 
@@ -74,12 +73,6 @@ const BarberShopTable: FC = () => {
     );
   };
 
-  const handleSearch = (value: string) => {
-    setSearchTerm(value);
-    dispatch(setPage(1));
-    refetch();
-  };
-
   if (isLoading) return <TableLoading />;
 
   return (
@@ -89,13 +82,7 @@ const BarberShopTable: FC = () => {
         {contextHolder}
 
         <div className="w-[97%] mt-6 px-3 md:px-0">
-          <input
-            type="text"
-            placeholder="Search barbershops..."
-            value={searchTerm}
-            onChange={(e) => handleSearch(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-[#24262d] dark:text-white"
-          />
+          <Search/>
         </div>
 
         <div className="hidden md:block w-full overflow-x-auto">
@@ -123,7 +110,7 @@ const BarberShopTable: FC = () => {
                   <tr
                     key={item.id}
                     onClick={() => navigate(`barbershop-detail/${item?.id}`)}
-                    className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b]"
+                    className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#1f222b]"
                   >
                     <td className="pl-12 flex items-center gap-4 py-3">
                       <img src={avatar} className="w-10 h-10" />
