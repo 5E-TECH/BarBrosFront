@@ -126,7 +126,7 @@ const BarberShopTable: FC = () => {
                     </td>
                     <td onClick={(e) => e.stopPropagation()}>
                       <Switch
-                        checked={item.status === "active"}
+                        checked={item?.status === "active"}
                         onChange={() => handleToggle(item)}
                       />
                     </td>
