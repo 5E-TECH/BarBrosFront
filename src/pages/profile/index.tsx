@@ -125,10 +125,10 @@ const Profile = () => {
             <div
               onClick={() => setShow(false)}
               className="inline-flex items-center justify-center
-               bg-[#e5e2e2] p-2 rounded-xl
-               cursor-pointer hover:bg-red-400"
+               bg-[#3F434A] p-2 rounded-xl
+               cursor-pointer hover:bg-red-500"
             >
-              <X size={18} color="#3F434A" />
+              <X size={18} color="#fff" />
             </div>
           </div>
 

@@ -1,7 +1,6 @@
 import { memo, type FC } from "react";
 import { Trash2 } from "lucide-react";
 import { Switch, notification } from "antd";
-import avatar from "../../../../shared/assets/Avatar.png";
 import { useBarberShop } from "../service/useBarberShop";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../../../shared/components/pageHeader";
@@ -11,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../../../shared/components/pagination/store/paginationSlice";
 import type { RootState } from "../../../../app/store";
 import Search from "../../../../shared/components/Search";
+import profile from "../../../profile";
 
 const BarberShopTable: FC = () => {
   const { getBarbershops, deleteBarberShop, updateStatusBarbershop } =
@@ -19,7 +19,9 @@ const BarberShopTable: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification();
-  const { page, limit } = useSelector((state: RootState) => state.paginationSlice);
+  const { page, limit } = useSelector(
+    (state: RootState) => state.paginationSlice,
+  );
 
   const params = { page, limit };
 
@@ -48,7 +50,7 @@ const BarberShopTable: FC = () => {
             description: "Failed to update status",
           });
         },
-      }
+      },
     );
   };
 
@@ -69,7 +71,7 @@ const BarberShopTable: FC = () => {
             description: "Delete failed",
           });
         },
-      }
+      },
     );
   };
 
@@ -82,7 +84,7 @@ const BarberShopTable: FC = () => {
         {contextHolder}
 
         <div className="w-[97%] mt-6 px-3 md:px-0">
-          <Search/>
+          <Search />
         </div>
 
         <div className="hidden md:block w-full overflow-x-auto">
@@ -113,7 +115,17 @@ const BarberShopTable: FC = () => {
                     className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#1f222b]"
                   >
                     <td className="pl-12 flex items-center gap-4 py-3">
-                      <img src={avatar} className="w-10 h-10" />
+                      {item?.img ? (
+                        <img
+                          src={`${import.meta.env.VITE_ASSET_BASE_URL}${item?.img}`}
+                          alt={item?.name}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-[100px] h-[100px] rounded-full bg-gray-200 flex items-center justify-center">
+                          <profile.type />
+                        </div>
+                      )}
                       <div>
                         <p className="text-maintext">{item?.name}</p>
                         <p className="text-helpertext">{item?.email}</p>
