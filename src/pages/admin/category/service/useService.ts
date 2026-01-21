@@ -1,5 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../../shared/api";
+
+export const service = "service";
+
 
 export const useService = () => {
   const queryClient = useQueryClient();
@@ -23,8 +26,16 @@ export const useService = () => {
     },
   });
 
+  const getServiceByCategory = (id: any) =>
+    useQuery({
+      queryKey: [service, id],
+      queryFn: () =>
+        api.get(`/service/by-category/${id}`).then((res) => res.data),
+      enabled: !!id,
+    });
   return {
     createService,
     uploadServiceImage,
+    getServiceByCategory
   };
 };
