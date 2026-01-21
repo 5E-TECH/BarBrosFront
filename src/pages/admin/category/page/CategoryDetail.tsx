@@ -5,6 +5,7 @@ import PageHeader from "../../../../shared/components/pageHeader";
 import Popup from "../../../../shared/ui/Popup";
 import ButtonCom from "../../../../shared/components/button";
 import { useService } from "../service/useService";
+import ServiceTable from "../components/serviceCard";
 
 const initialState = {
   name: "",
@@ -24,6 +25,14 @@ const CategoryDetail = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { createService, uploadServiceImage } = useService();
+  const {getServiceByCategory} = useService()
+
+  const {data, isLoading} = getServiceByCategory(categoryId)
+  const services = data?.data || [];
+
+
+  console.log(data);
+  
 
   // Fayl tanlash va preview qilish
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -222,6 +231,9 @@ const CategoryDetail = () => {
             </form>
           </div>
         </Popup>
+      </div>
+      <div>
+        <ServiceTable services={services} isLoading={isLoading}/>
       </div>
     </div>
   );
