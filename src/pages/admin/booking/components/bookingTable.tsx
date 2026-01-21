@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../app/store";
 import { setPage } from "../../../../shared/components/pagination/store/paginationSlice";
 
-
 const BookingTable = () => {
   const searchTerm = useSelector((state: RootState) => state.search.userSearch);
 
@@ -17,23 +16,31 @@ const BookingTable = () => {
     (state: RootState) => state.paginationSlice,
   );
 
-  const params = { page, limit };
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // MUHIM: Parametrlarni to'g'ri formatda yuborish
+  const params = { 
+    page: page, 
+    limit: limit 
+  };
+
+  // console.log('Current params:', params); // Debug uchun
 
   const { getAllBookings } = useBooking();
   const { data, isLoading, isFetching } = getAllBookings(params, searchTerm);
 
-  const datas = data?.data || [];
-  const total = data?.total ?? 0;
-  const pageSize = data?.pageSize ?? limit;
-
+  const datas = data?.data?.data || [];
+  const total = data?.data?.total ?? 0;
+  const pageSize = limit; // data?.pageSize o'rniga to'g'ridan-to'g'ri limit ishlatamiz
+  console.log(total);
+  
+  // Search o'zgarganda birinchi sahifaga qaytarish
   useEffect(() => {
-  if (page !== 1) {
-    dispatch(setPage(1));
-  }
-}, [searchTerm, dispatch]);
+    if (page !== 1) {
+      dispatch(setPage(1));
+    }
+  }, [searchTerm, dispatch]);
 
   const statusStyles: Record<string, string> = {
     pending: "bg-amber-500",
