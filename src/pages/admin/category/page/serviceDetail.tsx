@@ -3,7 +3,7 @@ import { useService } from "../service/useService";
 import { useNavigate, useParams } from "react-router-dom";
 import TableLoading from "../../../../shared/components/loadings/tableLoading";
 import PageHeader from "../../../../shared/components/pageHeader";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, MapPin, Phone, Calendar } from "lucide-react";
 
 const ServiceDetail = () => {
   const navigate = useNavigate();
@@ -14,11 +14,19 @@ const ServiceDetail = () => {
 
   const serviceList = data?.data?.barberShopServices || [];
 
-  console.log("Tekshirilgan serviceList:", serviceList);
-
   if (isLoading) {
     return <TableLoading />;
   }
+
+  const formatDate = (timestamp: any) => {
+    const date = new Date(Number(timestamp));
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
 
   return (
     <div className="p-2 md:p-0">
@@ -34,141 +42,111 @@ const ServiceDetail = () => {
         <PageHeader title="Service Detail" />
       </div>
 
-      <div className="flex flex-col items-center justify-center bg-white w-full rounded-md shadow-md dark:bg-[#191a1f]">
-        <div className="w-full h-full">
-          <div className="hidden md:block overflow-x-auto">
-            <table className="mt-8 mb-10 w-full">
-              <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#1f222b]">
-                <tr>
-                  <th className="pl-10 pb-3 text-left">Barbershop Name</th>
-                  <th className="pl-10 pb-3 text-left">Address</th>
-                  <th className="pb-3 text-left">Phone number</th>
-                  <th className="pb-3 text-left">Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {serviceList.length === 0 ? (
+      <div className="bg-white w-full rounded-md shadow-md dark:bg-[#191a1f] overflow-hidden">
+        {serviceList.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 text-helpertext">
+            <p className="text-lg">Ma'lumot topilmadi</p>
+          </div>
+        ) : (
+          <>
+            {/* DESKTOP VIEW (Table) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="mt-4 mb-10 w-full">
+                <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#1f222b]">
                   <tr>
-                    <td
-                      colSpan={4}
-                      className="text-center py-8 text-helpertext"
-                    >
-                      Ma'lumot topilmadi
-                    </td>
+                    <th className="pl-10 py-4 text-left font-semibold">
+                      Barbershop Name
+                    </th>
+                    <th className="pl-10 py-4 text-left font-semibold">
+                      Date of Registration
+                    </th>
+                    <th className="pl-10 py-4 text-left font-semibold">
+                      Address
+                    </th>
+                    <th className="py-4 text-left font-semibold">
+                      Phone number
+                    </th>
+                    <th className="py-4 text-left font-semibold">Status</th>
                   </tr>
-                ) : (
-                  serviceList.map((item: any) => {
+                </thead>
+                <tbody>
+                  {serviceList.map((item: any) => {
                     const shop = item?.barberShop;
-
                     return (
                       <tr
                         key={item.id}
-                        className="border-b border-[#e8e9eb] hover:bg-gray-50 text-maintext font-medium cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#1f222b]"
+                        className="border-b border-[#e8e9eb] hover:bg-gray-50 text-maintext font-medium cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#1f222b] transition-colors"
                         onClick={() =>
                           navigate(`/barbershop-detail/${shop?.id}`)
                         }
                       >
-                        <td className="py-5 pl-10 flex items-center gap-3">
-                          {shop?.name}
+                        <td className="py-5 pl-10">{shop?.name}</td>
+                        <td className="py-5 pl-10 text-helpertext">
+                          {formatDate(shop?.created_at)}
                         </td>
-                        <td className="text-helpertext pl-10">
-                          {shop?.location}{" "}
+                        <td className="py-5 pl-10 text-helpertext">
+                          {shop?.location}
                         </td>
-                        <td >{shop?.phoneNumber} </td>
-                        <td >
+                        <td className="py-5">{shop?.phoneNumber}</td>
+                        <td className="py-5">
                           <span
-                            className={
-                              shop?.status === "active"
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }
+                            className={`${shop?.status === "active" ? "bg-green-500" : "bg-red-500"} px-3 py-1 rounded-full text-white text-[14px]`}
                           >
                             {shop?.status}
                           </span>
                         </td>
                       </tr>
                     );
-                  })
-                )}
-              </tbody>
-            </table>
-          </div>
-
-          {/* <div className="md:hidden flex flex-col gap-4 p-4">
-            {serviceList?.map((item: any, index: number) => (
-              <div
-                key={item.id}
-                onClick={() => navigate(`/barbershop/barber-detail/${item.id}`)}
-                className="bg-white dark:bg-[#24262d] text-maintext dark:text-white rounded-xl p-5 space-y-4 divide-y divide-gray-100 dark:divide-[#30333c] border border-gray-100 dark:border-gray-800 shadow-sm transition-colors cursor-pointer hover:shadow-md"
-              >
-                <div className="flex justify-between items-center pb-2">
-                  <span className="text-helpertext dark:text-gray-400 font-bold">
-                    #{index + 1}
-                  </span>
-                  <span className="bg-[#00a3ff] text-[10px] px-3 py-1 rounded-full uppercase font-bold text-white">
-                    Barber
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-center pt-3">
-                  <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
-                    FullName
-                  </span>
-                  <span className="text-sm font-medium">{item.full_name}</span>
-                </div>
-
-                <div className="flex justify-between items-center pt-3">
-                  <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
-                    Phone
-                  </span>
-                  <span className="text-sm">{item.phone_number}</span>
-                </div>
-
-                <div className="flex justify-between items-center pt-3">
-                  <span className="text-helpertext dark:text-gray-400 uppercase text-[11px] font-semibold">
-                    Avg Rating
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <span className="text-sm text-yellow-500 font-bold">
-                      {item.avg_reyting}
-                    </span>
-                    <span className="text-[10px] text-gray-500 dark:text-gray-400">
-                      / 5.0
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div> */}
-
-          {/* Empty State */}
-          {/* {serviceList?.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-16">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <svg
-                  className="w-12 h-12 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                No Barbers Available
-              </h3>
-              <p className="text-gray-500">
-                Check back later for available barbers
-              </p>
+                  })}
+                </tbody>
+              </table>
             </div>
-          )} */}
-        </div>
+
+            {/* MOBILE VIEW (Cards) */}
+            <div className="md:hidden flex flex-col gap-4 p-4 bg-gray-50 dark:bg-[#121214]">
+              {serviceList.map((item: any) => {
+                const shop = item?.barberShop;
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => navigate(`/barbershop-detail/${shop?.id}`)}
+                    className="bg-white dark:bg-[#1c1d22] p-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 active:scale-[0.98] transition-all"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-lg font-bold text-maintext dark:text-white uppercase tracking-tight">
+                        {shop?.name}
+                      </h3>
+                      <span
+                        className={`${shop?.status === "active" ? "text-green-500 bg-green-50" : "text-red-500 bg-red-50"} dark:bg-opacity-10 px-2 py-0.5 rounded text-[10px] font-bold uppercase`}
+                      >
+                        {shop?.status}
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 text-sm text-helpertext">
+                        <MapPin size={16} className="shrink-0" />
+                        <span className="truncate">{shop?.location}</span>
+                      </div>
+
+                      <div className="flex items-center gap-3 text-sm text-helpertext">
+                        <Phone size={16} className="shrink-0" />
+                        <span>{shop?.phoneNumber}</span>
+                      </div>
+
+                      <div className="flex items-center gap-3 text-[12px] text-gray-400 pt-2 border-t border-gray-50 dark:border-gray-800">
+                        <Calendar size={14} />
+                        <span>
+                          Ro'yxatdan o'tdi: {formatDate(shop?.created_at)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
