@@ -15,7 +15,7 @@ export const useUsers = () => {
     useQuery({
       queryKey: [users, page, limit],
       queryFn: () =>
-        api.get(`user/all?page=${page}&limit=${limit}`).then((res) => res.data),
+        api.get(`user/all`).then((res) => res.data),
     });
 
   const getByIdUsers = ({ id }: any) =>
