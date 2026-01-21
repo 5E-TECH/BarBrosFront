@@ -120,7 +120,9 @@ const BookingDetail = () => {
                   Order Type
                 </span>
               </div>
-              <div className="w-full sm:w-[120px] bg-red-500 rounded-2xl font-medium text-sm md:text-[16px] flex justify-center items-center py-1 mt-2 text-white">
+              <div
+                className={`w-full sm:w-[120px] rounded-2xl font-medium text-sm md:text-[16px] flex justify-center items-center py-1 mt-2 text-white ${booking?.order_type === "online" ? "bg-green-500" : "bg-red-500"}`}
+              >
                 {booking?.order_type}
               </div>
             </div>
