@@ -13,7 +13,7 @@ const BarberShopDetail = lazy(
 );
 
 const BarBersDetail = lazy(
-  () => import("../pages/admin/barberShop/pages/BarBersDetail")
+  () => import("../pages/admin/barberShop/pages/BarBersDetail"),
 );
 
 const Users = lazy(() => import("../pages/admin/users"));
@@ -30,6 +30,9 @@ const BookingDetail = lazy(
 const Category = lazy(() => import("../pages/admin/category"));
 const CategoryDetail = lazy(
   () => import("../pages/admin/category/page/CategoryDetail"),
+);
+const ServiceDetail = lazy(
+  () => import("../pages/admin/category/page/serviceDetail"),
 );
 const Profile = lazy(() => import("../pages/profile"));
 
@@ -54,9 +57,9 @@ const AppRouter = () => {
                   element: <BarberShopDetail />,
                 },
                 {
-                  path:"barber-detail/:id",
-                  element:<BarBersDetail/>
-                }
+                  path: "barber-detail/:id",
+                  element: <BarBersDetail />,
+                },
               ],
             },
             {
@@ -74,6 +77,7 @@ const AppRouter = () => {
               element: <Category />,
               children: [
                 { path: "category-detail/:id", element: <CategoryDetail /> },
+                { path: "service-detail/:id", element: <ServiceDetail /> },
               ],
             },
             {

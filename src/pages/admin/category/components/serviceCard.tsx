@@ -1,7 +1,9 @@
 import { memo, useState, useEffect } from "react";
 import { BASE_ASSETS_URL } from "../../../../shared/const";
+import { useNavigate } from "react-router-dom";
 
 const ServiceCard = ({ service }: any) => {
+  const navigate = useNavigate()
   // Process all images first
   const processedImages = (service.serviceImages || [])
     .map((img: any) => {
@@ -100,7 +102,7 @@ const ServiceCard = ({ service }: any) => {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {carouselImages.map((img: string, index: number) => (
-            <div key={index} className="w-full h-full shrink-0">
+            <div onClick={() => navigate(`/category/service-detail/${service.id}`)} key={index} className="w-full h-full shrink-0">
               <img
                 src={img || "https://via.placeholder.com/400x300?text=Service+Image"}
                 alt={service.name}
