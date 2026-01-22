@@ -12,6 +12,12 @@ export const useSubscription = () => {
       queryFn: () => api.get("/subscription/plans").then((res) => res.data),
     });
 
+  const getSubscriptionById = (id:any) =>
+    useQuery({
+      queryKey: [subscription, id],
+      queryFn: () => api.get(`/subscription/by-plan/${id}`).then((res) => res.data),
+    });
+
   const createSubscription = useMutation({
     mutationFn: (data: any) => api.post("/subscription/plans", data),
     onSuccess: () => {
@@ -19,5 +25,11 @@ export const useSubscription = () => {
     },
   });
 
-  return { getAllSubscription, createSubscription };
+  const updateSubscription = useMutation({
+      mutationFn: ({ id, data }: { id: any; data: any }) =>
+        api.patch(`subscription/plans/${id}`, data),
+      onSuccess: () => client.invalidateQueries({ queryKey: [subscription] }),
+    });
+
+  return { getAllSubscription, createSubscription, getSubscriptionById, updateSubscription };
 };

@@ -144,7 +144,7 @@ const Subscribe: FC = () => {
               return (
                 <div
                   key={plan.id}
-                  onClick={() => navigate(`subscribe-detail/${plan.id}`)}
+                  onClick={() => navigate(`/subscribe-detail/${plan.id}`)}
                   className="group relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-[#FA8B00]/30 dark:hover:border-[#FA8B00]/30 transition-all duration-200 cursor-pointer overflow-hidden hover:shadow-lg"
                 >
                   {/* Top Accent Bar */}
@@ -348,7 +348,7 @@ const Subscribe: FC = () => {
           </form>
         </div>
       </Popup>
-      <Outlet />
+      {/* <Outlet /> */}
     </div>
   );
 };
