@@ -1,4 +1,4 @@
-import { memo, type FC } from "react";
+import { memo, useEffect, type FC } from "react";
 import { Trash2 } from "lucide-react";
 import { Switch, notification } from "antd";
 import { useBarberShop } from "../service/useBarberShop";
@@ -30,6 +30,10 @@ const BarberShopTable: FC = () => {
   const items = data?.data?.data ?? [];
   const total = data?.data?.total ?? 0;
   const pageSize = data?.data?.pageSize ?? limit;
+
+  useEffect(() => {
+    dispatch(setPage(1));
+  }, [location.pathname, dispatch]);
 
   const handleToggle = (item: any) => {
     const newStatus = item.status === "active" ? "inactive" : "active";

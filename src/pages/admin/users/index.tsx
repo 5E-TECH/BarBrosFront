@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useUsers } from "./service/useUser";
 import { Outlet, useOutlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,6 +40,10 @@ const Users = () => {
     setSearchTerm(term);
     dispatch(setPage(1));
   };
+
+  useEffect(() => {
+    dispatch(setPage(1));
+  }, [location.pathname, dispatch]);
 
   if (isLoading) {
     return <TableLoading />;
