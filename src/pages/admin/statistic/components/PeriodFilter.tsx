@@ -24,7 +24,7 @@ const PeriodFilter =({
         <button
           key={period.value}
           onClick={() => onPeriodChange(period.value)}
-          className={`rounded-lg px-4 py-2 text-sm font-medium text-maintext border border-[#e9e9e9] dark:text-white dark:border-gray-700 ${
+          className={`rounded-lg px-4 py-2 text-sm font-medium text-maintext bg-white dark:bg-[#191a1f] border border-[#e9e9e9] dark:text-white dark:border-[#1f222b] ${
             selectedPeriod === period.value
               ? 'bg-primary text-primary-foreground'
               : 'bg-secondary text-secondary-foreground hover:bg-muted'

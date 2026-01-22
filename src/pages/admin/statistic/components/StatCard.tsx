@@ -22,7 +22,7 @@ const StatCard = ({
   }).format(value);
 
   return (
-    <div className="bg-card rounded-lg border border-[#e9e9e9] p-6 shadow-sm dark:text-white dark:border-gray-700">
+    <div className="bg-card rounded-lg border border-[#e9e9e9] bg-white dark:bg-[#191a1f] p-6 shadow-sm dark:text-white dark:border-[#1f222b]">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
@@ -35,7 +35,7 @@ const StatCard = ({
             className={`flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium ${
               isPositiveGrowth
                 ? 'bg-green-100 text-green-500 dark:bg-green-500 dark:text-green-200'
-                : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200'
+                : 'bg-red-100 text-red-700 dark:bg-red-700 dark:text-red-200'
             }`}
           >
             <TrendingUp

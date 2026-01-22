@@ -72,7 +72,7 @@ const RevenueAnalyticsChart = ({
   return (
     <div className="space-y-6 dark:text-white">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="rounded-lg bg-card p-4 shadow-sm border border-[#e9e9e9] dark:border-gray-700">
+        <div className="rounded-lg bg-card p-4 shadow-sm bg-white dark:bg-[#191a1f] border border-[#e9e9e9] dark:border-[#1f222b]">
           <p className="text-sm font-medium text-muted-foreground">
             Total Users
           </p>
@@ -80,7 +80,7 @@ const RevenueAnalyticsChart = ({
             {totalUsers?.toLocaleString() ?? 0}
           </p>
         </div>
-        <div className="rounded-lg border border-[#e9e9e9] bg-card p-4 shadow-sm dark:border-gray-700">
+        <div className="rounded-lg bg-white dark:bg-[#191a1f] border border-[#e9e9e9] bg-card p-4 shadow-sm dark:border-[#1f222b]">
           <p className="text-sm font-medium text-muted-foreground">
             Total Barbers
           </p>
@@ -90,11 +90,11 @@ const RevenueAnalyticsChart = ({
         </div>
       </div>
 
-      <div className="rounded-lg border border-[#e9e9e9] bg-card p-6 shadow-sm dark:border-gray-700">
+      <div className="rounded-lg bg-white dark:bg-[#191a1f] border border-[#e9e9e9] bg-card p-6 shadow-sm dark:border-[#1f222b]">
         <h3 className="mb-2 text-lg font-semibold text-card-foreground">
           Revenue Analytics
         </h3>
-        <p className="mb-6 text-sm text-muted-foreground">
+        <p className="mb-6 text-sm text-maintext">
           Monthly revenue trend over time
         </p>
 
@@ -141,7 +141,7 @@ const RevenueAnalyticsChart = ({
         </ResponsiveContainer>
       </div>
 
-      <div className="rounded-lg bg-card p-6 shadow-sm border border-[#e9e9e9] dark:border-gray-700">
+      <div className="rounded-lg bg-card p-6 shadow-sm bg-white dark:bg-[#191a1f] border border-[#e9e9e9] dark:border-[#1f222b]">
         <p className="text-sm font-medium text-muted-foreground">
           Total Revenue (UZS)
         </p>
