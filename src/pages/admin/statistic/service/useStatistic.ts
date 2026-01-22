@@ -4,11 +4,13 @@ import { api } from "../../../../shared/api";
 export const stattistic = "stattistic";
 
 const useStatistic = () => {
-  const getAdminSummary = () =>
-    useQuery({
-      queryKey: [stattistic],
-      queryFn: () => api.get(`/admin/summary`).then((res) => res.data),
-    });
+  const getAdminSummary = useQuery({
+    queryKey: ["adminSummary"],
+    queryFn: async () => {
+      const res = await api.get("/admin/summary");
+      return res.data.data;
+    },
+  });
 
   const getStatistic = () =>
     useQuery({

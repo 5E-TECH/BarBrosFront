@@ -1,3 +1,4 @@
+import { memo } from "react";
 
 
 export type Period = 'daily' | 'weekly' | 'monthly';
@@ -13,17 +14,17 @@ const PERIODS: { value: Period; label: string }[] = [
   { value: 'monthly', label: 'Monthly' },
 ];
 
-export function PeriodFilter({
+const PeriodFilter =({
   selectedPeriod,
   onPeriodChange,
-}: PeriodFilterProps) {
+}: PeriodFilterProps) => {
   return (
     <div className="flex gap-2">
       {PERIODS.map((period) => (
         <button
           key={period.value}
           onClick={() => onPeriodChange(period.value)}
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors border dark:text-white ${
+          className={`rounded-lg px-4 py-2 text-sm font-medium text-maintext border border-[#e9e9e9] dark:text-white dark:border-gray-700 ${
             selectedPeriod === period.value
               ? 'bg-primary text-primary-foreground'
               : 'bg-secondary text-secondary-foreground hover:bg-muted'
@@ -35,3 +36,5 @@ export function PeriodFilter({
     </div>
   );
 }
+
+export default memo(PeriodFilter)

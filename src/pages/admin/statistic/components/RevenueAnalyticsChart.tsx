@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import {
   AreaChart,
   Area,
@@ -21,12 +21,12 @@ interface RevenueAnalyticsChartProps {
   totalRevenue: number;
 }
 
-export function RevenueAnalyticsChart({
+const RevenueAnalyticsChart = ({
   data,
   totalUsers,
   totalBarbers,
   totalRevenue,
-}: RevenueAnalyticsChartProps) {
+}: RevenueAnalyticsChartProps) => {
   const chartData = useMemo(() => {
     return (data ?? []).map((item) => ({
       month: item.label,
@@ -38,8 +38,8 @@ export function RevenueAnalyticsChart({
   }, [data]);
 
   const formattedTotalRevenue = new Intl.NumberFormat("en-US", {
-    style: "currency",
     currency: "UZS",
+    style: "currency",
     maximumFractionDigits: 0,
   }).format(totalRevenue);
 
@@ -72,7 +72,7 @@ export function RevenueAnalyticsChart({
   return (
     <div className="space-y-6 dark:text-white">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
+        <div className="rounded-lg bg-card p-4 shadow-sm border border-[#e9e9e9] dark:border-gray-700">
           <p className="text-sm font-medium text-muted-foreground">
             Total Users
           </p>
@@ -80,7 +80,7 @@ export function RevenueAnalyticsChart({
             {totalUsers?.toLocaleString() ?? 0}
           </p>
         </div>
-        <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
+        <div className="rounded-lg border border-[#e9e9e9] bg-card p-4 shadow-sm dark:border-gray-700">
           <p className="text-sm font-medium text-muted-foreground">
             Total Barbers
           </p>
@@ -90,7 +90,7 @@ export function RevenueAnalyticsChart({
         </div>
       </div>
 
-      <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+      <div className="rounded-lg border border-[#e9e9e9] bg-card p-6 shadow-sm dark:border-gray-700">
         <h3 className="mb-2 text-lg font-semibold text-card-foreground">
           Revenue Analytics
         </h3>
@@ -141,7 +141,7 @@ export function RevenueAnalyticsChart({
         </ResponsiveContainer>
       </div>
 
-      <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
+      <div className="rounded-lg bg-card p-6 shadow-sm border border-[#e9e9e9] dark:border-gray-700">
         <p className="text-sm font-medium text-muted-foreground">
           Total Revenue (UZS)
         </p>
@@ -152,3 +152,5 @@ export function RevenueAnalyticsChart({
     </div>
   );
 }
+
+export default memo(RevenueAnalyticsChart);
