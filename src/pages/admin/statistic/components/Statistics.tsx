@@ -54,7 +54,7 @@ const Statistics = () => {
               <h1 className="text-3xl font-bold text-foreground">
                 Statistics Dashboard
               </h1>
-              <p className="mt-1 text-muted-foreground">
+              <p className="text-maintext">
                 Monitor your business metrics and performance
               </p>
             </div>

@@ -23,10 +23,10 @@ interface BookingStatisticsChartProps {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  pending: "#fbbf24",
-  confirmed: "#60a5fa",
-  completed: "#34d399",
-  cancelled: "#f87171",
+  pending: "#fa8b00",
+  confirmed: "#155dfc",
+  completed: "#00c950",
+  cancelled: "#e7000b",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -40,7 +40,6 @@ const BookingStatisticsChart = ({ data }: BookingStatisticsChartProps) => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Dark mode tekshirish
     setIsDark(document.documentElement.classList.contains("dark"));
   }, []);
 
@@ -77,7 +76,7 @@ const BookingStatisticsChart = ({ data }: BookingStatisticsChartProps) => {
   };
 
   return (
-    <div className="rounded-lg border border-[#e9e9e9] bg-card p-6 shadow-sm dark:text-white dark:border-gray-700">
+    <div className="rounded-lg bg-white dark:bg-[#191a1f] border border-[#e9e9e9] bg-card p-6 shadow-sm dark:text-white dark:border-[#1f222b]">
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-bold text-card-foreground">
           Booking Statistics

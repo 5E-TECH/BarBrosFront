@@ -40,14 +40,14 @@ const BookingTable = () => {
   const statusStyles: Record<string, string> = {
     pending: "bg-amber-500",
     confirmed: "bg-blue-600",
-    completed: "bg-green-600",
-    cancelled: "bg-red-700",
+    completed: "bg-green-500",
+    cancelled: "bg-red-600",
   };
 
   const statusPayment: Record<string, string> = {
     pending: "bg-amber-500",
-    paid: "bg-green-600",
-    failed: "bg-red-700",
+    paid: "bg-green-500",
+    failed: "bg-red-600",
   };
 
   const formatDate = (timestamp: any) => {
@@ -134,7 +134,7 @@ const BookingTable = () => {
                           className={`inline-block px-3 py-1 text-white rounded-full ${
                             item?.order_type === "online"
                               ? "bg-green-500"
-                              : "bg-red-500"
+                              : "bg-red-600"
                           }`}
                         >
                           {item?.order_type}
