@@ -1,6 +1,7 @@
 import { memo, useState, type FormEvent } from "react";
 import { useBarberShop } from "../../service/useBarberShop";
 import { useService } from "../../service/useService";
+import { useSubscription } from "../../../Subscribe/service/useSubscription";
 import { useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../../../../shared/components/pageHeader";
 import { ChevronLeft, X } from "lucide-react";
@@ -15,6 +16,7 @@ const initialState = {
   name: "",
   phoneNumber: "",
   location: "",
+  plan_id: "",
 };
 
 const BarberShopDetail = () => {
@@ -23,8 +25,10 @@ const BarberShopDetail = () => {
   const [barberAndService, setBarberAndService] = useState(true);
 
   const { getByIdBarbershop, updateBarbershop } = useBarberShop();
+  const { getAllSubscription } = useSubscription();
   const { id } = useParams();
   const { data } = getByIdBarbershop({ id });
+  const { data: subscriptionData } = getAllSubscription();
   const datas = data?.data;
   const navigate = useNavigate();
 
@@ -33,7 +37,10 @@ const BarberShopDetail = () => {
   const { data: servicesData, isLoading: servicesLoading } = getAllServicesByBarbershop(id);
   const services = servicesData?.data || [];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Get all available subscription plans
+  const allPlans = subscriptionData?.data || [];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -43,6 +50,7 @@ const BarberShopDetail = () => {
         name: datas.name || "",
         phoneNumber: datas.phoneNumber || "",
         location: datas.location || "",
+        plan_id: datas.current_subscription?.plan_id || "",
       });
     }
     setShow(true);
@@ -74,6 +82,9 @@ const BarberShopDetail = () => {
   const totalBarbers = datas.barber?.length || 0;
   const totalServices = services.length || 0;
   const avgRating = parseFloat(datas.avg_rating) || 0;
+
+  // Get current subscription plan name
+  const currentPlanName = datas.current_subscription?.plan?.name || "No active plan";
 
   return (
     <div className="mb-10">
@@ -149,6 +160,27 @@ const BarberShopDetail = () => {
                   {datas?.location}
                 </span>
               </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+              <div className="flex flex-col w-full">
+                <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1.5">
+                  Subscription Plan:
+                </label>
+                <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-5 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
+                  {currentPlanName}
+                </span>
+              </div>
+              {datas.current_subscription?.end_at && (
+                <div className="flex flex-col w-full">
+                  <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1.5">
+                    Subscription Expires:
+                  </label>
+                  <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-5 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
+                    {new Date(Number(datas.current_subscription.end_at)).toLocaleDateString()}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="w-full flex justify-end mt-4">
@@ -337,6 +369,27 @@ const BarberShopDetail = () => {
                 placeholder="Enter location"
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:bg-transparent"
               />
+            </div>
+
+            <div className="flex flex-col mb-6 md:mb-9">
+              <label htmlFor="plan_id" className="text-helpertext mb-2.5">
+                Subscription Plan
+              </label>
+              <select
+                name="plan_id"
+                id="plan_id"
+                required
+                value={form.plan_id}
+                onChange={handleChange}
+                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:bg-transparent"
+              >
+                <option value="">Select a plan</option>
+                {allPlans.map((plan: any) => (
+                  <option key={plan.id} value={plan.id}>
+                    {plan.name} - ${plan.price} ({plan.duration_months} months)
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="flex justify-end">

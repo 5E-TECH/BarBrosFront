@@ -26,6 +26,8 @@ const sidebarConfig: Record<UserRole, LinkItem[]> = {
     { to: "/user", icon: <FileText />, label: "Users" },
     { to: "/category", icon: <Grid2X2Check />, label: "Categories" },
     { to: "/booking", icon: <AlarmClock />, label: "Booking" },
+    { to: "/subscribe", icon: <AlarmClock />, label: "Subscriptions Plans" },
+
   ],
 };
 

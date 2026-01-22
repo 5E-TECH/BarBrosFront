@@ -6,16 +6,23 @@ export const users = "users";
 interface GetUsersParams {
   page: number;
   limit: number;
+  search?: string;
 }
 
 export const useUsers = () => {
   const client = useQueryClient();
 
-  const getAllUsers = ({ page, limit }: GetUsersParams) =>
+  const getAllUsers = ({ page, limit, search }: GetUsersParams) =>
     useQuery({
-      queryKey: [users, page, limit],
+      queryKey: [users, page, limit, search],
       queryFn: () =>
-        api.get(`user/all`).then((res) => res.data),
+        api.get(`user/all`, {
+          params: {
+            page,
+            limit,
+            ...(search && { search })
+          }
+        }).then((res) => res.data),
     });
 
   const getByIdUsers = ({ id }: any) =>

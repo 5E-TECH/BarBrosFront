@@ -4,16 +4,17 @@ import { api } from "../../../../shared/api";
 const bookingKey = "booking";
 
 export const useBooking = () => {
- const getAllBookings = (params: { page: number; limit: number }, search: string) =>
+ const getAllBookings = (params: { page: number; limit: number, status?:string }, search: string) =>
     useQuery({
       // queryKeyga params.page va params.limitni alohida yozish ishonchliroq
-      queryKey: [bookingKey, params.page, params.limit, search],
+      queryKey: [bookingKey, params.page, params.limit, params.status, search],
       queryFn: () =>
         api
           .get("/booking/All", { 
             params: { 
               page: params.page, 
               limit: params.limit, 
+              ...(params.status && { status: params.status }),
               search 
             } 
           })

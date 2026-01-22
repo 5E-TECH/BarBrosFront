@@ -3,13 +3,28 @@ import { api } from "../../../../shared/api";
 
 export const barbershop = "barbershop";
 
+interface GetBarbershopsParams {
+  page: number;
+  limit: number;
+  search?: string;
+}
+
 export const useBarberShop = () => {
   const client = useQueryClient();
 
-  const getBarbershops = (params: any) =>
+  const getBarbershops = (params: GetBarbershopsParams) =>
     useQuery({
-      queryKey: [barbershop, params],
-      queryFn: () => api.get("barber-shop", { params }).then((res) => res.data),
+      queryKey: [barbershop, params.page, params.limit, params.search],
+      queryFn: () =>
+        api
+          .get("barber-shop", {
+            params: {
+              page: params.page,
+              limit: params.limit,
+              ...(params.search && { search: params.search }),
+            },
+          })
+          .then((res) => res.data),
       // staleTime: 1000 * 60 * 60 * 24,
       // refetchOnWindowFocus: false,
     });

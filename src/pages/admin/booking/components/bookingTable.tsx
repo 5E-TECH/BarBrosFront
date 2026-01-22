@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import { useBooking } from "../service/useBooking";
 import TableLoading from "../../../../shared/components/loadings/tableLoading";
 import SearchInput from "../../../../shared/components/Search";
@@ -8,9 +8,11 @@ import CustomPagination from "../../../../shared/components/pagination";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../app/store";
 import { setPage } from "../../../../shared/components/pagination/store/paginationSlice";
+import { Check, CheckCheck, Clock, X } from "lucide-react";
 
 const BookingTable = () => {
   const searchTerm = useSelector((state: RootState) => state.search.userSearch);
+  const [selectedStatus, setSelectedStatus] = useState<string>("pending");
 
   const { page, limit } = useSelector(
     (state: RootState) => state.paginationSlice,
@@ -21,9 +23,9 @@ const BookingTable = () => {
 
   const params = { 
     page: page, 
-    limit: limit 
+    limit: limit,
+    ...(selectedStatus !== "all" && { status: selectedStatus })
   };
-
 
   const { getAllBookings } = useBooking();
   const { data, isLoading, isFetching } = getAllBookings(params, searchTerm);
@@ -31,11 +33,50 @@ const BookingTable = () => {
   const datas = data?.data?.data || [];
   const total = data?.data?.total ?? 0;
   const pageSize = limit; 
+  
   useEffect(() => {
     if (page !== 1) {
       dispatch(setPage(1));
     }
-  }, [searchTerm, dispatch]);
+  }, [searchTerm, selectedStatus, dispatch]);
+
+  const statusFilters = [
+    { 
+      key: "all", 
+      label: "All", 
+      icon: "📊",
+      color: "bg-gradient-to-br from-purple-500 to-purple-600",
+      hoverColor: "hover:from-purple-600 hover:to-purple-700"
+    },
+    { 
+      key: "pending", 
+      label: "Pending", 
+      icon: <Clock color="#FA8B00" size={30} strokeWidth={3} />,
+      color: "bg-gradient-to-br from-amber-500 to-amber-600",
+      hoverColor: "hover:from-amber-600 hover:to-amber-700"
+    },
+    { 
+      key: "confirmed", 
+      label: "Confirmed", 
+      icon: <Check size={32} color="#0421fb" strokeWidth={3} />,
+      color: "bg-gradient-to-br from-blue-500 to-blue-600",
+      hoverColor: "hover:from-blue-600 hover:to-blue-700"
+    },
+    { 
+      key: "completed", 
+      label: "Completed", 
+      icon: <CheckCheck size={32} color="#5afb04" strokeWidth={3} />,
+      color: "bg-gradient-to-br from-green-500 to-green-600",
+      hoverColor: "hover:from-green-600 hover:to-green-700"
+    },
+    { 
+      key: "cancelled", 
+      label: "Cancelled", 
+      icon: <X color="#fa0000" size={30} strokeWidth={3} />,
+      color: "bg-gradient-to-br from-red-500 to-red-600",
+      hoverColor: "hover:from-red-600 hover:to-red-700"
+    },
+  ];
 
   const statusStyles: Record<string, string> = {
     pending: "bg-amber-500",
@@ -67,7 +108,35 @@ const BookingTable = () => {
   return (
     <div className={isFetching ? "opacity-60 pointer-events-none" : ""}>
       <PageHeader title="Booking" />
-      <div className="bg-white py-2 w-full rounded-md shadow-md dark:bg-[#191a1f] mt-12">
+      
+      {/* STATUS FILTER CARDS */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mt-8 mb-6">
+        {statusFilters.map((filter) => (
+          <button
+            key={filter.key}
+            onClick={() => setSelectedStatus(filter.key)}
+            className={`
+              relative overflow-hidden rounded-xl p-4 md:p-5
+              transition-all duration-300 transform
+              bg-white dark:bg-[#24262d]
+              ${selectedStatus === filter.key 
+                ? '-translate-y-1 shadow-xl border-b-4 border-[#FA8B00]' 
+                : 'hover:shadow-md border border-gray-200 dark:border-gray-700'
+              }
+              active:scale-95 cursor-pointer
+            `}
+          >
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-2xl md:text-3xl">{filter.icon}</span>
+              <span className="text-sm md:text-base font-bold uppercase tracking-wide text-gray-700 dark:text-gray-300">
+                {filter.label}
+              </span>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <div className="bg-white py-2 w-full rounded-md shadow-md dark:bg-[#191a1f]">
         <div className="w-full px-6 mt-6">
           <SearchInput />
         </div>

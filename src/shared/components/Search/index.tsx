@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { memo, useMemo, useState, useEffect } from "react";
+import { memo, useMemo, useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "../../helper/debounceFunc";
 import type { RootState } from "../../../app/store";
@@ -7,15 +7,21 @@ import { setUserSearch } from "../../lib/features/searchSlice";
 import { useLocation } from "react-router-dom";
 
 const SearchInput: React.FC = () => {
-  const pathname = useLocation()
+  const location = useLocation();
   const dispatch = useDispatch();
   const reduxValue = useSelector((state: RootState) => state.search.userSearch);
+  const prevPathRef = useRef(location.pathname);
 
   const [localValue, setLocalValue] = useState(reduxValue);
 
+  // Faqat pathname o'zgarganda tozalash
   useEffect(() => {
-    setLocalValue(reduxValue);
-  }, [reduxValue]);
+    if (prevPathRef.current !== location.pathname) {
+      setLocalValue("");
+      dispatch(setUserSearch(""));
+      prevPathRef.current = location.pathname;
+    }
+  }, [location.pathname, dispatch]);
 
   const debouncedDispatch = useMemo(
     () =>
@@ -35,10 +41,6 @@ const SearchInput: React.FC = () => {
     setLocalValue("");
     dispatch(setUserSearch(""));
   };
-
-  useEffect(() => {
-    handleClear()
-  },[pathname])
 
   return (
     <div className="w-full flex items-center gap-2.5 border border-[#e8e9eb] py-3 pl-4 pr-3 rounded-2xl dark:bg-[#1f222b] dark:border-0 dark:text-white">
