@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import {
-  AreaChart,
-  Area,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -32,15 +32,15 @@ const RevenueAnalyticsChart = ({
       month: item.label,
       amount:
         typeof item.total_amount === "string"
-          ? parseInt(item.total_amount, 10)
-          : item.total_amount,
+          ? parseInt(item.total_amount, 10) || 0
+          : item.total_amount ?? 0,
     }));
   }, [data]);
 
   const formattedTotalRevenue = new Intl.NumberFormat("en-US", {
-    currency: "UZS",
     style: "currency",
     maximumFractionDigits: 0,
+    currency: "UZS",
   }).format(totalRevenue);
 
   const CustomTooltip = ({
@@ -48,18 +48,15 @@ const RevenueAnalyticsChart = ({
     payload,
   }: {
     active?: boolean;
-    payload?: Array<{
-      name: string;
-      value: number;
-    }>;
+    payload?: Array<{ name: string; value: number }>;
   }) => {
     if (!active || !payload || payload.length === 0) return null;
 
     const value = payload[0].value ?? 0;
     const formatted = new Intl.NumberFormat("en-US", {
-      style: "currency",
       currency: "UZS",
       maximumFractionDigits: 0,
+      style: "currency",
     }).format(value);
 
     return (
@@ -71,86 +68,58 @@ const RevenueAnalyticsChart = ({
 
   return (
     <div className="space-y-6 dark:text-white">
+      {/* Stat cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="rounded-lg bg-card p-4 shadow-sm bg-white dark:bg-[#191a1f] border border-[#e9e9e9] dark:border-[#1f222b]">
-          <p className="text-sm font-medium text-muted-foreground">
-            Total Users
-          </p>
+          <p className="text-sm font-medium text-muted-foreground">Total Users</p>
           <p className="mt-1 text-2xl font-bold text-card-foreground">
             {totalUsers?.toLocaleString() ?? 0}
           </p>
         </div>
-        <div className="rounded-lg bg-white dark:bg-[#191a1f] border border-[#e9e9e9] bg-card p-4 shadow-sm dark:border-[#1f222b]">
-          <p className="text-sm font-medium text-muted-foreground">
-            Total Barbers
-          </p>
+        <div className="rounded-lg bg-card p-4 shadow-sm bg-white dark:bg-[#191a1f] border border-[#e9e9e9] dark:border-[#1f222b]">
+          <p className="text-sm font-medium text-muted-foreground">Total Barbers</p>
           <p className="mt-1 text-2xl font-bold text-card-foreground">
             {totalBarbers?.toLocaleString() ?? 0}
           </p>
         </div>
       </div>
 
-      <div className="rounded-lg bg-white dark:bg-[#191a1f] border border-[#e9e9e9] bg-card p-6 shadow-sm dark:border-[#1f222b]">
+      {/* Line Chart */}
+      <div className="rounded-lg bg-card p-6 shadow-sm bg-white dark:bg-[#191a1f] border border-[#e9e9e9] dark:border-[#1f222b]">
         <h3 className="mb-2 text-lg font-semibold text-card-foreground">
           Revenue Analytics
         </h3>
-        <p className="mb-6 text-sm text-maintext">
-          Monthly revenue trend over time
-        </p>
+        <p className="mb-6 text-sm text-maintext">Monthly revenue trend over time</p>
 
         <ResponsiveContainer width="100%" height={300}>
-          <AreaChart data={chartData}>
-            <defs>
-              <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-primary)"
-                  stopOpacity={0.3}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-primary)"
-                  stopOpacity={0}
-                />
-              </linearGradient>
-            </defs>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="var(--color-border)"
-              vertical={false}
-            />
-            <XAxis
-              dataKey="month"
-              stroke="var(--color-muted-foreground)"
-              tick={{ fontSize: 12 }}
-            />
+          <LineChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+            <CartesianGrid vertical={false} />
+            <XAxis dataKey="month" tick={{ fontSize: 14 }} />
             <YAxis
-              stroke="var(--color-muted-foreground)"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 14 }}
+              domain={[0, "dataMax + 1000"]}
+              className="font-medium text-white"
             />
             <Tooltip content={<CustomTooltip />} />
-            <Area
+            <Line
               type="monotone"
               dataKey="amount"
-              stroke="var(--color-primary)"
               strokeWidth={2}
-              fillOpacity={1}
-              fill="url(#colorAmount)"
+              dot={{ r: 4, strokeWidth: 2, fill: "white" }}
+              activeDot={{ r: 6 }}
+              isAnimationActive={true}
             />
-          </AreaChart>
+          </LineChart>
         </ResponsiveContainer>
       </div>
 
+      {/* Total revenue */}
       <div className="rounded-lg bg-card p-6 shadow-sm bg-white dark:bg-[#191a1f] border border-[#e9e9e9] dark:border-[#1f222b]">
-        <p className="text-sm font-medium text-muted-foreground">
-          Total Revenue (UZS)
-        </p>
-        <p className="mt-2 text-3xl font-bold text-card-foreground">
-          {formattedTotalRevenue}
-        </p>
+        <p className="text-sm font-medium text-muted-foreground">Total Revenue (UZS)</p>
+        <p className="mt-2 text-3xl font-bold text-card-foreground">{formattedTotalRevenue}</p>
       </div>
     </div>
   );
-}
+};
 
 export default memo(RevenueAnalyticsChart);
