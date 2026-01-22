@@ -1,4 +1,5 @@
 import { TrendingUp } from 'lucide-react';
+import { memo } from 'react';
 
 interface StatCardProps {
   title: string;
@@ -7,12 +8,12 @@ interface StatCardProps {
   currency?: string;
 }
 
-export function StatCard({
+const StatCard = ({
   title,
   value,
   growth = 0,
   currency = 'UZS',
-}: StatCardProps) {
+}: StatCardProps) => {
   const isPositiveGrowth = growth >= 0;
   const formattedValue = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -21,7 +22,7 @@ export function StatCard({
   }).format(value);
 
   return (
-    <div className="bg-card rounded-lg border border-border p-6 shadow-sm dark:text-white">
+    <div className="bg-card rounded-lg border border-[#e9e9e9] p-6 shadow-sm dark:text-white dark:border-gray-700">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
@@ -48,3 +49,6 @@ export function StatCard({
     </div>
   );
 }
+
+
+export default memo(StatCard);
