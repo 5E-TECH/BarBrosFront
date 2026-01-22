@@ -6,6 +6,7 @@ import {
   FileText,
   Grid2X2Check,
   Home,
+  Receipt,
   Scissors,
 } from "lucide-react";
 import SideBarLink from "./sideBarLink";
@@ -26,7 +27,7 @@ const sidebarConfig: Record<UserRole, LinkItem[]> = {
     { to: "/user", icon: <FileText />, label: "Users" },
     { to: "/category", icon: <Grid2X2Check />, label: "Categories" },
     { to: "/booking", icon: <AlarmClock />, label: "Bookings" },
-    { to: "/subscribe", icon: <AlarmClock />, label: "Subscriptions Plans" },
+    { to: "/subscribe", icon: <Receipt />, label: "Subscriptions Plans" },
 
   ],
 };
