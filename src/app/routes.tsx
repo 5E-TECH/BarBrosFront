@@ -92,12 +92,10 @@ const AppRouter = () => {
             {
               path: "/subscribe",
               element: <Subscribe />,
-              children: [
-                {
-                  path: "subscribe-detail/id",
-                  element: <SubscribeDetail />,
-                },
-              ],
+            },
+            {
+              path: "/subscribe-detail/:id",
+              element: <SubscribeDetail />,
             },
           ],
         },
