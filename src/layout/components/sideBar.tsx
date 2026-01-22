@@ -12,6 +12,7 @@ import {
 import SideBarLink from "./sideBarLink";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
+import { useNavigate } from "react-router-dom";
 
 interface LinkItem {
   to: string;
@@ -39,12 +40,14 @@ const SideBar = () => {
     role = UserRole.Admin;
   }
 
+  const navigate = useNavigate()
+
   const links = role ? sidebarConfig[role] : [];
 
   return (
     <div className="w-[289px] h-screen max-sm:hidden border-r-2 border-[#EAEAEA] top-0 left-0 sticky dark:bg-[#191a1f] dark:text-white dark:border-0">
       <ul className="flex flex-col ">
-        <div className="flex items-center mt-[13px] px-8 gap-3">
+        <div className="flex items-center mt-[13px] px-8 gap-3 cursor-pointer" onClick={() => navigate("/")}>
           <div className="px-4 py-4 rounded-full dark:bg-[#31343e] shadow-[0_0_10px_5px_rgba(251,191,36,0.6)]">
             <Scissors color="#fa8900" size={26} />
           </div>

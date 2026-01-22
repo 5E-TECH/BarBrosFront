@@ -1,25 +1,30 @@
-import { TrendingUp } from 'lucide-react';
-import { memo } from 'react';
+import { TrendingUp } from "lucide-react";
+import { memo } from "react";
 
 interface StatCardProps {
   title: string;
   value: number;
   growth?: number;
   currency?: string;
+  isCurrency?: boolean;
 }
 
 const StatCard = ({
+  currency = "UZS",
   title,
   value,
   growth = 0,
-  currency = 'UZS',
+  isCurrency = false,
 }: StatCardProps) => {
   const isPositiveGrowth = growth >= 0;
-  const formattedValue = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-    maximumFractionDigits: 0,
-  }).format(value);
+
+  const formattedValue = isCurrency
+    ? new Intl.NumberFormat("uz-UZ", {
+        style: "currency",
+        maximumFractionDigits: 0,
+        currency,
+      }).format(value)
+    : new Intl.NumberFormat("uz-UZ").format(value);
 
   return (
     <div className="bg-card rounded-lg border border-[#e9e9e9] bg-white dark:bg-[#191a1f] p-6 shadow-sm dark:text-white dark:border-[#1f222b]">
@@ -34,13 +39,13 @@ const StatCard = ({
           <div
             className={`flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium ${
               isPositiveGrowth
-                ? 'bg-green-100 text-green-500 dark:bg-green-500 dark:text-green-200'
-                : 'bg-red-100 text-red-700 dark:bg-red-700 dark:text-red-200'
+                ? "bg-green-100 text-green-500 dark:bg-green-500/10 dark:text-green-400"
+                : "bg-red-100 text-red-700 dark:bg-red-700/10 dark:text-red-400"
             }`}
           >
             <TrendingUp
               size={16}
-              className={isPositiveGrowth ? 'rotate-0' : 'rotate-180'}
+              className={isPositiveGrowth ? "rotate-0" : "rotate-180"}
             />
             {Math.abs(growth)}%
           </div>
@@ -48,7 +53,6 @@ const StatCard = ({
       </div>
     </div>
   );
-}
-
+};
 
 export default memo(StatCard);
