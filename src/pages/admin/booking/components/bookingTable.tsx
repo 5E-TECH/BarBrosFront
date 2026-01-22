@@ -19,23 +19,18 @@ const BookingTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // MUHIM: Parametrlarni to'g'ri formatda yuborish
   const params = { 
     page: page, 
     limit: limit 
   };
 
-  // console.log('Current params:', params); // Debug uchun
 
   const { getAllBookings } = useBooking();
   const { data, isLoading, isFetching } = getAllBookings(params, searchTerm);
 
   const datas = data?.data?.data || [];
   const total = data?.data?.total ?? 0;
-  const pageSize = limit; // data?.pageSize o'rniga to'g'ridan-to'g'ri limit ishlatamiz
-  console.log(total);
-  
-  // Search o'zgarganda birinchi sahifaga qaytarish
+  const pageSize = limit; 
   useEffect(() => {
     if (page !== 1) {
       dispatch(setPage(1));
