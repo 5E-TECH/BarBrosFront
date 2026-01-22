@@ -1,5 +1,5 @@
 import { memo, useState, type FC } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Plus, X } from "lucide-react";
 import { useSubscription } from "./service/useSubscription";
 import TableLoading from "../../../shared/components/loadings/tableLoading";
@@ -148,7 +148,7 @@ const Subscribe: FC = () => {
                   className="group relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-[#FA8B00]/30 dark:hover:border-[#FA8B00]/30 transition-all duration-200 cursor-pointer overflow-hidden hover:shadow-lg"
                 >
                   {/* Top Accent Bar */}
-                  <div className={`h-1.5 bg-gradient-to-r ${colorClass}`}></div>
+                  <div className={`h-1.5 bg-linear-to-r ${colorClass}`}></div>
 
                   <div className="p-6">
                     {/* Header */}

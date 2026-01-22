@@ -246,7 +246,7 @@ const SubscribeDetail = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center text-sm text-gray-900 max-w-xs">
-                        <MapPin className="w-4 h-4 mr-2 text-gray-400 flex-shrink-0" />
+                        <MapPin className="w-4 h-4 mr-2 text-gray-400 shrink-0" />
                         <span className="truncate">
                           {shop.barberShop.location}
                         </span>
