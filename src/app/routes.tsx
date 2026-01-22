@@ -1,5 +1,7 @@
 import { lazy, memo } from "react";
 import { useRoutes } from "react-router-dom";
+import Subscribe from "../pages/admin/Subscribe";
+import SubscribeDetail from "../pages/admin/Subscribe/page/subscribeDetail";
 
 const DashboardLayout = lazy(() => import("../layout/dashboardLayout"));
 const Login = lazy(() => import("../pages/login"));
@@ -85,6 +87,16 @@ const AppRouter = () => {
               element: <Booking />,
               children: [
                 { path: "booking-detail/:id", element: <BookingDetail /> },
+              ],
+            },
+            {
+              path: "/subscribe",
+              element: <Subscribe />,
+              children: [
+                {
+                  path: "subscribe-detail/id",
+                  element: <SubscribeDetail />,
+                },
               ],
             },
           ],

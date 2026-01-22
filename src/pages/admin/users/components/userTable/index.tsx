@@ -1,10 +1,13 @@
-import { memo, type FC } from "react";
+import { memo, type FC, useEffect } from "react";
 import avatar from "../../../../../shared/assets/Avatar.png";
 import CustomPagination from "../../../../../shared/components/pagination";
 import type { PaginationProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../../../../../shared/components/Search";
 import TableLoading from "../../../../../shared/components/loadings/tableLoading";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../../../app/store";
+import { setPage } from "../../../../../shared/components/pagination/store/paginationSlice";
 
 interface Props {
   data: any[];
@@ -12,7 +15,6 @@ interface Props {
   total?: number;
   pageSize?: number;
   onPageChange?: PaginationProps["onChange"];
-  onSearch: (searchTerm: string) => void;
 }
 
 const UserTable: FC<Props> = ({
@@ -23,6 +25,15 @@ const UserTable: FC<Props> = ({
   onPageChange,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const searchTerm = useSelector((state: RootState) => state.search.userSearch);
+
+  // Search o'zgarganda page'ni 1 ga qaytarish
+  useEffect(() => {
+    if (page !== 1) {
+      dispatch(setPage(1));
+    }
+  }, [searchTerm, dispatch]);
 
   if (!data) {
     return <TableLoading />;
@@ -45,21 +56,27 @@ const UserTable: FC<Props> = ({
           <SearchInput />
         </div>
 
-        <div className="w-full h-full">
-          <div className="hidden md:block overflow-x-auto">
-            <table className="mt-8 mb-10 w-full">
-              <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#30333c]">
-                <tr>
-                  <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
-                  <th className="w-[200px] pb-3 text-left">
-                    Date of registration
-                  </th>
-                  <th className="w-[100px] pb-3 text-left">Phone number</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.length > 0 ? (
-                  data.map((item: any) => (
+        {data.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16">
+            <p className="text-helpertext text-lg">
+              {searchTerm ? "Qidiruv natijasi topilmadi" : "Ma'lumot yo'q"}
+            </p>
+          </div>
+        ) : (
+          <div className="w-full h-full">
+            <div className="hidden md:block overflow-x-auto">
+              <table className="mt-8 mb-10 w-full">
+                <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#30333c]">
+                  <tr>
+                    <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
+                    <th className="w-[200px] pb-3 text-left">
+                      Date of registration
+                    </th>
+                    <th className="w-[100px] pb-3 text-left">Phone number</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((item: any) => (
                     <tr
                       onClick={() => navigate(`user-detail/${item.id}`)}
                       key={item.id}
@@ -77,24 +94,13 @@ const UserTable: FC<Props> = ({
                       </td>
                       <td className="text-maintext">{item?.phone_number}</td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan={4}
-                      className="text-center py-8 text-helpertext"
-                    >
-                      Hech narsa topilmadi
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-          <div className="md:hidden flex flex-col gap-4 p-4">
-            {data.length > 0 ? (
-              data.map((item: any, index) => (
+            <div className="md:hidden flex flex-col gap-4 p-4">
+              {data.map((item: any, index) => (
                 <div
                   key={item.id}
                   onClick={() => navigate(`user-detail/${item.id}`)}
@@ -136,24 +142,20 @@ const UserTable: FC<Props> = ({
                     </span>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="text-center py-8 text-helpertext">
-                Hech narsa topilmadi
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
 
-          <div className="flex justify-end my-4 pr-6 w-full">
-            <CustomPagination
-              current={page}
-              onChange={onPageChange}
-              pageSize={pageSize}
-              total={total}
-              showSizeChanger={false}
-            />
+            <div className="flex justify-end my-4 pr-6 w-full">
+              <CustomPagination
+                current={page}
+                onChange={onPageChange}
+                pageSize={pageSize}
+                total={total}
+                showSizeChanger={false}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

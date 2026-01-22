@@ -15,15 +15,15 @@ const Users = () => {
   const dispatch = useDispatch();
   const { page, limit } = useSelector((state: any) => state.paginationSlice);
   const [selectRole, setSelectRole] = useState<"user" | "admin">("user");
-  const [_searchTerm, setSearchTerm] = useState("");
 
   const outlet = useOutlet();
   const showTable = !outlet;
 
   const { getAllUsers } = useUsers();
   const { getAllAdmins } = useAdmins();
+  
+  // Redux'dan search olish
   const search = useSelector((state: RootState) => state.search.userSearch);
-
   const role = useSelector((state: RootState) => state.roleSlice.role);
 
   const params = { page, limit, search };
@@ -36,14 +36,10 @@ const Users = () => {
   const total = data?.data?.total ?? 0;
   const pageSize = data?.data?.pageSize ?? limit;
 
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-    dispatch(setPage(1));
-  };
-
+  // Faqat role o'zgarganda page'ni 1 ga qaytarish
   useEffect(() => {
     dispatch(setPage(1));
-  }, [location.pathname, dispatch]);
+  }, [selectRole, dispatch]);
 
   if (isLoading) {
     return <TableLoading />;
@@ -60,10 +56,12 @@ const Users = () => {
 
           <div
             onClick={() => setSelectRole("user")}
-            className="flex items-center px-4 py-3 rounded-xl bg-white
+            className={`flex items-center px-4 py-3 rounded-xl bg-white
                        w-full sm:w-[300px]
                        hover:shadow-md cursor-pointer
-                       dark:bg-[#191a1f]"
+                       dark:bg-[#191a1f]
+                       transition-all duration-200
+                       ${selectRole === "user" ? "ring-2 ring-[#FA8B00] shadow-md" : ""}`}
           >
             <div className="w-full dark:text-white">
               <p className="text-helpertext text-[16px] sm:text-[18px] font-medium">
@@ -81,10 +79,12 @@ const Users = () => {
           {role === "supperadmin" && (
             <div
               onClick={() => setSelectRole("admin")}
-              className="flex items-center px-4 py-3 rounded-xl bg-white
+              className={`flex items-center px-4 py-3 rounded-xl bg-white
                        w-full sm:w-[300px]
                        hover:shadow-md cursor-pointer
-                       dark:bg-[#191a1f]"
+                       dark:bg-[#191a1f]
+                       transition-all duration-200
+                       ${selectRole === "admin" ? "ring-2 ring-[#FA8B00] shadow-md" : ""}`}
             >
               <div className="w-full dark:text-white">
                 <p className="text-helpertext text-[16px] sm:text-[18px] font-medium">
@@ -109,7 +109,6 @@ const Users = () => {
           total={total}
           pageSize={pageSize}
           onPageChange={(newPage) => dispatch(setPage(newPage))}
-          onSearch={handleSearch}
         />
       )}
 
