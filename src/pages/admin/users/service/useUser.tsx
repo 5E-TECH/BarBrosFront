@@ -39,6 +39,13 @@ export const useUsers = () => {
       enabled: !!id,
     });
 
+  const getByUserIdBooking = ({ id }: any) =>
+    useQuery({
+      queryKey: [users, id],
+      queryFn: () => api.get(`booking/user-bookings/${id}`).then((res) => res.data),
+      // enabled: !!id,
+    });
+
   const updateUsers = useMutation({
     mutationFn: ({ id, data }: { id: string | undefined; data: any }) =>
       api.patch(`user/${id}`, data),
@@ -49,5 +56,6 @@ export const useUsers = () => {
     getAllUsers,
     getByIdUsers,
     updateUsers,
+    getByUserIdBooking,
   };
 };

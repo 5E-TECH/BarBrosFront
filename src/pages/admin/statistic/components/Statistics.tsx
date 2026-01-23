@@ -54,7 +54,7 @@ const Statistics = () => {
               <h1 className="text-3xl font-bold text-foreground">
                 Statistics Dashboard
               </h1>
-              <p className="text-maintext">
+              <p className="mt-1 text-muted-foreground">
                 Monitor your business metrics and performance
               </p>
             </div>
@@ -63,19 +63,21 @@ const Statistics = () => {
               onPeriodChange={setSelectedPeriod}
             />
           </div>
-
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <StatCard
-              currency="UZS"
+              isCurrency={true} 
               title={`${selectedPeriod[0].toUpperCase() + selectedPeriod.slice(1)} Revenue`}
-              value={periodStats.revenue}
               growth={periodStats.growth}
+              value={periodStats.revenue}
+              currency="UZS"
             />
+
             <StatCard
               title="Total Bookings"
               value={apiData.bookings.total}
               growth={12}
             />
+
             <StatCard
               title="Total Barbershops"
               value={apiData.totals.barbershops}
