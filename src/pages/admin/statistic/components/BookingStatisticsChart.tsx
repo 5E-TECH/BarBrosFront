@@ -53,6 +53,7 @@ const BookingStatisticsChart = ({ data }: BookingStatisticsChartProps) => {
       attributeFilter: ['class']
     });
     
+    
     return () => observer.disconnect();
   }, []);
 
