@@ -71,7 +71,7 @@ const BookingStatisticsChart = ({ data }: BookingStatisticsChartProps) => {
 
   const totalBookings = useMemo(
     () => Object.values(data).reduce((sum, val) => sum + val, 0),
-    [data]
+    [data],
   );
 
   const CustomTooltip = ({ active, payload }: any) => {
@@ -125,12 +125,12 @@ const BookingStatisticsChart = ({ data }: BookingStatisticsChartProps) => {
             stroke={axisColor}
             tick={{ fill: axisColor, fontSize: 14 }}
           />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: "transparent" }} />
-          <Legend 
-            wrapperStyle={{ paddingTop: 10 }}
-            iconType="circle"
+          <Tooltip
+            content={<CustomTooltip />}
+            cursor={{ fill: "transparent" }}
           />
-          <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+          <Legend wrapperStyle={{ paddingTop: 10 }} />
+          <Bar dataKey="value">
             {chartData.map((entry, index) => (
               <Cell key={index} fill={entry.fill} />
             ))}
