@@ -1,17 +1,20 @@
 import { memo, useState, type FormEvent } from "react";
 import {
   X,
-  Edit2,
   MapPin,
   Phone,
   Calendar,
   CreditCard,
   CheckCircle,
+  ChevronLeft,
 } from "lucide-react";
 import { useSubscription } from "../service/useSubscription";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Popup from "../../../../shared/ui/Popup";
 import ButtonCom from "../../../../shared/components/button";
+import TableLoading from "../../../../shared/components/loadings/tableLoading";
+import PageHeader from "../../../../shared/components/pageHeader";
+import Search from "../../../../shared/components/Search";
 
 // Type definitions
 interface BarberShop {
@@ -65,18 +68,15 @@ const SubscribeDetail = () => {
   const { id } = useParams();
 
   const { getSubscriptionById, updateSubscription } = useSubscription();
-  const { data } = getSubscriptionById(id);
+  const { data, isLoading } = getSubscriptionById(id);
 
-  if (!data || !data.data || data.data.length === 0) {
+  const navigate = useNavigate();
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800">
-            Ma'lumot topilmadi
-          </h2>
-          <p className="text-gray-600 mt-2">Subscription ID: {id}</p>
-        </div>
-      </div>
+      <>
+        <TableLoading />
+      </>
     );
   }
 
@@ -95,15 +95,15 @@ const SubscribeDetail = () => {
     return new Intl.NumberFormat("uz-UZ").format(price) + " UZS";
   };
 
-  const handleEdit = (shop: ShopData) => {
-    setSelectedShop(shop);
-    setEditForm({
-      status: shop.subscription.status,
-      payment_status: shop.subscription.payment_status,
-      payment_model: shop.subscription.payment_model,
-    });
-    setIsEditOpen(true);
-  };
+  // const handleEdit = (shop: ShopData) => {
+  //   setSelectedShop(shop);
+  //   setEditForm({
+  //     status: shop.subscription.status,
+  //     payment_status: shop.subscription.payment_status,
+  //     payment_model: shop.subscription.payment_model,
+  //   });
+  //   setIsEditOpen(true);
+  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setEditForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -123,17 +123,27 @@ const SubscribeDetail = () => {
           setIsEditOpen(false);
           setSelectedShop(null);
         },
-      }
+      },
     );
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Profile Section */}
-        <div className="bg-white rounded-lg shadow-md p-8 mb-6">
+    <div>
+      <div
+        onClick={() => navigate(-1)}
+        className="cursor-pointer flex gap-1 items-center mb-2 md:mb-6"
+      >
+        <ChevronLeft
+          size={30}
+          color="gray"
+          className="mt-[-9px] md:mt-[-3px]"
+        />
+        <PageHeader title="Subscription Detail" />
+      </div>
+      <div className="mx-auto">
+        <div className="bg-white rounded-lg shadow-md p-8 mb-6 dark:bg-[#191a1f]">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-3xl font-bold text-maintext">
               Subscription Plan Details
             </h1>
             <span className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full font-semibold">
@@ -148,7 +158,7 @@ const SubscribeDetail = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Davomiyligi</p>
-                <p className="text-lg font-semibold text-gray-800">
+                <p className="text-lg font-semibold dark:text-white">
                   {planData?.duration_months || 0} oy
                 </p>
               </div>
@@ -160,7 +170,7 @@ const SubscribeDetail = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Narxi</p>
-                <p className="text-lg font-semibold text-gray-800">
+                <p className="text-lg font-semibold dark:text-white">
                   {planData?.price ? formatPrice(planData.price) : "N/A"}
                 </p>
               </div>
@@ -172,7 +182,7 @@ const SubscribeDetail = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Obunachi soni</p>
-                <p className="text-lg font-semibold text-gray-800">
+                <p className="text-lg font-semibold dark:text-white">
                   {subscribedShops.length} ta
                 </p>
               </div>
@@ -181,50 +191,32 @@ const SubscribeDetail = () => {
         </div>
 
         {/* Table Section */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800">
-              Ulangan Barbershoplar
-            </h2>
+        <div className="bg-white rounded-lg shadow-md overflow-hidden dark:bg-[#191a1f]">
+          <div className="pt-6 px-12">
+            <Search />
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50">
+          <div className="overflow-x-auto dark:bg-[#191a1f] px-4">
+            <table className="mt-[31px] mb-20 w-full">
+              <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#1f222b]">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Barbershop
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Manzil
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Telefon
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Boshlanish
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Tugash
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    To'lov
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Amallar
-                  </th>
+                  <th className="pl-10 pb-3 text-left">BarberShop Name</th>
+                  <th className="pl-6 pb-3 text-left">Address</th>
+                  <th className="pl-6 pb-3 text-left">Phone number</th>
+                  <th className="pl-6 pb-3 text-left">Start</th>
+                  <th className="pl-6 pb-3 text-left">End</th>
+                  <th className="pl-6 pb-3 text-left">Status</th>
+                  <th className="pl-6 pb-3 text-left">Payment</th>
+                  <th></th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody>
                 {subscribedShops.map((shop: ShopData) => (
                   <tr
                     key={shop.barberShop.id}
-                    className="hover:bg-gray-50 transition"
+                    className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#1f222b] text-[#3F434A] dark:text-white"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="py-3 whitespace-nowrap">
                       <div className="flex items-center">
                         <img
                           className="h-10 w-10 rounded-full object-cover"
@@ -234,18 +226,18 @@ const SubscribeDetail = () => {
                             e.target.src = "https://via.placeholder.com/40";
                           }}
                         />
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
+                        <div className="">
+                          <div className="text-md font-medium">
                             {shop.barberShop.name}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-md text-gray-500">
                             @{shop.barberShop.username}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center text-sm text-gray-900 max-w-xs">
+                      <div className="flex items-center text-md max-w-xs">
                         <MapPin className="w-4 h-4 mr-2 text-gray-400 shrink-0" />
                         <span className="truncate">
                           {shop.barberShop.location}
@@ -253,23 +245,23 @@ const SubscribeDetail = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center text-sm text-gray-900">
+                      <div className="flex items-center text-md">
                         <Phone className="w-4 h-4 mr-2 text-gray-400" />
                         {shop.barberShop.phoneNumber}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-md">
                       {formatDate(shop.subscription.start_at)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-md">
                       {formatDate(shop.subscription.end_at)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold text-white rounded-full ${
                           shop.subscription.status === "active"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
+                            ? "bg-green-500"
+                            : "bg-red-600"
                         }`}
                       >
                         {shop.subscription.status}
@@ -277,23 +269,14 @@ const SubscribeDetail = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full text-white ${
                           shop.subscription.payment_status === "paid"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-yellow-100 text-yellow-800"
+                            ? "bg-green-500"
+                            : "bg-main"
                         }`}
                       >
                         {shop.subscription.payment_status}
                       </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
-                        onClick={() => handleEdit(shop)}
-                        className="text-blue-600 hover:text-blue-900 flex items-center gap-1"
-                      >
-                        <Edit2 className="w-4 h-4" />
-                        Edit
-                      </button>
                     </td>
                   </tr>
                 ))}
@@ -312,7 +295,7 @@ const SubscribeDetail = () => {
             </h3>
             <div
               onClick={() => setIsEditOpen(false)}
-              className="inline-flex items-center justify-center bg-[#c1c0c0] p-2 rounded-xl cursor-pointer hover:bg-red-400 transition"
+              className="inline-flex items-center justify-center bg-[#c1c0c0] p-2 rounded-xl cursor-pointer hover:bg-red-500 transition"
             >
               <X size={18} color="#3F434A" />
             </div>
@@ -321,15 +304,7 @@ const SubscribeDetail = () => {
           <form onSubmit={handleSave} className="dark:text-white">
             <div className="flex flex-col mb-6 md:mb-9">
               <label className="text-helpertext mb-2.5">Barbershop</label>
-              <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                <img
-                  className="h-12 w-12 rounded-full object-cover"
-                  src={selectedShop?.barberShop.img}
-                  alt={selectedShop?.barberShop.name}
-                  onError={(e: any) => {
-                    e.target.src = "https://via.placeholder.com/40";
-                  }}
-                />
+              <div className="border border-[#e9e9e9] dark:border-gray-700 rounded-2xl p-3">
                 <div>
                   <p className="text-maintext font-semibold dark:text-white">
                     {selectedShop?.barberShop.name}
@@ -353,14 +328,23 @@ const SubscribeDetail = () => {
                 onChange={handleChange}
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:bg-transparent"
               >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-                <option value="expired">Expired</option>
+                <option value="active" className="dark:bg-[#1f222b]">
+                  Active
+                </option>
+                <option value="inactive" className="dark:bg-[#1f222b]">
+                  Inactive
+                </option>
+                <option value="expired" className="dark:bg-[#1f222b]">
+                  Expired
+                </option>
               </select>
             </div>
 
             <div className="flex flex-col mb-6 md:mb-9">
-              <label htmlFor="payment_status" className="text-helpertext mb-2.5">
+              <label
+                htmlFor="payment_status"
+                className="text-helpertext mb-2.5"
+              >
                 Payment Status
               </label>
               <select
@@ -371,9 +355,15 @@ const SubscribeDetail = () => {
                 onChange={handleChange}
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:bg-transparent"
               >
-                <option value="paid">Paid</option>
-                <option value="pending">Pending</option>
-                <option value="failed">Failed</option>
+                <option value="paid" className="dark:bg-[#1f222b]">
+                  Paid
+                </option>
+                <option value="pending" className="dark:bg-[#1f222b]">
+                  Pending
+                </option>
+                <option value="failed" className="dark:bg-[#1f222b]">
+                  Failed
+                </option>
               </select>
             </div>
 
@@ -389,9 +379,15 @@ const SubscribeDetail = () => {
                 onChange={handleChange}
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:bg-transparent"
               >
-                <option value="cash">Cash</option>
-                <option value="card">Card</option>
-                <option value="online">Online</option>
+                <option value="cash" className="dark:bg-[#1f222b]">
+                  Cash
+                </option>
+                <option value="card" className="dark:bg-[#1f222b]">
+                  Card
+                </option>
+                <option value="online" className="dark:bg-[#1f222b]">
+                  Online
+                </option>
               </select>
             </div>
 
@@ -399,7 +395,7 @@ const SubscribeDetail = () => {
               <button
                 type="button"
                 onClick={() => setIsEditOpen(false)}
-                className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 transition"
+                className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 transition cursor-pointer"
               >
                 Bekor qilish
               </button>
