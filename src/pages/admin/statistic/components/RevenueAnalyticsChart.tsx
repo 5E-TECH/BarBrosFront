@@ -125,11 +125,11 @@ const RevenueAnalyticsChart = ({
               <XAxis
                 dataKey="month"
                 stroke={axisColor}
-                tick={{ fill: axisColor, fontSize: 12 }}
+                tick={{ fill: axisColor, fontSize: 13 }}
               />
               <YAxis
                 stroke={axisColor}
-                tick={{ fill: axisColor, fontSize: 12 }}
+                tick={{ fill: axisColor, fontSize: 16 }}
                 tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
               />
               <Tooltip content={<CustomTooltip />} />
