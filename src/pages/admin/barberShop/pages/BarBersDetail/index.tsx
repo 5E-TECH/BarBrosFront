@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { 
   ChevronLeft, 
   X, 
-  // Clock, 
   Calendar,
   Star,
   Scissors,
+  Upload,
 } from "lucide-react";
 import PageHeader from "../../../../../shared/components/pageHeader";
 import profile from "../../../../../shared/assets/profile.jpg";
@@ -15,21 +15,25 @@ import DetailsLoading from "../../../../../shared/components/loadings/detailsLoa
 import ServiceTable from "../../components/serviceTable";
 import { useBarber } from "../../service/useBarber";
 import { useService } from "../../service/useService";
+import { toast } from "react-toastify";
+import Popup from "../../../../../shared/ui/Popup";
 
 const initialState = {
-  name: "",
-  phoneNumber: "",
-  location: "",
+  full_name: "",
+  phone_number: "",
+  bio: "",
+  is_avaylbl: true,
+  img: null as File | null,
 };
 
 const BarberDetail = () => {
   const [show, setShow] = useState(false);
   const [form, setForm] = useState(initialState);
+  const [previewImage, setPreviewImage] = useState<string>("");
 
-  const { getBarberById } = useBarber();
+  const { getBarberById, updateBarbershop } = useBarber();
   const { getAllServicesByBarber } = useService();
   const { id } = useParams();
-  console.log(id);
   
   const { data } = getBarberById(id);
   const datas = data?.data;
@@ -40,19 +44,74 @@ const BarberDetail = () => {
   
   const navigate = useNavigate();
 
-  const handleChange = (e:any) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
+      setForm((prev) => ({ ...prev, [name]: checked }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setForm((prev) => ({ ...prev, img: file }));
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleEdit = () => {
     if (datas) {
       setForm({
-        name: datas.full_name || "",
-        phoneNumber: datas.phone_number || "",
-        location: datas.barberShop?.location || "",
+        full_name: datas.full_name || "",
+        phone_number: datas.phone_number || "",
+        bio: datas.bio || "",
+        is_avaylbl: datas.is_avaylbl || false,
+        img: null,
       });
+      setPreviewImage("");
     }
     setShow(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // Create FormData for multipart/form-data
+    const formData = new FormData();
+    formData.append("full_name", form.full_name);
+    formData.append("phone_number", form.phone_number);
+    formData.append("bio", form.bio);
+    formData.append("is_avaylbl", form.is_avaylbl.toString());
+    
+    // Only append image if a new one was selected
+    if (form.img) {
+      formData.append("img", form.img);
+    }
+
+    try {
+      await updateBarbershop.mutateAsync({
+        id: id,
+        data: formData,
+      });
+      
+      toast.success("Barber profile updated successfully!");
+      setShow(false);
+      setForm(initialState);
+      setPreviewImage("");
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Failed to update barber profile");
+      console.error("Update error:", error);
+    }
   };
 
   if (!datas) {
@@ -141,6 +200,17 @@ const BarberDetail = () => {
               </div>
             </div>
 
+            {datas?.bio && (
+              <div className="flex flex-col w-full">
+                <label className="text-helpertext text-[14px] md:text-[16px] font-medium pb-1.5">
+                  Bio:
+                </label>
+                <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-5 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
+                  {datas?.bio}
+                </span>
+              </div>
+            )}
+
             <div className="w-full flex justify-end mt-4">
               <ButtonCom onClick={handleEdit} title="Edit" type="button" />
             </div>
@@ -189,38 +259,6 @@ const BarberDetail = () => {
 
       {/* Services Section */}
       <div className="bg-white dark:bg-[#191a1f] rounded-2xl p-6 md:p-8 shadow-sm mb-8">
-        {/* <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl md:text-2xl font-bold text-maintext dark:text-white">
-            Services & Expertise
-          </h3>
-          <span className="text-sm font-medium text-main">
-            {totalServices} Services
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          {barberServices?.slice(0, 6).map((service:any) => (
-            <div
-              key={service.id}
-              className="border border-[#E8E9EB] dark:border-[#30333c] rounded-xl p-4 hover:border-main dark:hover:border-main transition-all hover:shadow-md"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h4 className="font-semibold text-maintext dark:text-white">
-                  {service.name}
-                </h4>
-                <div className="flex items-center gap-1 text-xs text-main">
-                  <Clock size={14} />
-                  <span>{service.duration_minutes}min</span>
-                </div>
-              </div>
-              <p className="text-sm text-helpertext line-clamp-2">
-                {service.description}
-              </p>
-            </div>
-          ))}
-        </div> */}
-
-        {/* Pass barber's services to ServiceTable */}
         <ServiceTable services={barberServices} isLoading={servicesLoading} />
       </div>
 
@@ -256,78 +294,136 @@ const BarberDetail = () => {
       </div>
 
       {/* Edit Modal */}
-      {show && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#1f222b] w-full max-w-md rounded-xl shadow-2xl">
-            <div className="flex items-center justify-between p-6 border-b border-[#E8E9EB] dark:border-[#30333c]">
-              <h3 className="text-xl font-semibold text-maintext dark:text-white">
-                Edit Barber Profile
-              </h3>
-              <button
-                onClick={() => setShow(false)}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              >
-                <X size={20} className="text-helpertext" />
-              </button>
+      <Popup isShow={show} onClose={() => setShow(false)}>
+        <div className="bg-white w-[90vw] max-w-[500px] max-h-[90vh] overflow-y-auto rounded-xl px-6 md:px-8 py-8 md:py-10 dark:bg-[#1f222b]">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-semibold text-maintext dark:text-white">
+              Edit Barber Profile
+            </h3>
+            <div
+              onClick={() => setShow(false)}
+              className="inline-flex items-center justify-center bg-[#c1c0c0] p-2 rounded-xl cursor-pointer hover:bg-red-400 transition"
+            >
+              <X size={18} color="#3F434A" />
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Image Upload */}
+            <div className="flex flex-col items-center">
+              <label className="text-helpertext text-sm font-medium mb-2 self-start">
+                Profile Image
+              </label>
+              <div className="relative w-32 h-32 mb-3">
+                <img
+                  src={
+                    previewImage ||
+                    (datas?.img
+                      ? `${import.meta.env.VITE_ASSET_BASE_URL}${datas?.img}`
+                      : profile)
+                  }
+                  alt="Preview"
+                  className="w-full h-full rounded-full object-cover border-4 border-gray-200 dark:border-gray-700"
+                />
+                <label
+                  htmlFor="img"
+                  className="absolute bottom-0 right-0 p-2 bg-main text-white rounded-full cursor-pointer hover:bg-opacity-90 transition-all shadow-lg"
+                >
+                  <Upload size={18} />
+                </label>
+                <input
+                  type="file"
+                  id="img"
+                  name="img"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </div>
+              <p className="text-xs text-helpertext text-center">
+                Click the icon to upload a new image
+              </p>
             </div>
 
-            <form className="p-6 space-y-5">
-              <div className="flex flex-col">
-                <label className="text-helpertext text-sm font-medium mb-2">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  className="border border-[#E8E9EB] dark:border-[#30333c] rounded-xl px-4 py-3 outline-none focus:border-main dark:bg-transparent text-maintext dark:text-white transition-colors"
-                  placeholder="Enter full name"
-                />
-              </div>
+            {/* Full Name */}
+            <div className="flex flex-col">
+              <label htmlFor="full_name" className="text-helpertext mb-2.5">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="full_name"
+                id="full_name"
+                value={form.full_name}
+                onChange={handleChange}
+                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:bg-transparent text-maintext dark:text-white"
+                placeholder="Enter full name"
+                required
+              />
+            </div>
 
-              <div className="flex flex-col">
-                <label className="text-helpertext text-sm font-medium mb-2">
-                  Phone Number
-                </label>
-                <input
-                  type="text"
-                  name="phoneNumber"
-                  value={form.phoneNumber}
-                  onChange={handleChange}
-                  className="border border-[#E8E9EB] dark:border-[#30333c] rounded-xl px-4 py-3 outline-none focus:border-main dark:bg-transparent text-maintext dark:text-white transition-colors"
-                  placeholder="Enter phone number"
-                />
-              </div>
+            {/* Phone Number */}
+            <div className="flex flex-col">
+              <label htmlFor="phone_number" className="text-helpertext mb-2.5">
+                Phone Number
+              </label>
+              <input
+                type="text"
+                name="phone_number"
+                id="phone_number"
+                value={form.phone_number}
+                onChange={handleChange}
+                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:bg-transparent text-maintext dark:text-white"
+                placeholder="Enter phone number"
+                required
+              />
+            </div>
 
-              <div className="flex flex-col">
-                <label className="text-helpertext text-sm font-medium mb-2">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  name="location"
-                  value={form.location}
-                  onChange={handleChange}
-                  className="border border-[#E8E9EB] dark:border-[#30333c] rounded-xl px-4 py-3 outline-none focus:border-main dark:bg-transparent text-maintext dark:text-white transition-colors"
-                  placeholder="Enter location"
-                />
-              </div>
+            {/* Bio */}
+            <div className="flex flex-col">
+              <label htmlFor="bio" className="text-helpertext mb-2.5">
+                Bio
+              </label>
+              <textarea
+                name="bio"
+                id="bio"
+                value={form.bio}
+                onChange={handleChange}
+                rows={3}
+                className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:bg-transparent text-maintext dark:text-white resize-none"
+                placeholder="Enter bio"
+              />
+            </div>
 
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShow(false)}
-                  className="flex-1 px-4 py-3 border border-[#E8E9EB] dark:border-[#30333c] text-helpertext rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                >
-                  Cancel
-                </button>
-                <ButtonCom title="Save" type="submit" />
-              </div>
-            </form>
-          </div>
+            {/* Availability */}
+            <div className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                id="is_avaylbl"
+                name="is_avaylbl"
+                checked={form.is_avaylbl}
+                onChange={handleChange}
+                className="w-5 h-5 text-main border-gray-300 rounded focus:ring-main"
+              />
+              <label
+                htmlFor="is_avaylbl"
+                className="text-helpertext text-sm font-medium cursor-pointer"
+              >
+                Available for bookings
+              </label>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-end pt-4">
+              <ButtonCom 
+                title={updateBarbershop.isPending ? "Saving..." : "Save"} 
+                type="submit"
+                disabled={updateBarbershop.isPending}
+              />
+            </div>
+          </form>
         </div>
-      )}
+      </Popup>
     </div>
   );
 };
