@@ -1,8 +1,8 @@
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import TableLoading from "../../../../../shared/components/loadings/tableLoading";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../../../../app/store";
-import { setPage } from "../../../../../shared/components/pagination/store/paginationSlice";
+// import { useDispatch, useSelector } from "react-redux";
+// import type { RootState } from "../../../../../app/store";
+// import { setPage } from "../../../../../shared/components/pagination/store/paginationSlice";
 import { useUsers } from "../../service/useUser";
 
 interface UserDetailTableProps {
@@ -13,20 +13,22 @@ const UserDetailTable = ({ userId }: UserDetailTableProps) => {
   const { getByUserIdBooking } = useUsers();
   
   // API dan ma'lumot olish - enabled parametri bilan
-  const { data, isLoading } = getByUserIdBooking({ id: userId });
+  const { data, isLoading: userDetailLoading } = getByUserIdBooking({ id: userId });
+
+  const datas = data?.data || [];
   
-  const searchTerm = useSelector((state: RootState) => state.search.userSearch);
-  const page = useSelector((state: RootState) => state.paginationSlice.page);
+  // const searchTerm = useSelector((state: RootState) => state.search.userSearch);
+  // const page = useSelector((state: RootState) => state.paginationSlice.page);
   // selectedStatus ni kerak bo'lsa qo'shing
   // const selectedStatus = useSelector((state: RootState) => state.someSlice.selectedStatus);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (page !== 1) {
-      dispatch(setPage(1));
-    }
-  }, [searchTerm, dispatch, page]);
+  // useEffect(() => {
+  //   if (page !== 1) {
+  //     dispatch(setPage(1));
+  //   }
+  // }, [searchTerm, dispatch, page]);
 
   const formatDate = (timestamp: any) => {
     const date = new Date(Number(timestamp));
@@ -51,12 +53,10 @@ const UserDetailTable = ({ userId }: UserDetailTableProps) => {
     failed: "bg-red-600",
   };
 
-  if (isLoading) {
+  if (userDetailLoading) {
     return <TableLoading />;
   }
 
-  // Ma'lumotni array sifatida olish
-  const datas = data?.data || [];
 
   return (
     <div>
