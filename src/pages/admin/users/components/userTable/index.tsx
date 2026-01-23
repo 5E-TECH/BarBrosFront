@@ -76,7 +76,7 @@ const UserTable: FC<Props> = ({
                   <tr>
                     <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
                     <th
-                      className="cursor-pointer select-none"
+                      className="w-[100px] pb-3 text-center cursor-pointer select-none"
                       onClick={() => onSort("ordersCount")}
                     >
                       Orders
@@ -102,7 +102,7 @@ const UserTable: FC<Props> = ({
                           <p className="text-helpertext">{item?.email}</p>
                         </div>
                       </td>
-                      <td className="text-maintext">
+                      <td className="text-center text-maintext">
                         {item?.ordersCount ?? 0}
                       </td>
                       <td className="text-helpertext">
