@@ -16,7 +16,7 @@ const Users = () => {
   const { page, limit } = useSelector((state: any) => state.paginationSlice);
   const [selectRole, setSelectRole] = useState<"user" | "admin">("user");
 
-  const [sortBy, setSortBy] = useState<"full_name" | "phone_number" | "ordersCount">("full_name");
+  const [sortBy, setSortBy] = useState<"full_name" | "phone_number" | "ordersCount">("ordersCount");
   const [order, setOrder] = useState<"asc" | "desc">("desc");
 
 
