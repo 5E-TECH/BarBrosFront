@@ -99,7 +99,7 @@ const BookingStatisticsChart = ({ data }: BookingStatisticsChartProps) => {
         <h3 className="text-lg font-bold text-gray-900 dark:text-white">
           Booking Statistics
         </h3>
-        <div className="rounded-full bg-blue-600 px-3 py-1 text-sm font-semibold text-white">
+        <div className="rounded-full bg-blue-600 px-3 py-1 text-md font-semibold text-white">
           Total: {totalBookings}
         </div>
       </div>
@@ -117,14 +117,14 @@ const BookingStatisticsChart = ({ data }: BookingStatisticsChartProps) => {
           <XAxis 
             type="number" 
             stroke={axisColor}
-            tick={{ fill: axisColor, fontSize: 12 }}
+            tick={{ fill: axisColor, fontSize: 16 }}
           />
-          <YAxis
-            type="category"
-            dataKey="status"
-            stroke={axisColor}
-            tick={{ fill: axisColor, fontSize: 14 }}
-          />
+            <YAxis
+              type="category"
+              dataKey="status"
+              stroke={axisColor}
+              tick={{ fill: axisColor, fontSize: 16 }}
+            />
           <Tooltip
             content={<CustomTooltip />}
             cursor={{ fill: "transparent" }}
