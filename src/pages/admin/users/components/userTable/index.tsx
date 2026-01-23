@@ -14,6 +14,9 @@ interface Props {
   page?: number;
   total?: number;
   pageSize?: number;
+  sortBy: "full_name" | "phone_number" | "ordersCount";
+  order: "asc" | "desc";
+  onSort: (field: "full_name" | "phone_number" | "ordersCount") => void;
   onPageChange?: PaginationProps["onChange"];
 }
 
@@ -22,6 +25,9 @@ const UserTable: FC<Props> = ({
   page,
   total,
   pageSize,
+  sortBy,
+  order,
+  onSort,
   onPageChange,
 }) => {
   const navigate = useNavigate();
@@ -69,6 +75,13 @@ const UserTable: FC<Props> = ({
                 <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#30333c]">
                   <tr>
                     <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
+                    <th
+                      className="w-[100px] pb-3 text-center cursor-pointer select-none"
+                      onClick={() => onSort("ordersCount")}
+                    >
+                      Orders
+                      {sortBy === "ordersCount" && (order === "asc" ? " ↑" : " ↓")}
+                    </th>
                     <th className="w-[200px] pb-3 text-left">
                       Date of registration
                     </th>
@@ -88,6 +101,9 @@ const UserTable: FC<Props> = ({
                           <p className="text-maintext">{item?.full_name}</p>
                           <p className="text-helpertext">{item?.email}</p>
                         </div>
+                      </td>
+                      <td className="text-center text-maintext">
+                        {item?.ordersCount ?? 0}
                       </td>
                       <td className="text-helpertext">
                         {formatDate(item?.created_at)}
