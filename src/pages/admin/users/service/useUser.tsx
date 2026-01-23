@@ -29,14 +29,14 @@ export const useUsers = () => {
 
   const getByIdUsers = ({ id }: any) =>
     useQuery({
-      queryKey: [users, id],
+      queryKey: [users, 'detail', id],
       queryFn: () => api.get(`user/${id}`).then((res) => res.data),
       enabled: !!id,
     });
 
   const getByUserIdBooking = ({ id }: any) =>
     useQuery({
-      queryKey: [users, id],
+      queryKey: [users,, 'bookings', id],
       queryFn: () => api.get(`booking/user-bookings/${id}`).then((res) => res.data),
       // enabled: !!id,
     });
