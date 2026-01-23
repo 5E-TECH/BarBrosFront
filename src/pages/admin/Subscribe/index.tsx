@@ -68,9 +68,8 @@ const Subscribe: FC = () => {
   if (isLoading) return <TableLoading />;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* Simple Clean Header */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <div className=" bg-gray-50 dark:bg-[#191a1f]">
+      <div className="bg-white dark:bg-[#191a1f] border-b border-gray-200 dark:border-[#1f222b]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div>
@@ -83,7 +82,7 @@ const Subscribe: FC = () => {
             </div>
             <button
               onClick={handleOpenCreate}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FA8B00] hover:bg-[#E07D00] text-white font-semibold rounded-lg transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FA8B00] hover:bg-[#E07D00] text-white font-semibold rounded-lg transition-colors shadow-sm cursor-pointer"
             >
               <Plus size={20} />
               New Plan
@@ -95,7 +94,7 @@ const Subscribe: FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Plans Grid */}
         {plans.length === 0 ? (
-          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-12 text-center">
+          <div className="bg-white rounded-xl border border-gray-200  p-12 text-center">
             <div className="max-w-sm mx-auto">
               <div className="w-16 h-16 bg-orange-50 dark:bg-orange-900/20 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <svg
@@ -145,7 +144,7 @@ const Subscribe: FC = () => {
                 <div
                   key={plan.id}
                   onClick={() => navigate(`/subscribe-detail/${plan.id}`)}
-                  className="group relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-[#FA8B00]/30 dark:hover:border-[#FA8B00]/30 transition-all duration-200 cursor-pointer overflow-hidden hover:shadow-lg"
+                  className="group relative bg-white dark:bg-[#1f222b] rounded-xl border border-gray-200 dark:border-gray-800 hover:border-[#FA8B00]/30 dark:hover:border-[#FA8B00]/30 transition-all duration-200 cursor-pointer overflow-hidden hover:shadow-lg"
                 >
                   {/* Top Accent Bar */}
                   <div className={`h-1.5 bg-linear-to-r ${colorClass}`}></div>
@@ -235,11 +234,10 @@ const Subscribe: FC = () => {
 
       {/* Create Modal */}
       <Popup isShow={showModal} onClose={handleCloseModal}>
-        <div className="bg-white dark:bg-gray-900 w-[90vw] max-w-lg rounded-xl overflow-hidden">
-          {/* Modal Header */}
-          <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-800">
+        <div className="bg-white dark:bg-[#1f222b] w-[90vw] max-w-lg rounded-xl overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-200 dark:border-[#191a1f]">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-lg font-semibold text-[#191a1f] dark:text-white">
                 Create New Plan
               </h3>
               <button
@@ -251,7 +249,6 @@ const Subscribe: FC = () => {
             </div>
           </div>
 
-          {/* Modal Body */}
           <form onSubmit={handleSubmit} className="p-6 space-y-5">
             <div>
               <label
@@ -268,7 +265,7 @@ const Subscribe: FC = () => {
                 value={form.name}
                 onChange={handleChange}
                 placeholder="Enter plan name"
-                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-[#FA8B00] focus:border-[#FA8B00] dark:bg-gray-800 dark:text-white transition-shadow"
+                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-[#FA8B00] focus:border-[#FA8B00] dark:bg-[#191a1f] dark:text-white transition-shadow"
               />
             </div>
 
@@ -288,7 +285,7 @@ const Subscribe: FC = () => {
                   min="1"
                   value={form.duration_months}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-[#FA8B00] focus:border-[#FA8B00] dark:bg-gray-800 dark:text-white transition-shadow"
+                  className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-[#FA8B00] focus:border-[#FA8B00] dark:bg-[#191a1f] dark:text-white transition-shadow"
                 />
               </div>
 
@@ -308,12 +305,12 @@ const Subscribe: FC = () => {
                   step="1"
                   value={form.price}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-[#FA8B00] focus:border-[#FA8B00] dark:bg-gray-800 dark:text-white transition-shadow"
+                  className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-[#FA8B00] focus:border-[#FA8B00] dark:bg-[#191a1f] dark:text-white transition-shadow"
                 />
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-orange-50 dark:bg-orange-900/10 rounded-lg border border-orange-100 dark:border-orange-900/30">
+            <div className="flex items-center gap-3 p-4 rounded-lg">
               <input
                 type="checkbox"
                 name="is_active"
@@ -334,13 +331,13 @@ const Subscribe: FC = () => {
               <button
                 type="button"
                 onClick={handleCloseModal}
-                className="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 px-4 py-2.5 bg-[#FA8B00] hover:bg-[#E07D00] text-white font-medium rounded-lg transition-colors shadow-sm"
+                className="flex-1 px-4 py-2.5 bg-[#FA8B00] hover:bg-[#E07D00] text-white font-medium rounded-lg transition-colors shadow-sm cursor-pointer"
               >
                 Create Plan
               </button>
