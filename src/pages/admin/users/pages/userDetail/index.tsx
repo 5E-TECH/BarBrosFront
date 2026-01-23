@@ -5,16 +5,17 @@ import { ChevronLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUsers } from "../../service/useUser";
 import DetailsLoading from "../../../../../shared/components/loadings/detailsLoading";
+import UserDetailTable from "./UserDetailTable";
 
 const UserDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
   const { getByIdUsers } = useUsers();
-  const { data } = getByIdUsers({ id });
+  const { data, isLoading } = getByIdUsers({ id });
   const user = data?.data;
 
-  if (!data) {
+  if (isLoading || !data) {
     return <DetailsLoading />;
   }
 
@@ -65,6 +66,10 @@ const UserDetail = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="bg-white rounded-2xl dark:bg-[#191a1f]">
+        <UserDetailTable userId={id} />
       </div>
     </div>
   );

@@ -16,13 +16,15 @@ export const useUsers = () => {
     useQuery({
       queryKey: [users, page, limit, search],
       queryFn: () =>
-        api.get(`user/all`, {
-          params: {
-            page,
-            limit,
-            ...(search && { search })
-          }
-        }).then((res) => res.data),
+        api
+          .get(`user/all`, {
+            params: {
+              page,
+              limit,
+              ...(search && { search }),
+            },
+          })
+          .then((res) => res.data),
     });
 
   const getByIdUsers = ({ id }: any) =>
@@ -30,6 +32,13 @@ export const useUsers = () => {
       queryKey: [users, id],
       queryFn: () => api.get(`user/${id}`).then((res) => res.data),
       enabled: !!id,
+    });
+
+  const getByUserIdBooking = ({ id }: any) =>
+    useQuery({
+      queryKey: [users, id],
+      queryFn: () => api.get(`booking/user-bookings/${id}`).then((res) => res.data),
+      // enabled: !!id,
     });
 
   const updateUsers = useMutation({
@@ -42,5 +51,6 @@ export const useUsers = () => {
     getAllUsers,
     getByIdUsers,
     updateUsers,
+    getByUserIdBooking,
   };
 };
