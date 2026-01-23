@@ -12,10 +12,10 @@ const UserDetail = () => {
   const { id } = useParams();
 
   const { getByIdUsers } = useUsers();
-  const { data, isLoading } = getByIdUsers({ id });
+  const { data, isLoading: tableLoading } = getByIdUsers({ id });
   const user = data?.data;
 
-  if (isLoading || !data) {
+  if (tableLoading) {
     return <DetailsLoading />;
   }
 
