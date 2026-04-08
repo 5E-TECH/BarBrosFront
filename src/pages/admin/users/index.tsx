@@ -16,17 +16,21 @@ const Users = () => {
   const { page, limit } = useSelector((state: any) => state.paginationSlice);
   const [selectRole, setSelectRole] = useState<"user" | "admin">("user");
 
+  const [sortBy, setSortBy] = useState<"full_name" | "phone_number" | "ordersCount">("ordersCount");
+  const [order, setOrder] = useState<"asc" | "desc">("desc");
+
+
   const outlet = useOutlet();
   const showTable = !outlet;
 
   const { getAllUsers } = useUsers();
   const { getAllAdmins } = useAdmins();
-  
+
   // Redux'dan search olish
   const search = useSelector((state: RootState) => state.search.userSearch);
   const role = useSelector((state: RootState) => state.roleSlice.role);
 
-  const params = { page, limit, search };
+  const params = { page, limit, search, sortBy, order };
 
   const { data, isLoading } = getAllUsers(params);
   const dataAdmin = getAllAdmins({ page, limit }, role !== "admin");
@@ -35,6 +39,18 @@ const Users = () => {
   const users = data?.data?.data ?? [];
   const total = data?.data?.total ?? 0;
   const pageSize = data?.data?.pageSize ?? limit;
+
+  const handleSort = (field: typeof sortBy) => {
+    if (sortBy === field) {
+      setOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortBy(field);
+      setOrder("desc");
+    }
+
+    dispatch(setPage(1)); // reset pagination
+  };
+
 
   // Faqat role o'zgarganda page'ni 1 ga qaytarish
   useEffect(() => {
@@ -108,6 +124,9 @@ const Users = () => {
           page={page}
           total={total}
           pageSize={pageSize}
+          sortBy={sortBy}
+          order={order}
+          onSort={handleSort}
           onPageChange={(newPage) => dispatch(setPage(newPage))}
         />
       )}

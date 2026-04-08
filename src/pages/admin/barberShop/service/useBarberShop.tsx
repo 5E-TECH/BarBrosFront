@@ -47,6 +47,12 @@ export const useBarberShop = () => {
     onSuccess: () => client.invalidateQueries({ queryKey: [barbershop] }),
   });
 
+  const updateSubscriptionBarberShop = useMutation({
+    mutationFn: ({ id, data }: { id: any; data: any }) =>
+      api.patch(`subscription/${id}`, data),
+    onSuccess: () => client.invalidateQueries({ queryKey: [barbershop] }),
+  });
+
   const deleteBarberShop = useMutation({
     mutationFn: ({ id }: { id: any }) => api.delete(`barber-shop/${id}`),
     onSuccess: () => client.invalidateQueries({ queryKey: [barbershop] }),
@@ -58,5 +64,6 @@ export const useBarberShop = () => {
     updateBarbershop,
     updateStatusBarbershop,
     deleteBarberShop,
+    updateSubscriptionBarberShop,
   };
 };

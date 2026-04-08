@@ -14,6 +14,9 @@ interface Props {
   page?: number;
   total?: number;
   pageSize?: number;
+  sortBy: "full_name" | "phone_number" | "ordersCount";
+  order: "asc" | "desc";
+  onSort: (field: "full_name" | "phone_number" | "ordersCount") => void;
   onPageChange?: PaginationProps["onChange"];
 }
 
@@ -22,6 +25,9 @@ const UserTable: FC<Props> = ({
   page,
   total,
   pageSize,
+  sortBy,
+  order,
+  onSort,
   onPageChange,
 }) => {
   const navigate = useNavigate();
@@ -68,7 +74,15 @@ const UserTable: FC<Props> = ({
               <table className="mt-8 mb-10 w-full">
                 <thead className="uppercase text-helpertext border-b border-[#e8e9eb] dark:border-[#30333c]">
                   <tr>
-                    <th className="w-[300px] pl-8 pb-3 text-left">FullName</th>
+                    <th className="w-[100px] pl-15 pb-3 text-left">FullName</th>
+                    <th
+                      className="w-[200px] pb-3"
+                      onClick={() => onSort("ordersCount")}
+                    >
+                      Orders
+                      {sortBy === "ordersCount" &&
+                        (order === "asc" ? " ↑" : " ↓")}
+                    </th>
                     <th className="w-[200px] pb-3 text-left">
                       Date of registration
                     </th>
@@ -82,12 +96,15 @@ const UserTable: FC<Props> = ({
                       key={item.id}
                       className="border-b border-[#e8e9eb] hover:bg-gray-50 cursor-pointer dark:hover:bg-[#1f222b] dark:border-[#30333c]"
                     >
-                      <td className="py-3 pl-8 flex items-center gap-4">
+                      <td className="py-3 pl-15 flex items-center gap-4">
                         <img src={avatar} alt="" className="w-10 h-10" />
                         <div>
                           <p className="text-maintext">{item?.full_name}</p>
                           <p className="text-helpertext">{item?.email}</p>
                         </div>
+                      </td>
+                      <td className="text-center text-maintext">
+                        {item?.ordersCount ?? 0}
                       </td>
                       <td className="text-helpertext">
                         {formatDate(item?.created_at)}

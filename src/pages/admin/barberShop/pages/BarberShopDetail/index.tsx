@@ -24,7 +24,8 @@ const BarberShopDetail = () => {
   const [form, setForm] = useState(initialState);
   const [barberAndService, setBarberAndService] = useState(true);
 
-  const { getByIdBarbershop, updateBarbershop } = useBarberShop();
+  const { getByIdBarbershop, updateBarbershop, updateSubscriptionBarberShop } =
+    useBarberShop();
   const { getAllSubscription } = useSubscription();
   const { id } = useParams();
   const { data } = getByIdBarbershop({ id });
@@ -34,13 +35,16 @@ const BarberShopDetail = () => {
 
   // Fetch services for this barbershop
   const { getAllServicesByBarbershop } = useService();
-  const { data: servicesData, isLoading: servicesLoading } = getAllServicesByBarbershop(id);
+  const { data: servicesData, isLoading: servicesLoading } =
+    getAllServicesByBarbershop(id);
   const services = servicesData?.data || [];
 
   // Get all available subscription plans
   const allPlans = subscriptionData?.data || [];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -50,7 +54,7 @@ const BarberShopDetail = () => {
         name: datas.name || "",
         phoneNumber: datas.phoneNumber || "",
         location: datas.location || "",
-        plan_id: datas.current_subscription?.plan_id || "",
+        plan_id: datas.current_subscription?.plan_id?.toString() || "",
       });
     }
     setShow(true);
@@ -60,18 +64,43 @@ const BarberShopDetail = () => {
     e.preventDefault();
     if (!id) return;
 
+    const { plan_id, ...barbershopData } = form;
+
     updateBarbershop.mutate(
       {
         id: id,
-        data: form,
+        data: barbershopData,
       },
       {
         onSuccess: () => {
-          setShow(false);
-          setForm(initialState);
+          if (plan_id) {
+            const subscriptionPayload = {
+              plan_id: Number(plan_id),
+              status: "active",
+              payment_status: "pending",
+              payment_model: "cash",
+            };
+
+            updateSubscriptionBarberShop.mutate(
+              {
+                id: datas.current_subscription?.id || id,
+                data: subscriptionPayload,
+              },
+              {
+                onSuccess: () => finishSubmit(),
+              },
+            );
+          } else {
+            finishSubmit();
+          }
         },
       },
     );
+  };
+
+  const finishSubmit = () => {
+    setShow(false);
+    setForm(initialState);
   };
 
   if (!datas) {
@@ -84,7 +113,8 @@ const BarberShopDetail = () => {
   const avgRating = parseFloat(datas.avg_rating) || 0;
 
   // Get current subscription plan name
-  const currentPlanName = datas.current_subscription?.plan?.name || "No active plan";
+  const currentPlanName =
+    datas.current_subscription?.plan?.name || "No active plan";
 
   return (
     <div className="mb-10">
@@ -177,7 +207,9 @@ const BarberShopDetail = () => {
                     Subscription Expires:
                   </label>
                   <span className="text-maintext text-[15px] md:text-[16px] font-medium border border-[#E8E9EB] px-5 md:px-8 py-3 rounded-[15px] dark:border-[#30333c]">
-                    {new Date(Number(datas.current_subscription.end_at)).toLocaleDateString()}
+                    {new Date(
+                      Number(datas.current_subscription.end_at),
+                    ).toLocaleDateString()}
                   </span>
                 </div>
               )}
@@ -316,9 +348,9 @@ const BarberShopDetail = () => {
             </h3>
             <div
               onClick={() => setShow(false)}
-              className="inline-flex items-center justify-center bg-[#c1c0c0] p-2 rounded-xl cursor-pointer hover:bg-red-400 transition"
+              className="inline-flex items-center justify-center bg-[#575656] p-2 rounded-xl cursor-pointer hover:bg-red-500 transition"
             >
-              <X size={18} color="#3F434A" />
+              <X size={18} color="#fff" />
             </div>
           </div>
 
@@ -383,9 +415,15 @@ const BarberShopDetail = () => {
                 onChange={handleChange}
                 className="border border-[#E8E9EB] rounded-xl px-4 py-[15px] outline-0 focus:border-main dark:border-gray-700 dark:bg-transparent"
               >
-                <option value="">Select a plan</option>
+                <option value="" className="dark:bg-[#1f222b]">
+                  Select a plan
+                </option>
                 {allPlans.map((plan: any) => (
-                  <option key={plan.id} value={plan.id}>
+                  <option
+                    key={plan.id}
+                    value={plan.id}
+                    className="dark:bg-[#1f222b]"
+                  >
                     {plan.name} - ${plan.price} ({plan.duration_months} months)
                   </option>
                 ))}
@@ -393,7 +431,19 @@ const BarberShopDetail = () => {
             </div>
 
             <div className="flex justify-end">
-              <ButtonCom title="Save" type="submit" />
+              <ButtonCom
+                title={
+                  updateBarbershop.isPending ||
+                  updateSubscriptionBarberShop.isPending
+                    ? "Saving..."
+                    : "Save"
+                }
+                type="submit"
+                disabled={
+                  updateBarbershop.isPending ||
+                  updateSubscriptionBarberShop.isPending
+                }
+              />
             </div>
           </form>
         </div>
